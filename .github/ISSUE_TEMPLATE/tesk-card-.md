@@ -12,6 +12,4 @@ assignees: ''
 - Type: feature
 - Detail:
 
----
-
 # TODO
