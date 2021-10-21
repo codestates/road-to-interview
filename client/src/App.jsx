@@ -1,7 +1,19 @@
+import { ThemeProvider } from '@emotion/react';
+import { theme as THEME } from '@/styles';
+
+import Global from '@/styles/Global';
+import Nav from './components/shared/Nav';
+import { useMode } from './contexts/ModeContext';
+
 export default function App() {
+  const [mode] = useMode();
   return (
     <div>
-      <h1>Hello, world</h1>
+      <ThemeProvider theme={THEME[mode]}>
+        <Global theme={THEME[mode]} />
+        <Nav />
+        <h1>Hello, world</h1>
+      </ThemeProvider>
     </div>
   );
 }
