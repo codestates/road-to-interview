@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@emotion/react';
+import { css, ThemeProvider } from '@emotion/react';
 import { theme as THEME } from '@/styles';
 
 import Global from '@/styles/Global';
@@ -12,7 +12,15 @@ export default function App() {
       <ThemeProvider theme={THEME[mode]}>
         <Global theme={THEME[mode]} />
         <Nav />
-        <h1>Hello, world</h1>
+        <h1
+          css={theme =>
+            css`
+              color: ${theme.colors.tint.blue[500]};
+            `
+          }
+        >
+          Hello, world
+        </h1>
       </ThemeProvider>
     </div>
   );
