@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 import Flex from '../layouts/Flex';
 import { spacing } from '@/styles';
@@ -10,10 +11,16 @@ export default function Nav() {
   const [mode, toggleMode] = useMode();
   return (
     <Layout>
-      <Logo>{mode === 'light' ? <LogoLight /> : <LogoDark />}</Logo>
+      <Logo>
+        {mode === 'light' ? (
+          <LogoLight width="100%" height="100%" />
+        ) : (
+          <LogoDark width="100%" height="100%" />
+        )}
+      </Logo>
       <Group justifyContent="between">
-        <span>로그인</span>
-        <span>회원가입</span>
+        <Link to="/login">로그인</Link>
+        <Link to="/signup">회원가입</Link>
         <span onClick={() => toggleMode()}>다크모드</span>
       </Group>
     </Layout>
@@ -21,18 +28,18 @@ export default function Nav() {
 }
 
 const Layout = styled.nav`
-  max-width: 1400px;
+  max-width: 1920px;
   height: 6rem;
   padding: 0 ${spacing[7]};
   margin: 0 auto;
   display: flex;
   align-items: center;
-  box-shadow: 0px 3px 2px ${({ theme }) => theme.colors.shadow.basic};
 `;
 const Group = styled(Flex)`
-  width: 30%;
+  width: 25%;
 `;
 const Logo = styled.i`
   width: 25%;
+  height: 100%;
   margin-right: auto;
 `;

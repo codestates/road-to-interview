@@ -1,9 +1,14 @@
-import { css, ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
 import { theme as THEME } from '@/styles';
 
 import Global from '@/styles/Global';
-import Nav from './components/shared/Nav';
 import { useMode } from './contexts/ModeContext';
+import RouteWithLayout from './hoc/RouteWithLayout';
+import { Switch } from 'react-router';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import MainLayout from './components/layouts/MainLayout';
 
 export default function App() {
   const [mode] = useMode();
@@ -11,16 +16,11 @@ export default function App() {
     <div>
       <ThemeProvider theme={THEME[mode]}>
         <Global theme={THEME[mode]} />
-        <Nav />
-        <h1
-          css={theme =>
-            css`
-              color: ${theme.colors.tint.blue[500]};
-            `
-          }
-        >
-          Hello, world
-        </h1>
+        <Switch>
+          <RouteWithLayout path="/" component={Landing} layout={MainLayout} />
+          <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
+          <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
+        </Switch>
       </ThemeProvider>
     </div>
   );
