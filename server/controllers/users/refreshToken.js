@@ -9,13 +9,15 @@ module.exports = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    res.status(401).send({ message: "로그인이 만료되었습니다." });
+    res.status(401).send({ message: "토큰 재발급 : 로그인이 만료되었습니다." });
     return;
   }
 
   const refreshTokenData = checkRefeshToken(refreshToken);
   if (!refreshTokenData) {
-    res.status(401).send({ message: "일치하는 유저 정보가 없습니다." });
+    res
+      .status(404)
+      .send({ message: "토큰 재발급 : 일치하는 유저 정보가 없습니다." });
     return;
   }
 
@@ -24,7 +26,9 @@ module.exports = (req, res) => {
     .findOne({ where: { id } })
     .then((data) => {
       if (!data) {
-        res.status(404).send({ message: "일치하는 유저 정보가 없습니다." });
+        res
+          .status(404)
+          .send({ message: "토큰 재발급 : 일치하는 유저 정보가 없습니다." });
         return;
       }
       const { nickname, email, id } = data.dataValues;
@@ -33,5 +37,6 @@ module.exports = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).send({ message: "토큰 재발급 : Server Error" }); // Server error
     });
 };
