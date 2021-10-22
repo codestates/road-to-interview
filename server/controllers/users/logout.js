@@ -1,7 +1,7 @@
 const {
   isAuthorized,
-  generateZeroRefreshToken,
-  sendRefreshToken,
+  generateRefreshToken,
+  sendZeroRefreshToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
   // const refreshToken = req.cookies.refreshToken;
@@ -18,8 +18,8 @@ module.exports = (req, res) => {
   try {
     // res.clearCookie("refreshToken");
     const { nickname, email, id } = { nickname: "", email: "", id: "" };
-    const refreshToken = generateZeroRefreshToken({ nickname, email, id });
-    sendRefreshToken(res, refreshToken, { nickname, email, id });
+    const refreshToken = generateRefreshToken({ nickname, email, id });
+    sendZeroRefreshToken(res, refreshToken, { nickname, email, id });
     res.status(200).send({ message: "로그아웃 되었습니다." });
   } catch (error) {
     res.status(500).send({ message: "로그아웃 : Server Error" });

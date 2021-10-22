@@ -8,11 +8,16 @@ module.exports = {
   generateRefreshToken: (data) => {
     return sign(data, process.env.REFRESH_SECRET, { expiresIn: "30d" });
   },
-  generateZeroRefreshToken: (data) => {
-    return sign(data, process.env.REFRESH_SECRET, { expiresIn: "0m" });
-  },
+
   sendRefreshToken: (res, refreshToken) => {
     res.cookie("refreshToken", refreshToken, {
+      secure: true,
+      sameSite: "none",
+    });
+  },
+  sendZeroRefreshToken: (res, refreshToken) => {
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 0,
       secure: true,
       sameSite: "none",
     });
