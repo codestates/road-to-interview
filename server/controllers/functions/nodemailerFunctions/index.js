@@ -2,7 +2,7 @@ require("dotenv").config();
 const nodemailer = require("nodemailer");
 
 module.exports = {
-  mailSend: (email) => {
+  mailSend: (email, salt) => {
     let transporter = nodemailer.createTransport({
       service: "gmail",
       host: "smtp.gmail.com",
@@ -20,9 +20,11 @@ module.exports = {
       subject: "Road To Interview 회원가입 인증", // 제목
       html:
         "<p>아래의 링크를 클릭해주세요 !</p>" +
-        "<a href='http://54.180.147.98/auth?email=" +
+        "<a href='https://sjitygfree.ga/auth?email=" +
         email +
-        "&token=wiiigglewiiiggle'>Email 인증하기</a>",
+        "&token=" +
+        salt +
+        "'>Email 인증하기</a>",
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
