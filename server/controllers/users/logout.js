@@ -16,10 +16,10 @@ module.exports = (req, res) => {
     return;
   }
   try {
-    // res.clearCookie("refreshToken");
-    const { nickname, email, id } = { nickname: "", email: "", id: "" };
-    const refreshToken = generateRefreshToken({ nickname, email, id });
-    sendZeroRefreshToken(res, refreshToken, { nickname, email, id });
+    res.clearCookie("refreshToken");
+    // const { nickname, email, id } = { nickname: "", email: "", id: "" };
+    // const refreshToken = generateRefreshToken({ nickname, email, id });
+    // sendZeroRefreshToken(res, refreshToken, { nickname, email, id });
     res.status(200).send({ message: "로그아웃 되었습니다." });
   } catch (error) {
     res.status(500).send({ message: "로그아웃 : Server Error" });
