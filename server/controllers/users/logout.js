@@ -1,3 +1,4 @@
+const { isAuthorized } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
   // const refreshToken = req.cookies.refreshToken;
 
