@@ -7,6 +7,9 @@ const colors = {
     gray: {
       ...palette.light.gray,
     },
+    tint: {
+      ...palette.light.tint,
+    },
     background: palette.light.gray[200],
     background_base: 'white',
     background_elevated: 'white',
@@ -37,6 +40,9 @@ const colors = {
   dark: {
     gray: {
       ...palette.dark.gray,
+    },
+    tint: {
+      ...palette.dark.tint,
     },
     background: 'black',
     background_base: palette.dark.gray[50],
