@@ -24,8 +24,10 @@ export default class User {
   }
 
   // 유저 권한 인증 (refresh token)
-  async getAuth() {
-    const response = await this.client.get('/users');
+  async getAuth(accessToken) {
+    const response = await this.client.get('/users', {
+      headers: { Authorization: `${accessToken}` },
+    });
     return response.data;
   }
 }
