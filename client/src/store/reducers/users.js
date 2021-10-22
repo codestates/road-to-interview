@@ -71,15 +71,17 @@ export const signup = data => async dispatch => {
   }
 };
 // 권한인증 요청
-export const auth = accessToken => async dispatch => {
-  try {
-    dispatch({ type: authRequest });
-    const data = await USER_API.getAuth(accessToken);
-    dispatch({ type: authRequest, payload: data });
-  } catch (e) {
-    dispatch({ type: authFailure, payload: e.message });
-  }
-};
+export const auth =
+  (accessToken = '') =>
+  async dispatch => {
+    try {
+      dispatch({ type: authRequest });
+      const data = await USER_API.getAuth(accessToken);
+      dispatch({ type: authSuccess, payload: data });
+    } catch (e) {
+      dispatch({ type: authFailure, payload: e.message });
+    }
+  };
 
 // * Reducer
 export default function reducer(state = initialState, action) {
@@ -117,6 +119,8 @@ export default function reducer(state = initialState, action) {
     case logoutSuccess:
       return {
         ...state,
+        userInfo: null,
+        accessToken: null,
         logoutLoading: false,
         logoutDone: true,
         logoutError: null,

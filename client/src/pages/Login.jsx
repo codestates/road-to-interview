@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 export default function Login() {
   const [email, setEmail] = useState('abc@naver.com');
   const [password, setPassword] = useState('1234');
-  const { userInfo, loginDone } = useSelector(state => state.users);
+  const { userInfo } = useSelector(state => state.users);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (loginDone && userInfo) {
+    if (userInfo) {
       history.push('/');
     }
   });

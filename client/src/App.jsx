@@ -15,9 +15,19 @@ import InterviewTest from './pages/InterviewTest';
 import InterviewResult from './pages/InterviewResult';
 import MyPage from './pages/Mypage';
 import Create from './pages/Create';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { auth } from './store/reducers/users';
+import Auth from './hoc/Auth';
 
 export default function App() {
   const [mode] = useMode();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(auth());
+  }, [dispatch]);
+
   return (
     <div>
       <ThemeProvider theme={THEME[mode]}>
@@ -29,7 +39,7 @@ export default function App() {
           <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
           <RouteWithLayout path="/list/:id" component={InterviewTest} layout={MainLayout} />
           <RouteWithLayout path="/list/:id/result" component={InterviewResult} layout={MainLayout} />
-          <RouteWithLayout path="/mypage" component={MyPage} layout={MainLayout} />
+          <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
           <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
         </Switch>
       </ThemeProvider>
