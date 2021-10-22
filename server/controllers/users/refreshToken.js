@@ -2,14 +2,26 @@ const {
   checkRefeshToken,
   generateAccessToken,
   resendAccessToken,
+  isAuthorized,
 } = require("../functions/tokenFunctions");
+
 const { users } = require("../../models");
 
 module.exports = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-
+  const accessTokenData = isAuthorized(req);
+  if (!accessTokenData) {
+    res
+      .status(401)
+      .send({ message: "토큰 재발급 : 로그인이 만료되었습니다.(accessToken)" });
+    return;
+  }
   if (!refreshToken) {
-    res.status(401).send({ message: "토큰 재발급 : 로그인이 만료되었습니다." });
+    res
+      .status(401)
+      .send({
+        message: "토큰 재발급 : 로그인이 만료되었습니다.(refreshToken)",
+      });
     return;
   }
 
