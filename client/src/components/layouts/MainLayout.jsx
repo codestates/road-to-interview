@@ -1,6 +1,5 @@
-import React from 'react';
-import { spacing } from '@/styles';
 import styled from '@emotion/styled';
+import { spacing } from '@/styles';
 import Nav from '@/components/shared/Nav';
 
 export default function MainLayout({ children }) {
@@ -21,5 +20,5 @@ const Container = styled.div`
 const Main = styled.main`
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 ${spacing[7]};
+  padding: ${spacing[7]};
 `;

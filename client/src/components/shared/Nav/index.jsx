@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
 
-import Flex from '@/components/layouts/Flex';
-import Drawer from './Drawer';
-import { spacing } from '@/styles';
+import { logout } from '@/store/reducers/users';
 import { useMode } from '@/contexts/ModeContext';
+import { spacing } from '@/styles';
 import { ReactComponent as LogoLight } from 'assets/logo-light.svg';
 import { ReactComponent as LogoDark } from 'assets/logo-dark.svg';
 import { ReactComponent as Menu } from 'assets/menu.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '@/store/reducers/users';
-import { css } from '@emotion/react';
+import { ReactComponent as BackArrow } from 'assets/arrow-left.svg';
+import Flex from '@/components/layouts/Flex';
+import Drawer from './Drawer';
+
+const LANDING = ''; // 로고(가운데)
+const LOGIN = 'login'; // 뒤로가기 버튼 - 로고(가운데)
+const SIGNUP = 'signup'; // 뒤로가기 버튼 - 로고(가운데)
+const INTETVIEW_TEST = 'test'; // 로고(왼쪽) - 나가기 버튼(오른쪽)
+const INTETVIEW_LIST = 'list'; // 로고 - nav item
+const INTETVIEW_RESULT = 'result'; // 로고 - nav item
+const MYPAGE = 'mypage'; // 로고 - nav item
+const CREATE = 'create'; // 로고 - nav item
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [mode, toggleMode] = useMode();
+
+  const toggleOpen = () => {
+    setOpen(prev => !prev);
+  };
+
   const { userInfo, accessToken } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
@@ -23,54 +38,102 @@ export default function Nav() {
     dispatch(logout(accessToken));
   };
 
-  const toggleOpen = () => {
-    setOpen(prev => !prev);
-  };
+  const { pathname } = useLocation();
+  const page = pathname.split('/')[1];
 
-  return (
-    <Layout>
-      <Logo>{mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}</Logo>
-      <Group>
-        <Menu
-          onClick={toggleOpen}
-          css={css`
-            cursor: pointer;
-          `}
-          width="2rem"
-          height="2rem"
-        />
-      </Group>
-      <Drawer open={open} setOpen={setOpen}>
-        <Drawer.Body>
-          <List>
-            <LinkItem to="/">홈</LinkItem>
-            {userInfo ? (
-              <>
-                <LinkItem to="/mypage">마이페이지</LinkItem>
-                <Item onClick={onLogout}>로그아웃</Item>
-              </>
-            ) : (
-              <>
-                <LinkItem to="/login">로그인</LinkItem>
-                <LinkItem to="/signup">회원가입</LinkItem>
-              </>
-            )}
-            <Item onClick={toggleMode}>다크모드</Item>
-          </List>
-        </Drawer.Body>
-      </Drawer>
-    </Layout>
-  );
+  switch (page) {
+    case INTETVIEW_LIST:
+    case INTETVIEW_RESULT:
+    case MYPAGE:
+    case CREATE:
+      return (
+        <Layout>
+          <Logo>{mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}</Logo>
+          <Group>
+            <Menu
+              onClick={toggleOpen}
+              css={css`
+                cursor: pointer;
+              `}
+              width="2rem"
+              height="2rem"
+            />
+          </Group>
+          <Drawer open={open} setOpen={setOpen}>
+            <Drawer.Body>
+              <List>
+                <LinkItem to="/">홈</LinkItem>
+                {userInfo ? (
+                  <>
+                    <LinkItem to="/mypage">마이페이지</LinkItem>
+                    <Item onClick={onLogout}>로그아웃</Item>
+                  </>
+                ) : (
+                  <>
+                    <LinkItem to="/login">로그인</LinkItem>
+                    <LinkItem to="/signup">회원가입</LinkItem>
+                  </>
+                )}
+                <Item onClick={toggleMode}>다크모드</Item>
+              </List>
+            </Drawer.Body>
+          </Drawer>
+        </Layout>
+      );
+    case LOGIN:
+    case SIGNUP:
+      return (
+        <Layout>
+          <i
+            css={css`
+              display: flex;
+              align-items: center;
+            `}
+          >
+            <BackArrow width="2rem" height="2rem" />
+          </i>
+          <Logo
+            css={css`
+              margin: 0 auto;
+            `}
+          >
+            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+          </Logo>
+        </Layout>
+      );
+    case LANDING:
+      return (
+        <Layout>
+          <Logo
+            css={css`
+              margin: 0 auto;
+            `}
+          >
+            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+          </Logo>
+        </Layout>
+      );
+    case INTETVIEW_TEST:
+      return (
+        <Layout>
+          <Logo>{mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}</Logo>
+          <span>나가기</span>
+        </Layout>
+      );
+    default:
+      return null;
+  }
 }
 
 const Layout = styled.nav`
   max-width: 1920px;
-  height: 6rem;
+  height: 4.5rem;
   padding: 0 ${spacing[7]};
   margin: 0 auto;
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.colors.text.primary};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor.inner};
 `;
 
 const List = styled.ul`
@@ -88,9 +151,10 @@ const LinkItem = styled(Link)`
 const Group = styled(Flex)``;
 
 const Logo = styled.i`
-  flex-basis: 60%;
+  flex-basis: 35%;
+  min-width: 180px;
   margin-right: auto;
   & > * {
-    transform: translateY(4px);
+    transform: translateY(0.3em);
   }
 `;
