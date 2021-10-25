@@ -24,25 +24,24 @@ export default function App() {
   const [mode] = useMode();
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(auth());
   }, [dispatch]);
 
   return (
-    <div>
-      <ThemeProvider theme={THEME[mode]}>
-        <Global theme={THEME[mode]} />
-        <Switch>
-          <RouteWithLayout path="/" component={Landing} layout={MainLayout} />
-          <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
-          <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
-          <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
-          <RouteWithLayout path="/list/:id" component={InterviewTest} layout={MainLayout} />
-          <RouteWithLayout path="/list/:id/result" component={InterviewResult} layout={MainLayout} />
-          <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
-          <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
-        </Switch>
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={THEME[mode]}>
+      <Global theme={THEME[mode]} />
+      <Switch>
+        <RouteWithLayout path="/" component={Landing} layout={MainLayout} />
+        <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
+        <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
+        <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
+        <RouteWithLayout path="/list/:id" component={InterviewTest} layout={MainLayout} />
+        <RouteWithLayout path="/list/:id/result" component={InterviewResult} layout={MainLayout} />
+        <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
+        <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
+      </Switch>
+    </ThemeProvider>
   );
 }
