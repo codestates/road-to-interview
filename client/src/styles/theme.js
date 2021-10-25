@@ -61,7 +61,6 @@ const colors = {
       inner: palette.light.gray[200],
     },
     shadow: {
-      thick: 'none',
       basic: 'none',
       thin: 'none',
     },
