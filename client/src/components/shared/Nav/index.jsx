@@ -13,6 +13,7 @@ import { ReactComponent as Menu } from 'assets/menu.svg';
 import { ReactComponent as BackArrow } from 'assets/arrow-left.svg';
 import Flex from '@/components/layouts/Flex';
 import Drawer from './Drawer';
+import ToggleButton from './ToggleBtn';
 
 const LANDING = ''; // 로고(가운데)
 const LOGIN = 'login'; // 뒤로가기 버튼 - 로고(가운데)
@@ -25,7 +26,7 @@ const CREATE = 'create'; // 로고 - nav item
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
-  const [mode, toggleMode] = useMode();
+  const [mode] = useMode();
 
   const toggleOpen = () => {
     setOpen(prev => !prev);
@@ -74,7 +75,7 @@ export default function Nav() {
                     <LinkItem to="/signup">회원가입</LinkItem>
                   </>
                 )}
-                <Item onClick={toggleMode}>다크모드</Item>
+                <ToggleButton />
               </List>
             </Drawer.Body>
           </Drawer>
@@ -99,6 +100,7 @@ export default function Nav() {
           >
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
+          <ToggleButton />
         </Layout>
       );
     case LANDING:
@@ -111,6 +113,7 @@ export default function Nav() {
           >
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
+          <ToggleButton />
         </Layout>
       );
     case INTETVIEW_TEST:
@@ -118,6 +121,7 @@ export default function Nav() {
         <Layout>
           <Logo>{mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}</Logo>
           <span>나가기</span>
+          <ToggleButton />
         </Layout>
       );
     default:
@@ -133,7 +137,7 @@ const Layout = styled.nav`
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.colors.text.primary};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor.inner};
+  box-shadow: 0px 2px 3px ${({ theme }) => theme.colors.shadow.basic};
 `;
 
 const List = styled.ul`
