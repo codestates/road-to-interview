@@ -11,6 +11,7 @@ const colors = {
       ...palette.light.tint,
     },
     background: palette.light.gray[200],
+    background_reverse: 'black',
     background_base: 'white',
     background_elevated: 'white',
     background_grouped: {
@@ -34,6 +35,7 @@ const colors = {
       primary: palette.light.gray[600],
       secondary: palette.light.gray[500],
       disable_placeholder: palette.light.gray[400],
+      reverse: palette.dark.gray[700],
     },
   },
   // dark theme
@@ -45,6 +47,7 @@ const colors = {
       ...palette.dark.tint,
     },
     background: 'black',
+    background_reverse: palette.light.gray[200],
     background_base: palette.dark.gray[50],
     background_elevated: palette.dark.gray[100],
     background_grouped: {
@@ -68,6 +71,7 @@ const colors = {
       primary: palette.dark.gray[700],
       secondary: palette.dark.gray[600],
       disable_placeholder: palette.dark.gray[400],
+      reverse: palette.light.gray[600],
     },
   },
 };
