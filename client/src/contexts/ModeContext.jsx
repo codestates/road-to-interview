@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 const Mode = createContext();
 
@@ -24,13 +17,10 @@ export default function ModeContext({ children }) {
 
   const [mode, setMode] = useState(getInitialTheme);
   // Mode 상태 토글하는 함수
-  const toggleMode = useCallback(
-    () => setMode(prev => (prev === 'dark' ? 'light' : 'dark')),
-    [],
-  );
+  const toggleMode = useCallback(() => setMode(prev => (prev === 'dark' ? 'light' : 'dark')), []);
   // 테마 값이 바뀔 때마다, 로컬스토리지 값 설정하기
   useEffect(() => {
-    window.localStorage.setItem('mode', Mode);
+    window.localStorage.setItem('mode', mode);
   }, [mode]);
 
   return <Mode.Provider value={{ mode, toggleMode }}>{children}</Mode.Provider>;

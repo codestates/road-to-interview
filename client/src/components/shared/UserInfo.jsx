@@ -6,7 +6,7 @@ export default function UserInfo({ nickname, answer }) {
   return (
     <Wrapper>
       <Profile>
-        <UserIcon width="1.3em" height="1.3em" />
+        <UserIcon width="1.2em" height="1.2em" />
       </Profile>
       <Nickname>
         {nickname}
@@ -22,8 +22,8 @@ const Wrapper = styled.div`
   ${({ theme }) => theme.typography.caption[1]}
 `;
 const Profile = styled.i`
-  width: 2em;
-  height: 2em;
+  width: 1.5em;
+  height: 1.5em;
   margin-right: 0.5em;
   display: flex;
   justify-content: center;
