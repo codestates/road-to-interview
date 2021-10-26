@@ -1,8 +1,14 @@
-import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { login } from '@/store/reducers/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import Input from '@/components/elements/Input';
+import Label from '@/components/elements/Label';
+import SocialBtn from '@/components/elements/SocialBtn';
+import Button from '@/components/elements/Button';
 
 export default function Login() {
   const [email, setEmail] = useState('abc@naver.com');
@@ -28,41 +34,27 @@ export default function Login() {
     }
   });
   return (
-    <div>
-      <h1
-        css={css`
-          text-align: center;
-        `}
-      >
-        Login
-      </h1>
-      <form
-        onSubmit={onSubmit}
-        css={css`
-          display: flex;
-          flex-direction: column;
-          width: 50%;
-          margin: 0 auto;
-        `}
-      >
-        <input
-          css={css`
-            padding: 10px;
-          `}
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <input
-          css={css`
-            padding: 10px;
-          `}
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <button>제출</button>
-      </form>
-    </div>
+    <Form>
+      <Field>
+        <Label>이메일</Label>
+        <Input placeholder="이메일을 입력하세요." />
+      </Field>
+      <Field>
+        <Label>패스워드</Label>
+        <Input placeholder="패스워드를 입력하세요." />
+      </Field>
+      <Button primary lg>
+        로그인
+      </Button>
+      <Field>
+        <SocialBtn type="kakao" />
+        <SocialBtn type="google" />
+      </Field>
+    </Form>
   );
 }
+
+const Form = styled.form``;
+const Field = styled.div`
+  margin-bottom: 1.5rem;
+`;

@@ -23,8 +23,8 @@ const colors = {
       thin: 'rgba(22, 29, 36 0.15)',
     },
     borderColor: {
-      outer: palette.light.gray[300],
-      inner: palette.light.gray[300],
+      outer: palette.light.gray[400],
+      inner: palette.light.gray[400],
     },
     shadow: {
       basic: 'rgba(40, 50, 60, 0.25)',
@@ -61,7 +61,6 @@ const colors = {
       inner: palette.light.gray[200],
     },
     shadow: {
-      thick: 'none',
       basic: 'none',
       thin: 'none',
     },
