@@ -4,11 +4,12 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
-import { Sky, Stars } from '@react-three/drei';
+import { Sky, Stars, Html } from '@react-three/drei';
 import Scene from './Scene';
-import { spacing, fontSizes } from '@/styles';
-import {} from '@/styles';
+import { fontSizes } from '@/styles';
 import { useMode } from '../../contexts/ModeContext';
+import Button from '../elements/Button';
+console.log(Button);
 const TestIntro = () => {
   const [mode] = useMode();
   const [isGo, setIsGo] = useState(false);
@@ -33,11 +34,11 @@ const TestIntro = () => {
       {!isGo ? (
         <GoInsideButton
           initial={{
-            backgroundColor: '#263238',
+            backgroundColor: '#D73F2F',
           }}
           whileHover={{
-            scale: 1.3,
-            backgroundColor: '#616161',
+            scale: 1.1,
+            backgroundColor: '#FF6557',
             cursor: 'pointer',
           }}
           whileTap={{
@@ -51,8 +52,9 @@ const TestIntro = () => {
         <div
           css={css`
             font-size: ${fontSizes[1000]};
-            color: white;
+            color: ${props => (props.mode === 'light' ? 'black' : 'white')};
             position: fixed;
+            top: 0.1em;
           `}
         >
           Loading...
@@ -64,18 +66,10 @@ const TestIntro = () => {
 
 export default TestIntro;
 
-const Button = styled(motion.div)`
-  z-index: 1;
+const GoInsideButton = styled(motion.div)`
   position: fixed;
-  width: 15%;
-  height: ${spacing[10]};
-  padding: ${spacing[5]}+0.1rem 0rem;
   text-align: center;
   border-radius: 7px;
-  font-size: ${fontSizes[600]};
-  color: #001;
-`;
-
-const GoInsideButton = styled(Button)`
+  font-size: ${fontSizes[800]};
   color: #fff;
 `;

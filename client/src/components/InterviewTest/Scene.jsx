@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import Among from '../../assets/Among';
 const Scene = ({ history, isGo, play, setPlay }) => {
   const controls = useRef();
@@ -10,7 +10,7 @@ const Scene = ({ history, isGo, play, setPlay }) => {
 
   useEffect(() => {
     if (goPage) {
-      setTimeout(() => history.push(`/list/${id}/preview`), 1000);
+      setTimeout(() => history.push(`/test/${id}/record`), 1000);
     }
   }, [goPage]);
 
@@ -29,7 +29,6 @@ const Scene = ({ history, isGo, play, setPlay }) => {
   return (
     <Suspense fallback={null}>
       <Among play={play} setPlay={setPlay} />
-      <Environment preset="sunset" />
       <OrbitControls ref={controls} />
     </Suspense>
   );
