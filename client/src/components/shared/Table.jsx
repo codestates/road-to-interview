@@ -9,7 +9,7 @@ const Container = styled.div`
   display: grid;
   min-height: 8rem;
   max-height: 17rem;
-  grid-template-rows: minmax(min-content, 1fr) minmax(min-content, 3fr) min-content min-content;
+  grid-template-rows: min-content minmax(min-content, max-content) min-content min-content;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
   justify-items: start;
