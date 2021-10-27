@@ -36,11 +36,7 @@ const CountTimer = () => {
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
       </div>
-      <div
-        css={css`
-          /* border: solid; */
-        `}
-      >
+      <div>
         <Button
           css={css`
             position: relative;
