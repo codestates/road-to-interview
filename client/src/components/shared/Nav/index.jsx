@@ -14,6 +14,7 @@ import { ReactComponent as BackArrow } from 'assets/arrow-left.svg';
 import Flex from '@/components/layouts/Flex';
 import Drawer from './Drawer';
 import ToggleButton from './ToggleBtn';
+import Button from '@/components/elements/Button';
 
 const LANDING = ''; // 로고(가운데)
 const LOGIN = 'login'; // 뒤로가기 버튼 - 로고(가운데)
@@ -108,12 +109,14 @@ export default function Nav() {
         <Layout>
           <Logo
             css={css`
-              margin: 0 auto;
+              /* margin: 0 auto; */
             `}
           >
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
-          <ToggleButton />
+          <Button tertiary sm>
+            로그인
+          </Button>
         </Layout>
       );
     case INTETVIEW_TEST:
