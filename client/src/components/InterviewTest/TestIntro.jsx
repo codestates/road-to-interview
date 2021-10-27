@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
-import { Sky, Stars, Html } from '@react-three/drei';
+import { Sky, Stars } from '@react-three/drei';
 import Scene from './Scene';
 import { fontSizes } from '@/styles';
 import { useMode } from '../../contexts/ModeContext';
@@ -20,7 +20,7 @@ const TestIntro = () => {
   const history = useHistory();
   return (
     <>
-      <Canvas camera={{ position: [-55, 5, 0] }} rotation={[Math.PI / 2, 0, 0]}>
+      <Canvas camera={{ position: [-85, 5, 0] }}>
         {mode === 'light' ? (
           <Sky distance={100000} sunPosition={[0, 2, 0]} rayleigh={0.3} />
         ) : (
@@ -51,10 +51,9 @@ const TestIntro = () => {
       ) : (
         <div
           css={css`
-            font-size: ${fontSizes[1000]};
+            font-size: ${fontSizes[800]};
             color: ${props => (props.mode === 'light' ? 'black' : 'white')};
             position: fixed;
-            top: 0.1em;
           `}
         >
           Loading...
@@ -67,6 +66,8 @@ const TestIntro = () => {
 export default TestIntro;
 
 const GoInsideButton = styled(motion.div)`
+  width: 35%;
+  height: 6vh;
   position: fixed;
   text-align: center;
   border-radius: 7px;

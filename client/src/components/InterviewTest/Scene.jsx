@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Suspense, useRef } from 'react';
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import Among from '../../assets/Among';
+
 const Scene = ({ history, isGo, play, setPlay }) => {
   const controls = useRef();
   const [goPage, setGoPage] = useState(false);
@@ -18,11 +19,11 @@ const Scene = ({ history, isGo, play, setPlay }) => {
     // current.object는 perspective camera
     // console.log(state, "state");
 
-    if (isGo && controls.current.object.position.x <= -40) {
+    if (isGo && controls.current.object.position.x <= -60) {
       controls.current.object.position.x += 0.5;
-    } else if (isGo && controls.current.object.position.z <= 20) {
+    } else if (isGo && controls.current.object.position.z <= 25) {
       controls.current.object.position.z += 0.3;
-    } else if (isGo && controls.current.object.position.z >= 20 && controls.current.object.position.x >= -40) {
+    } else if (isGo && controls.current.object.position.z >= 25 && controls.current.object.position.x >= -60) {
       setGoPage(true);
     }
   });
