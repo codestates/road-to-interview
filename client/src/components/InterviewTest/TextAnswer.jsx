@@ -29,13 +29,7 @@ const TextAnswer = () => {
           transform: translateX(-50%);
         `}
       >
-        <Button
-          css={css`
-            font-size: ${fontSizes[100]};
-          `}
-          primary
-          sm
-        >
+        <Button primary md>
           제출하기
         </Button>
       </div>

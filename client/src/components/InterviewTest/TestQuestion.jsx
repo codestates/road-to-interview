@@ -13,7 +13,7 @@ const TestTable = () => {
       <div
         css={css`
           width: 23.5rem;
-          height: 26rem;
+          height: 23.5rem;
         `}
       >
         <VideoRecorder />
