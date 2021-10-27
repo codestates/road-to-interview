@@ -11,10 +11,10 @@ const Question = () => {
 export default Question;
 
 export const Container = styled.div`
+  height: 6em;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  /* width: 100vw; */
-  font-size: ${fontSizes[500]};
+  font-size: ${fontSizes[600]};
 `;

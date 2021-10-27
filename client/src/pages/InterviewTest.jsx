@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import TestIntro from '../components/InterviewTest/TestIntro';
-import TestQuestion from '../components/InterviewTest/TestQuestion';
+import Test from '../components/InterviewTest/Test';
 export default function InterviewTest() {
   const [goTest, setGoTest] = useState(false);
   return (
     <Container>
       {/* <TestIntro /> */}
-      <TestQuestion />
+      <Test />
     </Container>
   );
 }

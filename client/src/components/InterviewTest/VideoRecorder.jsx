@@ -5,6 +5,7 @@ const VideoRecorder = () => {
     <>
       <ReactVideoRecorder
         replayVideoAutoplayAndLoopOff
+        countdownTime={0}
         isFlipped={false}
         onRecordingComplete={videoBlob => {
           // Do something with the video...

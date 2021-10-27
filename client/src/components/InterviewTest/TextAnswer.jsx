@@ -15,21 +15,15 @@ const TextAnswer = () => {
       <textarea
         css={css`
           width: 23.5rem;
-          height: 10vh;
+          height: 55vh;
           margin-bottom: ${spacing[4]};
           border-color: ${palette.dark.gray[600]};
+          font-size: ${fontSizes[500]};
         `}
         placeholder="답변을 입력해주세요."
       />
-      <div
-        css={css`
-          position: absolute;
-          left: 50%;
-          bottom: 0;
-          transform: translateX(-50%);
-        `}
-      >
-        <Button primary md>
+      <div>
+        <Button primary lg>
           제출하기
         </Button>
       </div>
