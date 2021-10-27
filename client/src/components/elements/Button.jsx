@@ -137,6 +137,14 @@ const variation = (props, theme) => {
       align-items: center;
       justify-content: center;
     `}
+    ${props.text &&
+    css`
+      padding: 0px;
+    `}
+    ${props.round &&
+    css`
+      border-radius: 100px;
+    `}
     ${props.loading && css``}
   `;
   return css`

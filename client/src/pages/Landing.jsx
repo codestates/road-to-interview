@@ -22,7 +22,7 @@ export default function Landing() {
           <Caption>Rehearsal for Practicing for a Job Interview</Caption>
           <SubTitle>Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.</SubTitle>
           <Links>
-            <Button primary onClick={() => history.push('/list')}>
+            <Button round primary onClick={() => history.push('/list')}>
               둘러보기
             </Button>
             <Button text tertiary icon={Chv}>
@@ -59,7 +59,7 @@ export default function Landing() {
             <Share />
           </Illustration>
           <SectionTitle>공유하기</SectionTitle>
-          <Text>자신만의 인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!</Text>
+          <Text>인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!</Text>
         </Section>
       </Sections>
     </Layout>
@@ -99,6 +99,10 @@ const Links = styled.div`
   justify-content: center;
   align-items: center;
   margin: ${spacing[7]} 0;
+
+  & > *:first-child {
+    margin-right: 2rem;
+  }
 `;
 
 // * Illustration
