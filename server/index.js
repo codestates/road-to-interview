@@ -40,7 +40,14 @@ app.get("/logout", controllers.logout);
 app.post("/signup", controllers.signup);
 app.put("/users", controllers.usersmodify);
 app.get("/users", controllers.refreshToken);
-app.get("/likes", controllers.userslikes);
+app.get("/likes/:id", controllers.likes);
+
+//interviews
+app.get("/interviews", controllers.getInterviews);
+//answers
+app.get("/answers", controllers.getMyAnswers);
+app.get("/answers/:id", controllers.getAnswersById);
+//questions
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 

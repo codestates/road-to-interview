@@ -7,8 +7,12 @@ module.exports = {
   signup: require("./users/signup"),
   usersmodify: require("./users/usersmodify"),
   refreshToken: require("./users/refreshToken"),
-  userslikes: require("./users/getlikes"),
+  likes: require("./users/likes"),
+  //interviews
+  getInterviews: require("./interviews/getInterviews"),
+  //answers
+  getMyAnswers: require("./answers/getMyAnswers"),
+  getAnswersById: require("./answers/getAnswersById"),
   //multer
   photos: require("./functions/multerFunctions/photos"),
-  
 };
