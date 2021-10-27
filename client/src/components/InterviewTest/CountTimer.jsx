@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { palette, spacing, fontSizes } from '@/styles';
+import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 const CountTimer = () => {
   const [startCount, setStartCount] = useState(false);
@@ -44,7 +44,7 @@ const CountTimer = () => {
       <div
         css={css`
           font-size: ${fontSizes[900]};
-          margin-right: ${spacing[4]};
+          margin-right: ${spacing[5]};
         `}
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -110,6 +110,7 @@ const CountTimer = () => {
 export default CountTimer;
 
 export const Container = styled.div`
+  width: 100vw;
   margin-top: 0.5em;
   display: flex;
   justify-content: center;

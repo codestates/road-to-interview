@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { palette, spacing } from '@/styles';
 import questions from '../../constants/mock/questions';
 import { fontSizes } from '@/styles';
 const Question = () => {
@@ -11,6 +9,7 @@ const Question = () => {
 export default Question;
 
 export const Container = styled.div`
+  width: 100vw;
   height: 5em;
   display: flex;
   flex-wrap: wrap;

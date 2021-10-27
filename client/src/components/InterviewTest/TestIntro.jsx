@@ -65,11 +65,11 @@ const TestIntro = () => {
 export default TestIntro;
 
 const GoInsideButton = styled(motion.div)`
-  width: 35%;
-  height: 6vh;
+  width: 24rem;
   position: fixed;
+  bottom: 0;
   text-align: center;
   border-radius: 7px;
-  font-size: ${fontSizes[800]};
+  font-size: ${fontSizes[1000]};
   color: #fff;
 `;

@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { css } from '@emotion/react';
 import ReactVideoRecorder from 'react-video-recorder';
+
 const VideoRecorder = () => {
+  const [isRecord, setIsRecord] = useState(false);
+  const [blob, setBlob] = useState('');
   return (
     <>
-      <ReactVideoRecorder
-        replayVideoAutoplayAndLoopOff
-        countdownTime={0}
-        isFlipped={false}
-        onRecordingComplete={videoBlob => {
-          // Do something with the video...
-          console.log('videoBlob', videoBlob);
-        }}
-      />
+      {isRecord ? (
+        <div>
+          <video
+            css={css`
+              position: relative;
+              bottom: 6em;
+              width: 23.1rem;
+              height: 30rem;
+            `}
+            src={window.URL.createObjectURL(blob)}
+            controls
+            autoPlay
+          />
+        </div>
+      ) : (
+        <ReactVideoRecorder
+          replayVideoAutoplayAndLoopOff
+          countdownTime={0}
+          isFlipped={false}
+          onRecordingComplete={videoBlob => {
+            setBlob(videoBlob);
+            setIsRecord(true);
+          }}
+        />
+      )}
     </>
   );
 };

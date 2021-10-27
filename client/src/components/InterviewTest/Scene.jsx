@@ -10,7 +10,7 @@ const Scene = ({ history, isGo, play, setPlay }) => {
 
   useEffect(() => {
     if (goPage) {
-      setTimeout(() => history.push(`/test/${id}/record`), 1000);
+      setTimeout(() => history.push(`/test/record/${id}`), 1000);
     }
   }, [goPage]);
 

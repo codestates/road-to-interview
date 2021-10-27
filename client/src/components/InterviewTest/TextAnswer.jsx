@@ -23,14 +23,7 @@ const TextAnswer = () => {
         placeholder="답변을 입력해주세요."
       />
       <div>
-        <Button
-          css={css`
-            position: relative;
-            bottom: 0.3rem;
-          `}
-          primary
-          lg
-        >
+        <Button primary lg>
           제출하기
         </Button>
       </div>

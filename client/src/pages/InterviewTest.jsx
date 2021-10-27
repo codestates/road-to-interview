@@ -6,8 +6,7 @@ export default function InterviewTest() {
   const [goTest, setGoTest] = useState(false);
   return (
     <Container>
-      {/* <TestIntro /> */}
-      <Test />
+      <TestIntro />
     </Container>
   );
 }
