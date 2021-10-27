@@ -11,7 +11,7 @@ const Question = () => {
 export default Question;
 
 export const Container = styled.div`
-  height: 6em;
+  height: 5em;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

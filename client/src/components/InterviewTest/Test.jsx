@@ -14,6 +14,8 @@ const Test = () => {
       {!isClick ? (
         <div
           css={css`
+            position: relative;
+            bottom: 0.5rem;
             width: 23.5rem;
             height: 23.5rem;
           `}
@@ -21,11 +23,18 @@ const Test = () => {
           <VideoRecorder />
         </div>
       ) : null}
-
       {isClick ? (
         <TextAnswer />
       ) : (
-        <Button onClick={() => setIsClick(true)} primary lg>
+        <Button
+          css={css`
+            position: relative;
+            bottom: 0.2rem;
+          `}
+          onClick={() => setIsClick(true)}
+          primary
+          lg
+        >
           여기를 누르시고 내용을 작성 후 제출해주세요.
         </Button>
       )}
