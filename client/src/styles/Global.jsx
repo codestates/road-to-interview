@@ -2,12 +2,18 @@ import { css, Global } from '@emotion/react';
 
 const globalStyles = theme => css`
   html {
+    height: 100%;
   }
 
   body {
     box-sizing: border-box;
     background: ${theme.colors.background};
     color: ${theme.colors.text.primary};
+    height: 100%;
+  }
+
+  #root {
+    height: 100%;
   }
 
   *,

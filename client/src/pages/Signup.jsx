@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { signup } from '@/store/reducers/users';
+import styled from '@emotion/styled';
+import Input from '@/components/elements/Input';
+import Label from '@/components/elements/Label';
+import Button from '@/components/elements/Button';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -21,53 +25,33 @@ export default function Signup() {
 
     dispatch(signup(data));
   };
+
   return (
-    <div>
-      <h1
-        css={css`
-          text-align: center;
-        `}
-      >
-        Signup
-      </h1>
-      <form
-        onSubmit={onSubmit}
-        css={css`
-          display: flex;
-          flex-direction: column;
-          width: 50%;
-          margin: 0 auto;
-        `}
-      >
-        <input
-          css={css`
-            padding: 10px;
-          `}
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder="email"
-        />
-        <input
-          css={css`
-            padding: 10px;
-          `}
-          type="text"
-          value={nickname}
-          onChange={e => setNickname(e.target.value)}
-          placeholder="nickname"
-        />
-        <input
-          css={css`
-            padding: 10px;
-          `}
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          placeholder="password"
-        />
-        <button>제출</button>
-      </form>
-    </div>
+    <Form onSubmit={onSubmit}>
+      <Field>
+        <Label>이메일</Label>
+        <Input placeholder="이메일을 입력하세요." />
+      </Field>
+      <Field>
+        <Label>닉네임</Label>
+        <Input placeholder="닉네임을 입력하세요." />
+      </Field>
+      <Field>
+        <Label>비밀번호</Label>
+        <Input placeholder="비밀번호를 입력하세요." type="password" />
+      </Field>
+      <Field>
+        <Label>비밀번호 확인</Label>
+        <Input placeholder="비밀번호를 한번 더 입력하세요." type="password" />
+      </Field>
+      <Button primary lg>
+        회원가입
+      </Button>
+    </Form>
   );
 }
+
+const Form = styled.form``;
+const Field = styled.div`
+  margin-bottom: 1.5rem;
+`;
