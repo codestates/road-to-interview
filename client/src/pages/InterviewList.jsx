@@ -8,6 +8,9 @@ import Portal from '@/hoc/Portal';
 import Modal from '@/components/shared/Modal';
 import Table from '@/components/shared/Table';
 
+import { INTERVIEWS } from '@/constants/mock';
+import Tabs from '@/components/shared/Tab';
+
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
 
