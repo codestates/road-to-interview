@@ -35,6 +35,14 @@ export default function Login() {
   });
   return (
     <Form>
+      <Title
+        css={theme => css`
+          ${theme.typography.subtitle[3]}
+          margin-bottom: 1rem;
+        `}
+      >
+        로그인
+      </Title>
       <Field>
         <Label>이메일</Label>
         <Input placeholder="이메일을 입력하세요." />
@@ -44,11 +52,27 @@ export default function Login() {
         <Input placeholder="패스워드를 입력하세요." />
       </Field>
       <Button primary lg>
-        로그인
+        로그인하기
       </Button>
+      <Label
+        css={theme => css`
+          text-align: center;
+          ${theme.typography.caption[2]}
+          opacity: 0.5;
+          margin: 1.25rem 0;
+        `}
+      >
+        또는
+      </Label>
       <Field>
+        <Field
+          css={css`
+            margin-bottom: 0.75rem;
+          `}
+        >
+          <SocialBtn type="google" />
+        </Field>
         <SocialBtn type="kakao" />
-        <SocialBtn type="google" />
       </Field>
     </Form>
   );
@@ -58,3 +82,4 @@ const Form = styled.form``;
 const Field = styled.div`
   margin-bottom: 1.5rem;
 `;
+const Title = styled.p``;
