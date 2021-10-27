@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import axios from 'axios';
 import CountTimer from './CountTimer';
 import Question from './Question';
 import VideoRecorder from './VideoRecorder';
@@ -13,9 +12,8 @@ const TestTable = () => {
       <Question />
       <div
         css={css`
-          /* border: solid; */
-          width: 100%;
-          height: 48vh;
+          width: 23.5rem;
+          height: 26rem;
         `}
       >
         <VideoRecorder />

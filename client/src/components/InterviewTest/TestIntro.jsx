@@ -8,8 +8,7 @@ import { Sky, Stars } from '@react-three/drei';
 import Scene from './Scene';
 import { fontSizes } from '@/styles';
 import { useMode } from '../../contexts/ModeContext';
-import Button from '../elements/Button';
-console.log(Button);
+
 const TestIntro = () => {
   const [mode] = useMode();
   const [isGo, setIsGo] = useState(false);

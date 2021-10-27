@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { css } from '@emotion/react';
-import { spacing, palette } from '@/styles';
+import { spacing, palette, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 
 const TextAnswer = () => {
@@ -13,8 +14,8 @@ const TextAnswer = () => {
     >
       <textarea
         css={css`
-          width: 100vw;
-          height: 15vh;
+          width: 23.5rem;
+          height: 10vh;
           margin-bottom: ${spacing[4]};
           border-color: ${palette.dark.gray[600]};
         `}
@@ -28,7 +29,13 @@ const TextAnswer = () => {
           transform: translateX(-50%);
         `}
       >
-        <Button primary md>
+        <Button
+          css={css`
+            font-size: ${fontSizes[100]};
+          `}
+          primary
+          sm
+        >
           제출하기
         </Button>
       </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Suspense, useRef } from 'react';
-import { css } from '@emotion/react';
 import { useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import Among from '../../assets/Among';

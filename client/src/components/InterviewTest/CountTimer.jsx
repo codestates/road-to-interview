@@ -30,19 +30,22 @@ const CountTimer = () => {
     <Container>
       <div
         css={css`
-          font-size: ${fontSizes[1000]};
+          font-size: ${fontSizes[900]};
+          margin-right: ${spacing[6]};
         `}
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
       </div>
       <div
         css={css`
-          margin: auto ${spacing[3]};
+          /* border: solid; */
         `}
       >
         <Button
           css={css`
-            margin: auto ${spacing[3]};
+            position: relative;
+            top: 0.2rem;
+            margin: auto ${spacing[2]};
             cursor: pointer;
           `}
           primary
@@ -53,7 +56,9 @@ const CountTimer = () => {
         <Button
           onClick={() => setStartCount(false)}
           css={css`
-            margin: auto ${spacing[3]};
+            position: relative;
+            top: 0.2rem;
+            margin: auto ${spacing[2]};
             cursor: pointer;
           `}
           secondary
@@ -63,7 +68,9 @@ const CountTimer = () => {
         </Button>
         <Button
           css={css`
-            margin: auto ${spacing[3]};
+            position: relative;
+            top: 0.2rem;
+            margin: auto ${spacing[2]};
             cursor: pointer;
           `}
           tertiary
@@ -73,7 +80,9 @@ const CountTimer = () => {
         </Button>
         <Button
           css={css`
-            margin: auto ${spacing[3]};
+            position: relative;
+            top: 0.2rem;
+            margin: auto ${spacing[2]};
             cursor: pointer;
           `}
           tertiary
@@ -89,13 +98,8 @@ const CountTimer = () => {
 export default CountTimer;
 
 export const Container = styled.div`
-  /* border: solid; */
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* border: solid; */
-  width: 100vw;
-  /* background: ${palette.dark.tint.blue[600]}; */
-  height: ${spacing[10]};
+  border-radius: 5px;
 `;
