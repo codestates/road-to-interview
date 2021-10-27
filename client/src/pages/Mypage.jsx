@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { CURRENT_USER } from '@/constants/mock';
 
-import Input from '@/components/elements/Input';
+import { ReactComponent as UserIcon } from 'assets/user.svg';
 import Label from '@/components/elements/Label';
-import SocialBtn from '@/components/elements/SocialBtn';
 import Button from '@/components/elements/Button';
-import ErrorMessage from '@/components/shared/ErrorMessage';
+import { theme } from '@/styles';
 
 export default function Login() {
   // * react-hook-form
@@ -20,35 +20,57 @@ export default function Login() {
     watch,
     formState: { errors },
   } = useForm();
-  const { userInfo } = useSelector(state => state.users);
-  const history = useHistory();
-  const dispatch = useDispatch();
+
+  // const { userInfo } = useSelector(state => state.users);
+  // const history = useHistory();
+  // const dispatch = useDispatch();
+
+  const { id, nickname, email } = CURRENT_USER?.userInfo;
 
   const onSubmit = data => {
     console.log(data);
-    dispatch(login(data));
   };
 
-  useEffect(() => {
-    if (userInfo) {
-      history.push('/');
-    }
-  });
-
   return (
-    <Title
-      css={theme => css`
-        ${theme.typography.subtitle[3]}
-        margin-bottom: 1rem;
-      `}
-    >
-      마이페이지
-    </Title>
+    <Layout>
+      <div
+        css={css`
+          display: flex;
+        `}
+      >
+        <div
+          css={theme =>
+            css`
+              background-color: ${theme.colors.tint.blue[200]};
+              width: 3rem;
+              height: 3rem;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `
+          }
+        >
+          <UserIcon width="2rem" height="2rem" opacity="0.8" />
+        </div>
+
+        <div>
+          <Text>{nickname}</Text>
+          <Text>{email}</Text>
+        </div>
+      </div>
+      <Field>
+        <Text>계정 관리</Text>
+        <Button secondary md>
+          정보 수정하기
+        </Button>
+      </Field>
+    </Layout>
   );
 }
 
-const Form = styled.form``;
+const Layout = styled.div``;
 const Field = styled.div`
   margin-bottom: 1.5rem;
 `;
-const Title = styled.p``;
+const Text = styled.p``;
