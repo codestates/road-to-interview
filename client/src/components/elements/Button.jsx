@@ -162,7 +162,7 @@ const Button = ({ children, className, onClick, icon: Icon, ...styles }) => {
           css={css`
             width: 1.1em;
             height: 1.1em;
-            margin-right: 5px;
+            margin-right: 0.1em;
           `}
         />
       )}
