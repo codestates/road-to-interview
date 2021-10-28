@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 const tablet = '768px';
 const laptop = '1024px';
-const desktop = '1400px';
+const desktop = '1368px';
 
 const media = {
   tablet: cssObj => css`

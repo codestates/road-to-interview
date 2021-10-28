@@ -151,7 +151,7 @@ export default function Nav() {
 
 const Layout = styled.nav`
   max-width: 1920px;
-  height: 4.5rem;
+  height: 5rem;
   padding: 0 ${spacing[7]};
   margin: 0 auto;
   display: flex;
@@ -176,9 +176,10 @@ const Group = styled(Flex)``;
 
 const Logo = styled.i`
   flex-basis: 35%;
-  min-width: 180px;
+  min-width: 200px;
+  max-width: 420px;
   margin-right: auto;
   & > * {
-    transform: translateY(0.3em);
+    transform: translateY(0.4em);
   }
 `;
