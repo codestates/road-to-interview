@@ -35,7 +35,7 @@ app.use(cookieParser());
 //users
 app.post("/login", controllers.login);
 app.get("/auth", controllers.auth);
-app.post("/google", controllers.google);
+app.post("/google", controllers.oAuth);
 app.get("/logout", controllers.logout);
 app.post("/signup", controllers.signup);
 app.put("/users", controllers.usersmodify);
@@ -48,7 +48,7 @@ app.get("/interviews", controllers.getInterviews);
 app.get("/answers", controllers.getMyAnswers);
 app.get("/answers/:id", controllers.getAnswersById);
 //questions
-
+app.get("/questions/:id", controllers.getQuestions);
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행합니다.

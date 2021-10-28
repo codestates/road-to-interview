@@ -20,6 +20,6 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "포스트 검색 Server Error" }); // Server error
+      res.status(500).send({ message: "인터뷰 리스트 Server Error" }); // Server error
     });
 };

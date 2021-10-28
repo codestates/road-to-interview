@@ -35,7 +35,13 @@ module.exports = (req, res) => {
           .update(password + salt)
           .digest("hex");
 
-        if (dbPassword === hashPassword) {
+        if (dbPassword === "" && salt === "") {
+          res.status(409).send({
+            message:
+              "로그인 : 회원가입하지 않았습니다. google 또는 카카오로 로그인해 주세요.",
+          });
+          return;
+        } else if (dbPassword === hashPassword) {
           const { nickname, email, id } = data.dataValues;
           const accessToken = generateAccessToken({ nickname, email, id });
           const refreshToken = generateRefreshToken({ nickname, email, id });

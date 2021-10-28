@@ -21,7 +21,7 @@ module.exports = (req, res) => {
         id +
         `) b 
       on i.id = b.questions_id 
-      order by b.createdAt desc ;`,
+      order by b.createdAt desc;`,
       { type: sequelize.QueryTypes.SELECT }
     )
     .then((result) => {

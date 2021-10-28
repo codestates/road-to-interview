@@ -2,7 +2,7 @@ module.exports = {
   //users
   login: require("./users/login"),
   auth: require("./users/auth"),
-  google: require("./users/google"),
+  oAuth: require("./users/oAuth"),
   logout: require("./users/logout"),
   signup: require("./users/signup"),
   usersmodify: require("./users/usersmodify"),
@@ -13,6 +13,8 @@ module.exports = {
   //answers
   getMyAnswers: require("./answers/getMyAnswers"),
   getAnswersById: require("./answers/getAnswersById"),
+  //questions
+  getQuestions: require("./questions/getQuestions"),
   //multer
   photos: require("./functions/multerFunctions/photos"),
 };

@@ -15,6 +15,7 @@ module.exports = (req, res) => {
       },
       defaults: {
         nickname: name,
+        emailauth: true,
       },
     })
     .then(([result, created]) => {
