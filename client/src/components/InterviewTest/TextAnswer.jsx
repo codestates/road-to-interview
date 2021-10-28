@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { css } from '@emotion/react';
 import { spacing, palette, fontSizes } from '@/styles';
 import Button from '../elements/Button';
+import AjaxOption from '../shared/AjaxOption';
 
 const TextAnswer = () => {
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [answer, setAnswer] = useState('');
+  const answerHandler = e => {
+    setAnswer(e.target.value);
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      // header에 authorization, body에 questions_id 추가해야함.
+      const res = await axios.post('https://sjitygfree.ga/answers', { answer }, AjaxOption);
+      console.log(res);
+    };
+    fetchData();
+  }, [isSubmit, answer]);
+
   return (
     <div
       css={css`
@@ -13,6 +28,7 @@ const TextAnswer = () => {
       `}
     >
       <textarea
+        onChange={answerHandler}
         css={css`
           position: relative;
           bottom: 0.5rem;
@@ -32,7 +48,7 @@ const TextAnswer = () => {
           transform: translateX(-50%);
         `}
       >
-        <Button primary lg>
+        <Button onClick={() => setIsSubmit(true)} primary lg>
           제출하기
         </Button>
       </div>

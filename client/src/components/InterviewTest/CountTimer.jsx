@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 const CountTimer = () => {
@@ -40,7 +39,16 @@ const CountTimer = () => {
   }, [startCount, minutes, seconds]);
 
   return (
-    <Container>
+    <div
+      css={css`
+        width: 100vw;
+        margin-top: 0.5em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+      `}
+    >
       <div
         css={css`
           font-size: ${fontSizes[900]};
@@ -103,17 +111,8 @@ const CountTimer = () => {
           30초추가
         </Button>
       </div>
-    </Container>
+    </div>
   );
 };
 
 export default CountTimer;
-
-export const Container = styled.div`
-  width: 100vw;
-  margin-top: 0.5em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-`;

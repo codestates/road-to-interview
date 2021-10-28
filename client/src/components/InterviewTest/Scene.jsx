@@ -12,7 +12,7 @@ const Scene = ({ history, isGo, play, setPlay }) => {
     if (goPage) {
       setTimeout(() => history.push(`/test/record/${id}`), 1000);
     }
-  }, [goPage]);
+  }, [goPage, history]);
 
   useFrame((state, delta) => {
     // current.object는 perspective camera

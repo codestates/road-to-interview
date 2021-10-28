@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
+import React from 'react';
+import { css } from '@emotion/react';
 import TestIntro from '../components/InterviewTest/TestIntro';
-import Test from '../components/InterviewTest/Test';
+
 export default function InterviewTest() {
-  const [goTest, setGoTest] = useState(false);
   return (
-    <Container>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        left: 0;
+        bottom: 0.1em;
+        width: 100vw;
+        height: 90vh;
+      `}
+    >
       <TestIntro />
-    </Container>
+    </div>
   );
 }
-
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  left: 0;
-  bottom: 0.1em;
-  width: 100vw;
-  height: 90vh;
-`;
