@@ -5,8 +5,13 @@ import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import TextAnswer from '../components/InterviewTest/TextAnswer';
 import Button from '../components/elements/Button';
+
 const InterviewTest = () => {
   const [isClick, setIsClick] = useState(false);
+  const [isPlay, setIsPlay] = useState(null);
+  const countHandler = playing => {
+    setIsPlay(playing);
+  };
   return (
     <div
       css={css`
@@ -18,7 +23,7 @@ const InterviewTest = () => {
         bottom: 2.8rem;
       `}
     >
-      <CountTimer />
+      <CountTimer isPlay={isPlay} setIsPlay={setIsPlay} />
       <Question />
       {!isClick ? (
         <div
@@ -29,7 +34,7 @@ const InterviewTest = () => {
             height: 58vh;
           `}
         >
-          <VideoRecorder />
+          <VideoRecorder countHandler={countHandler} />
         </div>
       ) : null}
       {isClick ? (
