@@ -29,11 +29,11 @@ export default function Login() {
     dispatch(login(data));
   };
 
-  useEffect(() => {
-    if (userInfo) {
-      history.push('/');
-    }
-  });
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     history.push('/');
+  //   }
+  // });
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Title

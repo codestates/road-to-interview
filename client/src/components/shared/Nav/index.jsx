@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -42,6 +42,7 @@ export default function Nav() {
 
   const { pathname } = useLocation();
   const page = pathname.split('/')[1];
+  const { push, goBack } = useHistory();
 
   switch (page) {
     case INTETVIEW_LIST:
@@ -50,7 +51,9 @@ export default function Nav() {
     case CREATE:
       return (
         <Layout>
-          <Logo>{mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}</Logo>
+          <Logo onClick={() => push('/')}>
+            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+          </Logo>
           <Group>
             <Menu
               onClick={toggleOpen}
@@ -68,6 +71,7 @@ export default function Nav() {
                 {userInfo ? (
                   <>
                     <LinkItem to="/mypage">마이페이지</LinkItem>
+                    <LinkItem to="/create">인터뷰 목록 생성하기</LinkItem>
                     <Item onClick={onLogout}>로그아웃</Item>
                   </>
                 ) : (
@@ -91,6 +95,7 @@ export default function Nav() {
               display: flex;
               align-items: center;
             `}
+            onClick={() => goBack()}
           >
             <BackArrow width="2rem" height="2rem" />
           </i>
@@ -98,6 +103,7 @@ export default function Nav() {
             css={css`
               margin: 0 auto;
             `}
+            onClick={() => push('/')}
           >
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
@@ -111,10 +117,11 @@ export default function Nav() {
             css={css`
               /* margin: 0 auto; */
             `}
+            onClick={() => push('/')}
           >
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
-          <Button tertiary sm>
+          <Button tertiary sm onClick={() => push('/login')}>
             로그인
           </Button>
         </Layout>
@@ -122,9 +129,19 @@ export default function Nav() {
     case INTETVIEW_TEST:
       return (
         <Layout>
-          <Logo>{mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}</Logo>
-          <span>나가기</span>
-          <ToggleButton />
+          <Logo onClick={() => push('/')}>
+            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+          </Logo>
+          <Group>
+            <ToggleButton
+              css={css`
+                margin-right: 1em;
+              `}
+            />
+            <Button tertiary sm onClick={() => goBack()}>
+              나가기
+            </Button>
+          </Group>
         </Layout>
       );
     default:

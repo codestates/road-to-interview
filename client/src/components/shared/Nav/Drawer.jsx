@@ -19,9 +19,10 @@ const Container = styled.div`
   right: 0;
   width: 60vw;
   height: 100vh;
-  background: ${({ theme }) => theme.colors.dim.thick};
+  background: ${({ theme }) => theme.colors.background};
   padding-top: ${spacing[10]};
-  color: ${palette.dark.gray[700]};
+  color: ${({ theme }) => theme.colors.text.primary};
+  z-index: 50;
 
   opacity: 0;
   transform: translateX(100%);
@@ -49,7 +50,6 @@ const Body = ({ children }) => {
 };
 
 const Wrapper = styled.div`
-  padding: 0 ${spacing[4]};
   display: none;
   ${props =>
     props.open &&
