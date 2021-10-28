@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import TestIntro from '../components/InterviewTest/TestIntro';
+// import TestIntro from '../components/InterviewTest/TestIntro';
 
 export default function InterviewTest() {
   return (
@@ -16,7 +16,8 @@ export default function InterviewTest() {
         height: 90vh;
       `}
     >
-      <TestIntro />
+      <h1>Test</h1>
+      {/* <TestIntro /> */}
     </div>
   );
 }

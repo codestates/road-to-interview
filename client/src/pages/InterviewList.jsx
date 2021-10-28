@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import Tag from '@/components/elements/Tag';
 import UserInfo from '@/components/shared/UserInfo';
@@ -10,8 +11,11 @@ import Table from '@/components/shared/Table';
 
 import { INTERVIEWS } from '@/constants/mock';
 import Tabs from '@/components/shared/Tab';
+import { spacing } from '@/styles';
+import { useHistory } from 'react-router-dom';
 
 export default function InterviewList() {
+  // TODO: 선택한 인터뷰 상태 값 필요 -> 모달창에 전달할..
   const [open, setOpen] = useState(false);
 
   const onOpen = () => {
@@ -20,6 +24,8 @@ export default function InterviewList() {
   const onClose = () => {
     setOpen(false);
   };
+
+  const { push } = useHistory();
 
   return (
     <div>
@@ -94,29 +100,41 @@ export default function InterviewList() {
       </div>
       <Portal selector="#modal">
         <Modal open={open} onClose={onClose}>
-          <div
-            css={theme => css`
-              width: 350px;
-              height: 500px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background: ${theme.colors.background_elevated};
-              color: ${theme.colors.text.primary};
-            `}
-          >
-            <h1
-              css={theme =>
-                css`
-                  ${theme.typography.subtitle[4]}
-                `
-              }
+          <DrawerBody>
+            <Modaltitle>안내사항</Modaltitle>
+            <Button
+              onClick={() => push('/test/1')}
+              primary
+              lg
+              css={css`
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                border-radius: 0px;
+              `}
             >
-              안내사항
-            </h1>
-          </div>
+              테스트하기
+            </Button>
+          </DrawerBody>
         </Modal>
       </Portal>
     </div>
   );
 }
+
+const DrawerBody = styled.div`
+  position: relative;
+  width: 80vw;
+  height: 70vh;
+  padding-top: ${spacing[10]};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: ${({ theme }) => theme.colors.background_elevated};
+  color: ${({ theme }) => theme.colors.text.primary};
+  overflow: hidden;
+`;
+
+const Modaltitle = styled.h3`
+  ${({ theme }) => theme.typography.subtitle[4]}
+`;
