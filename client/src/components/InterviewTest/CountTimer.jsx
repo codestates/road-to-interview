@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 const CountTimer = ({ isPlay, setIsPlay }) => {
-  console.log(isPlay);
   const [startCount, setStartCount] = useState(false);
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);

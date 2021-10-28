@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import Button from '../elements/Button';
-
+import { spacing, fontSizes } from '@/styles';
 const getWebcam = callback => {
   try {
     const constraints = {
@@ -58,43 +58,59 @@ const VideoRecorder = ({ countHandler }) => {
       `}
     >
       {playing ? (
-        <div
+        <video
           css={css`
-            width: 23.5rem;
+            width: 90vw;
           `}
-        >
-          <video
-            css={css`
-              width: 23.5rem;
-              height: 51vh;
-            `}
-            ref={videoRef}
-            autoPlay
-            muted
-          />
-        </div>
+          ref={videoRef}
+          autoPlay
+          muted
+        />
       ) : null}
       {!playing ? (
-        <div
+        <video
           css={css`
-            width: 23.5rem;
+            width: 90vw;
           `}
-        >
-          <video
-            css={css`
-              width: 23.5rem;
-              height: 51vh;
-            `}
-            src={src}
-            autoPlay
-            controls
-          />
-        </div>
+          src={src}
+          autoPlay
+          controls
+        />
       ) : null}
       {playing ? (
-        <Button onClick={() => startOrStop()}>Stop</Button>
+        <div
+          css={css`
+            margin-top: ${spacing[7]};
+            margin-bottom: ${spacing[5]};
+          `}
+        >
+          <Button
+            css={css`
+              width: 50vw;
+              font-size: ${fontSizes[500]};
+            `}
+            onClick={() => startOrStop()}
+          >
+            그만하기
+          </Button>
+        </div>
       ) : (
-        <Button onClick={() => startOrStop()}>Start</Button>
+        <div
+          css={css`
+            margin-top: ${spacing[7]};
+            margin-bottom: ${spacing[5]};
+          `}
+        >
+          <Button
+            css={css`
+              width: 50vw;
+              font-size: ${fontSizes[500]};
+            `}
+            onClick={() => startOrStop()}
+          >
+            시작하기
+          </Button>
+        </div>
       )}
     </div>
   );
