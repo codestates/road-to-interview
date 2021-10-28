@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { signup } from '@/store/reducers/users';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
 import Button from '@/components/elements/Button';
 import ErrorMessage from '@/components/shared/ErrorMessage';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Signup() {
   // * react-hook-form
@@ -18,7 +20,7 @@ export default function Signup() {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const password = useRef();
   password.current = watch('password');
 
@@ -83,9 +85,32 @@ export default function Signup() {
           <ErrorMessage>입력하신 비밀번호와 일치하지 않습니다.</ErrorMessage>
         )}
       </Field>
-      <Button primary lg>
-        회원가입
-      </Button>
+      <Field>
+        <Button primary lg>
+          회원가입
+        </Button>
+      </Field>
+      <Field
+        css={css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <Label>이미 회원이신가요?</Label>
+        <Label
+          css={theme =>
+            css`
+              color: ${theme.colors.tint.coral[500]};
+              margin-left: 0.25rem;
+              cursor: pointer;
+            `
+          }
+          onClick={() => history.push('/login')}
+        >
+          로그인하기
+        </Label>
+      </Field>
     </Form>
   );
 }
