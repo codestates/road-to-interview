@@ -1,5 +1,4 @@
 import { css, Global } from '@emotion/react';
-
 const globalStyles = theme => css`
   html {
     height: 100%;
@@ -9,6 +8,7 @@ const globalStyles = theme => css`
     box-sizing: border-box;
     background: ${theme.colors.background};
     color: ${theme.colors.text.primary};
+    font-family: 'Noto Sans KR', sans-serif;
     height: 100%;
   }
 
