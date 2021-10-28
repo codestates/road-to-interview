@@ -42,7 +42,7 @@ const CountTimer = () => {
     <div
       css={css`
         width: 100vw;
-        margin-top: 0.5em;
+        margin-top: 1.5em;
         display: flex;
         justify-content: center;
         align-items: center;

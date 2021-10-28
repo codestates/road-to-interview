@@ -22,6 +22,8 @@ const Question = () => {
   return (
     <div
       css={css`
+        position: relative;
+        bottom: 0.5em;
         width: 100vw;
         height: 5em;
         display: flex;
