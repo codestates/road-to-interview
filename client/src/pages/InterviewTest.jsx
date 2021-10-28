@@ -44,7 +44,7 @@ const InterviewTest = () => {
             transform: translateX(-50%);
           `}
           onClick={() => setIsClick(true)}
-          primary
+          secondary
           lg
         >
           여기를 누르시고 내용을 작성 후 제출해주세요.
