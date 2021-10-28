@@ -8,11 +8,15 @@ const VideoRecorder = () => {
   return (
     <>
       {isRecord ? (
-        <div>
+        <div
+          css={css`
+            height: 48vh;
+          `}
+        >
           <video
             css={css`
               position: relative;
-              bottom: 6em;
+              bottom: 6.5em;
               width: 23.1rem;
               height: 30rem;
             `}

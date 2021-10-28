@@ -26,7 +26,7 @@ const Test = () => {
             position: relative;
             bottom: 0.5rem;
             width: 23.5rem;
-            height: 23.5rem;
+            height: 58vh;
           `}
         >
           <VideoRecorder />
@@ -38,6 +38,10 @@ const Test = () => {
         <Button
           css={css`
             width: 23.5rem;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
           `}
           onClick={() => setIsClick(true)}
           primary
