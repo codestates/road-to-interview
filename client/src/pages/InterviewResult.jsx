@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import Button from '../components/elements/Button';
 export default function InterviewResult() {
@@ -43,17 +42,15 @@ export default function InterviewResult() {
         >
           내 답변 보러가기
         </Button>
-        <Link to="/">
-          <Button
-            css={css`
-              width: 10em;
-            `}
-            tertiary
-            lg
-          >
-            처음으로
-          </Button>
-        </Link>
+        <Button
+          css={css`
+            width: 10em;
+          `}
+          tertiary
+          lg
+        >
+          처음으로
+        </Button>
       </div>
     </div>
   );
