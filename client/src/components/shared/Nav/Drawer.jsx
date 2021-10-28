@@ -33,7 +33,7 @@ const Container = styled.div`
       opacity: 1;
       transform: translateX(0);
     `}
-
+  // FIXME: 다크모드 색상 변경까지도 트랜잭션이 걸린다.
   transition: all 0.3s ease-in;
 `;
 
@@ -50,6 +50,7 @@ const Body = ({ children }) => {
 };
 
 const Wrapper = styled.div`
+  padding: ${spacing[4]};
   display: none;
   ${props =>
     props.open &&
