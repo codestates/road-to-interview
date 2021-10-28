@@ -6,8 +6,6 @@ import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import TextAnswer from '../components/InterviewTest/TextAnswer';
 import Button from '../components/elements/Button';
 import { fontSizes, spacing } from '@/styles';
-// import TestIntro from '../components/InterviewTest/TestIntro';
->>>>>>> cad78b209de6a4bfe6cce9720f9c6db93b94cb02
 
 const InterviewTest = () => {
   const [isClick, setIsClick] = useState(false);
@@ -53,8 +51,6 @@ const InterviewTest = () => {
           여기를 누르시고 내용을 작성 후 제출해주세요
         </Button>
       )}
-      <h1>Test</h1>
-      {/* <TestIntro /> */}
     </div>
   );
 };
