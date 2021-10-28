@@ -90,6 +90,27 @@ export default function Login() {
         </Field>
         <SocialBtn type="kakao" />
       </Field>
+      <Field
+        css={css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <Label>아직 계정이 없으신가요?</Label>
+        <Label
+          css={theme =>
+            css`
+              color: ${theme.colors.tint.coral[500]};
+              margin-left: 0.25rem;
+              cursor: pointer;
+            `
+          }
+          onClick={() => history.push('/signup')}
+        >
+          계정 만들기
+        </Label>
+      </Field>
     </Form>
   );
 }
