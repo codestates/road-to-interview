@@ -32,17 +32,17 @@ const TextAnswer = () => {
     <div
       css={css`
         display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
       `}
     >
       <textarea
         onChange={answerHandler}
         css={css`
-          position: relative;
-          bottom: 0.5rem;
-          width: 23.5rem;
-          height: 58vh;
-          margin-bottom: ${spacing[4]};
+          width: 100vw;
+          margin: ${spacing[5]};
+          height: 50vh;
           border-color: ${palette.dark.gray[600]};
           font-size: ${fontSizes[500]};
         `}
@@ -50,13 +50,17 @@ const TextAnswer = () => {
       />
       <div
         css={css`
-          position: fixed;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
+          margin-top: ${spacing[4]};
         `}
       >
-        <Button onClick={submitHandler} primary lg>
+        <Button
+          css={css`
+            width: 50vw;
+          `}
+          onClick={submitHandler}
+          primary
+          lg
+        >
           제출하기
         </Button>
       </div>

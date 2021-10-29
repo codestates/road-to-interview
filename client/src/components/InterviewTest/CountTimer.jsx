@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
-const CountTimer = () => {
+const CountTimer = ({ isPlay, setIsPlay }) => {
   const [startCount, setStartCount] = useState(false);
   const [minutes, setMinutes] = useState(2);
   const [seconds, setSeconds] = useState(0);
-
   const minuteAdd = () => {
     setMinutes(minutes + 1);
   };
@@ -19,7 +18,7 @@ const CountTimer = () => {
     }
   };
   useEffect(() => {
-    if (startCount) {
+    if (startCount || isPlay) {
       const countdown = setInterval(() => {
         if (parseInt(seconds) > 0) {
           setSeconds(parseInt(seconds) - 1);
@@ -36,7 +35,7 @@ const CountTimer = () => {
       }, 1000);
       return () => clearInterval(countdown);
     }
-  }, [startCount, minutes, seconds]);
+  }, [startCount, minutes, seconds, isPlay]);
 
   return (
     <div
