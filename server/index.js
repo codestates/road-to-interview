@@ -44,9 +44,11 @@ app.get("/likes/:id", controllers.likes);
 
 //interviews
 app.get("/interviews", controllers.getInterviews);
+app.post("/interviews", controllers.createInterviews);
 //answers
 app.get("/answers", controllers.getMyAnswers);
 app.get("/answers/:id", controllers.getAnswersById);
+app.post("/answers", controllers.createAnswers);
 //questions
 app.get("/questions/:id", controllers.getQuestions);
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;

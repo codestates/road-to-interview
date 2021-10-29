@@ -10,9 +10,11 @@ module.exports = {
   likes: require("./users/likes"),
   //interviews
   getInterviews: require("./interviews/getInterviews"),
+  createInterviews: require("./interviews/createInterviews"),
   //answers
   getMyAnswers: require("./answers/getMyAnswers"),
   getAnswersById: require("./answers/getAnswersById"),
+  createAnswers: require("./answers/createAnswers"),
   //questions
   getQuestions: require("./questions/getQuestions"),
   //multer

@@ -10,9 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.likes.belongsTo(models.users, {
+        foreignKey: "users_id",
         onDelete: "cascade",
       });
       models.likes.belongsTo(models.answers, {
+        foreignKey: "answers_id",
         onDelete: "cascade",
       });
     }
