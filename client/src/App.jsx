@@ -20,7 +20,7 @@ import InterviewTest from './pages/InterviewTest';
 import InterviewResult from './pages/InterviewResult';
 import MyPage from './pages/Mypage';
 import Create from './pages/Create';
-import Test from './components/InterviewTest/Test';
+
 export default function App() {
   const [mode] = useMode();
 
@@ -38,8 +38,7 @@ export default function App() {
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
-        <RouteWithLayout exact path="/test/:id" component={InterviewTest} layout={MainLayout} />
-        <RouteWithLayout exact path="/test/record/:id/" component={Test} layout={MainLayout} />
+        <RouteWithLayout path="/test/:id" component={InterviewTest} layout={MainLayout} />
         <RouteWithLayout path="/result/:id" component={InterviewResult} layout={MainLayout} />
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
         <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
