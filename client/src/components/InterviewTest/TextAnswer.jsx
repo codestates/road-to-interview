@@ -5,8 +5,8 @@ import { css } from '@emotion/react';
 import { spacing, palette, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 import AjaxOption from '../shared/AjaxOption';
-
-const TextAnswer = () => {
+import media from '@/utils/media';
+const TextAnswer = ({ isClick }) => {
   const history = useHistory();
   const [isSubmit, setIsSubmit] = useState(false);
   const [answer, setAnswer] = useState('');
@@ -26,39 +26,50 @@ const TextAnswer = () => {
       fetchData();
       history.push('/result/1');
     }
-  }, [isSubmit, answer]);
+  }, [isSubmit, answer, history]);
 
   return (
     <div
       css={css`
         display: flex;
-        justify-content: center;
         align-items: center;
         flex-direction: column;
+        ${media.desktop(css`
+          position: relative;
+          bottom: ${spacing[7]};
+        `)}
       `}
     >
       <textarea
         onChange={answerHandler}
         css={css`
-          width: 100vw;
-          margin: ${spacing[5]};
-          height: 50vh;
+          width: 90vw;
+          height: 64vh;
           border-color: ${palette.dark.gray[600]};
           font-size: ${fontSizes[500]};
+          ${media.desktop(css`
+            width: 45vw;
+            height: 61.5vh;
+            margin-left: ${spacing[6]};
+          `)}
         `}
         placeholder="답변을 입력해주세요."
       />
       <div
         css={css`
-          margin-top: ${spacing[4]};
+          margin-top: ${spacing[3]};
         `}
       >
         <Button
           css={css`
-            width: 50vw;
+            width: 90vw;
+            ${media.desktop(css`
+              width: 45vw;
+              margin-left: ${spacing[6]};
+            `)}
           `}
           onClick={submitHandler}
-          primary
+          secondary
           lg
         >
           제출하기
