@@ -9,6 +9,7 @@ import { ReactComponent as Job } from 'assets/job-ill.svg';
 import { ReactComponent as Test } from 'assets/test-ill.svg';
 import { ReactComponent as Feedback } from 'assets/checklist-ill.svg';
 import { ReactComponent as Share } from 'assets/share-ill.svg';
+import media from '@/utils/media';
 
 export default function Landing() {
   const history = useHistory();
@@ -66,12 +67,23 @@ export default function Landing() {
   );
 }
 
-const Layout = styled.div``;
+const Layout = styled.div`
+  padding: 0 ${spacing[5]};
+`;
 
 // * Header
 const Header = styled.div`
   text-align: center;
   padding-top: ${spacing[10]};
+  ${media.desktop(css`
+    display: flex;
+    & > *:first-child {
+      text-align: start;
+    }
+    & > * {
+      flex-basis: 50%;
+    }
+  `)}
 `;
 const Box = styled.div``;
 const Title = styled.h1`
@@ -103,6 +115,10 @@ const Links = styled.div`
   & > *:first-child {
     margin-right: 2rem;
   }
+
+  ${media.desktop(css`
+    justify-content: start;
+  `)}
 `;
 
 // * Illustration
