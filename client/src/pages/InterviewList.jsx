@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import Tag from '@/components/elements/Tag';
-import UserInfo from '@/components/shared/UserInfo';
-import Button from '@/components/elements/Button';
 import Portal from '@/hoc/Portal';
+import Tag from '@/components/elements/Tag';
+import Button from '@/components/elements/Button';
+import UserInfo from '@/components/shared/UserInfo';
 import Modal from '@/components/shared/Modal';
 import Table from '@/components/shared/Table';
+import Pagination from '@/components/shared/Pagination';
 
 import { INTERVIEWS } from '@/constants/mock';
 import Tabs from '@/components/shared/Tab';
@@ -17,6 +18,7 @@ import { useHistory } from 'react-router-dom';
 export default function InterviewList() {
   // TODO: 선택한 인터뷰 상태 값 필요 -> 모달창에 전달할..
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
   const onOpen = () => {
     setOpen(true);
@@ -97,6 +99,7 @@ export default function InterviewList() {
             </Table.FooterEnd>
           </Table>
         ))}
+        <Pagination page={page} setPage={setPage} />
       </div>
       <Portal selector="#modal">
         <Modal open={open} onClose={onClose}>
