@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import Button from '../elements/Button';
-import { spacing, fontSizes } from '@/styles';
+import { spacing } from '@/styles';
+import media from '@/utils/media';
 const getWebcam = callback => {
   try {
     const constraints = {
@@ -19,6 +21,7 @@ const VideoRecorder = ({ countHandler }) => {
   const [playing, setPlaying] = useState(null);
   const [data, setData] = useState([]);
   const [src, setSrc] = useState(null);
+  console.log(src);
   const videoRef = useRef(null);
   useEffect(() => {
     if (!playing && data.length !== 0) {
@@ -52,42 +55,35 @@ const VideoRecorder = ({ countHandler }) => {
     <div
       css={css`
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+        ${media.desktop(css`
+          position: relative;
+          bottom: ${spacing[7]};
+        `)}
       `}
     >
-      {playing ? (
-        <video
-          css={css`
-            width: 90vw;
-          `}
-          ref={videoRef}
-          autoPlay
-          muted
-        />
-      ) : null}
-      {!playing ? (
-        <video
-          css={css`
-            width: 90vw;
-          `}
-          src={src}
-          autoPlay
-          controls
-        />
-      ) : null}
+      {playing ? <Video ref={videoRef} autoPlay muted /> : null}
+      {!playing && src ? <Video src={src} autoPlay controls /> : null}
       {playing ? (
         <div
           css={css`
-            margin-top: ${spacing[7]};
+            margin-top: ${spacing[6]};
             margin-bottom: ${spacing[5]};
+            ${media.desktop(css`
+              margin-top: ${spacing[3]};
+            `)}
           `}
         >
           <Button
+            tertiary
+            lg
             css={css`
-              width: 50vw;
-              font-size: ${fontSizes[500]};
+              width: 90vw;
+              ${media.desktop(css`
+                width: 45vw;
+              `)}
             `}
             onClick={() => startOrStop()}
           >
@@ -97,16 +93,23 @@ const VideoRecorder = ({ countHandler }) => {
       ) : (
         <div
           css={css`
-            margin-top: ${spacing[7]};
+            margin-top: ${spacing[6]};
             margin-bottom: ${spacing[5]};
+            ${media.desktop(css`
+              margin-top: ${spacing[3]};
+            `)}
           `}
         >
           <Button
             css={css`
-              width: 50vw;
-              font-size: ${fontSizes[500]};
+              width: 90vw;
+              ${media.desktop(css`
+                width: 45vw;
+              `)}
             `}
             onClick={() => startOrStop()}
+            primary
+            lg
           >
             시작하기
           </Button>
@@ -117,3 +120,10 @@ const VideoRecorder = ({ countHandler }) => {
 };
 
 export default VideoRecorder;
+
+export const Video = styled.video`
+  width: 90vw;
+  ${media.desktop(css`
+    width: 45vw;
+  `)}
+`;

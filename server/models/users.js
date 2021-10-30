@@ -9,16 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // models.users.belongsToMany(models.posts, {
-      //   through: "users_posts",
-      //   onDelete: "cascade",
-      // });
-      // models.users.hasMany(models.posts, {
-      //   foreignKey: "users_id",
-      // });
-      // models.users.hasMany(models.photos, {
-      //   foreignKey: "users_id",
-      // });
+      models.users.hasMany(models.likes, {
+        foreignKey: "users_id",
+        onDelete: "cascade",
+      });
+      models.users.hasMany(models.collections, {
+        foreignKey: "users_id",
+        onDelete: "cascade",
+      });
+      models.users.hasOne(models.interviews, {
+        foreignKey: "users_id",
+        onDelete: "cascade",
+      });
+      models.users.hasMany(models.answers, {
+        foreignKey: "users_id",
+        onDelete: "cascade",
+      });
     }
   }
   users.init(
@@ -31,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      manager: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      src: DataTypes.STRING,
     },
     {
       sequelize,
