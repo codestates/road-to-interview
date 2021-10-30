@@ -24,7 +24,6 @@ const category = [
   { id: '4', name: '기술면접' },
   { id: '5', name: '인성면접' },
 ];
-// TODO: category, questions 유효성 체크 (required, minLength, maxLength)
 export default function Create() {
   const {
     register,
@@ -39,9 +38,8 @@ export default function Create() {
   // error
   const [errorState, setErrorState] = useState({ category: '', questions: '' });
 
-  console.log(errorState);
-
   const id = useRef(0);
+  const submitted = useRef(false);
 
   // * category state
   const addItems = name => {
@@ -93,14 +91,19 @@ export default function Create() {
   };
 
   useEffect(() => {
-    checkCategoryValidate();
+    if (submitted.current) {
+      checkCategoryValidate();
+    }
   }, [selectedItems]);
 
   useEffect(() => {
-    checkQuestionsValidate();
+    if (submitted.current) {
+      checkQuestionsValidate();
+    }
   }, [questions]);
 
   const uploadInterview = data => {
+    submitted.current = true;
     if (checkValidate()) {
       const interviews = {
         title: data.title,
