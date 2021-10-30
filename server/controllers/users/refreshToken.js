@@ -35,9 +35,14 @@ module.exports = (req, res) => {
             .send({ message: "토큰 재발급 : 일치하는 유저 정보가 없습니다." });
           return;
         }
-        const { nickname, email, id } = data.dataValues;
-        const newAccessToken = generateAccessToken({ nickname, email, id });
-        resendAccessToken(res, newAccessToken, { nickname, email, id });
+        const { nickname, email, id, src } = data.dataValues;
+        const newAccessToken = generateAccessToken({
+          nickname,
+          email,
+          id,
+          src,
+        });
+        resendAccessToken(res, newAccessToken, { nickname, email, id, src });
       })
       .catch((err) => {
         console.log(err);
@@ -45,11 +50,12 @@ module.exports = (req, res) => {
       });
   } else {
     console.log(accessTokenData);
-    const { nickname, email, id } = accessTokenData;
+    const { nickname, email, id, src } = accessTokenData;
     resendAccessToken(res, req.headers["authorization"], {
       nickname,
       email,
       id,
+      src,
     });
   }
 };

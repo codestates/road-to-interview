@@ -20,15 +20,15 @@ app.use(
 app.use(cookieParser());
 
 // sequelize models 폴더와 동기화
-models.sequelize
-  .sync()
-  .then(() => {
-    console.log("DB 연결성공");
-  })
-  .catch((err) => {
-    console.log("DB 연결실패");
-    console.log(err);
-  });
+// models.sequelize
+//   .sync()
+//   .then(() => {
+//     console.log("DB 연결성공");
+//   })
+//   .catch((err) => {
+//     console.log("DB 연결실패");
+//     console.log(err);
+//   });
 //multer-s3 사진 업로드
 // app.post("/photos", upload.array("image"), controllers.photos);
 

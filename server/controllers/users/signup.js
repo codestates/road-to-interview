@@ -12,7 +12,7 @@ module.exports = (req, res) => {
     });
     return;
   }
-  let { nickname, password, email } = req.body;
+  let { nickname, password, email, src } = req.body;
   let salt = Math.round(new Date().valueOf() * Math.random()) + "";
   let hashPassword = crypto
     .createHash("sha512")
@@ -34,6 +34,7 @@ module.exports = (req, res) => {
               email,
               password: hashPassword,
               salt,
+              src,
             },
           })
           .then(([result, created]) => {
@@ -46,7 +47,9 @@ module.exports = (req, res) => {
             } else {
               const users_id = result.dataValues.id;
               mailSend(email, salt);
-              res.status(201).send({ userInfo: { nickname, email, users_id } });
+              res
+                .status(201)
+                .send({ userInfo: { nickname, email, users_id, src } });
             }
           })
           .catch((error) => {

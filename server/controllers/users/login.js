@@ -42,11 +42,16 @@ module.exports = (req, res) => {
           });
           return;
         } else if (dbPassword === hashPassword) {
-          const { nickname, email, id } = data.dataValues;
-          const accessToken = generateAccessToken({ nickname, email, id });
-          const refreshToken = generateRefreshToken({ nickname, email, id });
-          sendRefreshToken(res, refreshToken, { nickname, email, id });
-          sendAccessToken(res, accessToken, { nickname, email, id });
+          const { nickname, email, id, src } = data.dataValues;
+          const accessToken = generateAccessToken({ nickname, email, id, src });
+          const refreshToken = generateRefreshToken({
+            nickname,
+            email,
+            id,
+            src,
+          });
+          sendRefreshToken(res, refreshToken, { nickname, email, id, src });
+          sendAccessToken(res, accessToken, { nickname, email, id, src });
         } else {
           res.status(409).send({ message: "로그인 : 비밀번호가 다릅니다." });
           return;
