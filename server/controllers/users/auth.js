@@ -24,7 +24,7 @@ module.exports = (req, res) => {
             )
             .then((result) => {
               res.redirect(
-                "http://wiiiggle-test.s3-website.ap-northeast-2.amazonaws.com/"
+                "http://road-to-interview.s3-website.ap-northeast-2.amazonaws.com/"
               ); //메인페이지로
             })
             .catch((error) => {

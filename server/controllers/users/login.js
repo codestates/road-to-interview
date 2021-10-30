@@ -35,12 +35,23 @@ module.exports = (req, res) => {
           .update(password + salt)
           .digest("hex");
 
-        if (dbPassword === hashPassword) {
-          const { nickname, email, id } = data.dataValues;
-          const accessToken = generateAccessToken({ nickname, email, id });
-          const refreshToken = generateRefreshToken({ nickname, email, id });
-          sendRefreshToken(res, refreshToken, { nickname, email, id });
-          sendAccessToken(res, accessToken, { nickname, email, id });
+        if (dbPassword === "" && salt === "") {
+          res.status(409).send({
+            message:
+              "로그인 : 회원가입하지 않았습니다. google 또는 카카오로 로그인해 주세요.",
+          });
+          return;
+        } else if (dbPassword === hashPassword) {
+          const { nickname, email, id, src } = data.dataValues;
+          const accessToken = generateAccessToken({ nickname, email, id, src });
+          const refreshToken = generateRefreshToken({
+            nickname,
+            email,
+            id,
+            src,
+          });
+          sendRefreshToken(res, refreshToken, { nickname, email, id, src });
+          sendAccessToken(res, accessToken, { nickname, email, id, src });
         } else {
           res.status(409).send({ message: "로그인 : 비밀번호가 다릅니다." });
           return;
