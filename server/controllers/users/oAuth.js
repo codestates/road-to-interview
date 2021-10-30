@@ -6,7 +6,7 @@ const {
   sendAccessToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
-  const { email, name } = req.body.profileObj;
+  const { email, name, src } = req.body.profileObj;
 
   users
     .findOrCreate({
@@ -16,10 +16,11 @@ module.exports = (req, res) => {
       defaults: {
         nickname: name,
         emailauth: true,
+        src,
       },
     })
     .then(([result, created]) => {
-      const id = "";
+      let id = "";
       if (!created) {
         //있을때
         id = result.dataValues.id;
@@ -27,10 +28,11 @@ module.exports = (req, res) => {
         //없을때(새로만들었을때)
         id = result.dataValues.id;
       }
-      const accessToken = generateAccessToken({ name, email, id });
-      const refreshToken = generateRefreshToken({ name, email, id });
-      sendRefreshToken(res, refreshToken, { name, email, id });
-      sendAccessToken(res, accessToken, { name, email, id });
+      console.log(id);
+      const accessToken = generateAccessToken({ name, email, id, src });
+      const refreshToken = generateRefreshToken({ name, email, id, src });
+      sendRefreshToken(res, refreshToken, { name, email, id, src });
+      sendAccessToken(res, accessToken, { name, email, id, src });
     })
     .catch((error) => {
       console.log(error);

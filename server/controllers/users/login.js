@@ -24,7 +24,8 @@ module.exports = (req, res) => {
       }
       let dbPassword = data.dataValues.password;
       let { salt, emailauth } = data.dataValues;
-      if (emailauth === "no") {
+      console.log(emailauth);
+      if (emailauth === false) {
         res.status(409).json({
           emailauth: false,
           message: "로그인 : 이메일 인증을 완료하세요",
