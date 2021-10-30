@@ -14,12 +14,13 @@ module.exports = (req, res) => {
     })
     .then((result) => {
       const id = "";
-      if (!result) {
+      if (!interviews) {
         res
           .status(400)
           .send({ message: "인터뷰 생성 : 등록에 실패하였습니다." }); // Server error
       } else {
         id = result.dataValues.id;
+        res.status(201).send({ interviews });
       }
     })
     .catch((error) => {

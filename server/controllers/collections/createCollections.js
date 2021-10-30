@@ -1,7 +1,14 @@
-const { interviews } = require("../../models");
+const { collections } = require("../../models");
 const { isAuthorized } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
   // const  = req.body;
+  if (!req.params.id) {
+    res
+      .status(400)
+      .send({ message: "내 컬렉션 불러오기 : 데이터가 부족합니다." });
+    return;
+  }
+  const interviews_id = req.params.id;
   const accessTokenData = isAuthorized(req);
   if (!accessTokenData) {
     res
@@ -10,18 +17,23 @@ module.exports = (req, res) => {
     return;
   }
   const { users_id } = accessTokenData;
-  interviews
-    .create({
-      users_id,
+
+  collections
+    .findOrCreate({
+      where: {
+        users_id,
+        interviews_id,
+      },
     })
-    .then((result) => {
+    .then(([result, created]) => {
       const id = "";
-      if (!result) {
+      if (!created) {
         res
           .status(400)
-          .send({ message: "컬렉션 추가하기 : 등록에 실패하였습니다." }); // Server error
+          .send({ message: "컬렉션 추가하기 : 이미 등록되어 있습니다." }); // Server error
+        return;
       } else {
-        id = result.dataValues.id;
+        res.status(201).send({ result });
       }
     })
     .catch((error) => {

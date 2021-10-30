@@ -17,6 +17,9 @@ module.exports = {
   createAnswers: require("./answers/createAnswers"),
   //questions
   getQuestions: require("./questions/getQuestions"),
+  //collections
+  createCollections: require("./collections/createCollections"),
+  getCollections: require("./collections/getCollections"),
   //multer
   photos: require("./functions/multerFunctions/photos"),
 };

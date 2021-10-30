@@ -19,12 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       });
       models.users.hasOne(models.interviews, {
         foreignKey: "users_id",
-
         onDelete: "cascade",
       });
       models.users.hasMany(models.answers, {
         foreignKey: "users_id",
-
         onDelete: "cascade",
       });
     }
@@ -43,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      src: DataTypes.STRING,
     },
     {
       sequelize,

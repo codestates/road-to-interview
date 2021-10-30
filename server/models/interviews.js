@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "users_id",
         onDelete: "cascade",
       });
-      models.interviews.belongsTo(models.categorys, {
-        onDelete: "cascade",
-        foreignKey: "categorys_id",
-        targetKey: "categorys_id",
-      });
+
       models.interviews.hasMany(models.questions, {
+        foreignKey: "interviews_id",
+        onDelete: "cascade",
+      });
+      models.interviews.hasMany(models.cate_inter, {
         foreignKey: "interviews_id",
         onDelete: "cascade",
       });
@@ -33,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       description: DataTypes.STRING,
       users_id: DataTypes.INTEGER,
-      categorys_id: DataTypes.INTEGER,
     },
     {
       sequelize,

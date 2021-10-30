@@ -20,27 +20,27 @@ app.use(
 app.use(cookieParser());
 
 // sequelize models 폴더와 동기화
-// models.sequelize
-//   .sync()
-//   .then(() => {
-//     console.log("DB 연결성공");
-//   })
-//   .catch((err) => {
-//     console.log("DB 연결실패");
-//     console.log(err);
-//   });
+models.sequelize
+  .sync()
+  .then(() => {
+    console.log("DB 연결성공");
+  })
+  .catch((err) => {
+    console.log("DB 연결실패");
+    console.log(err);
+  });
 //multer-s3 사진 업로드
 // app.post("/photos", upload.array("image"), controllers.photos);
 
 //users
 app.post("/login", controllers.login);
 app.get("/auth", controllers.auth);
-app.post("/google", controllers.oAuth);
+app.post("/oauth", controllers.oAuth);
 app.get("/logout", controllers.logout);
 app.post("/signup", controllers.signup);
 app.put("/users", controllers.usersmodify);
 app.get("/users", controllers.refreshToken);
-app.get("/likes/:id", controllers.likes);
+app.post("/likes/:id", controllers.likes);
 
 //interviews
 app.get("/interviews", controllers.getInterviews);
@@ -51,6 +51,9 @@ app.get("/answers/:id", controllers.getAnswersById);
 app.post("/answers", controllers.createAnswers);
 //questions
 app.get("/questions/:id", controllers.getQuestions);
+//collection
+app.post("/collections/:id", controllers.createCollections);
+app.get("/collections", controllers.getCollections);
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행합니다.

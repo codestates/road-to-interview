@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       nickname: DataTypes.STRING,
       users_id: DataTypes.INTEGER,
       nickname: DataTypes.INTEGER,
+      likes: DataTypes.INTEGER,
     },
     {
       sequelize,

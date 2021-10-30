@@ -1,14 +1,14 @@
 const { sequelize } = require("../../models");
-
+const { isAuthorized } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
-  if (!req.params.id) {
+  const accessTokenData = isAuthorized(req);
+  if (!accessTokenData) {
     res
-      .status(400)
-      .send({ message: "내 컬렉션 불러오기 : 데이터가 부족합니다." });
+      .status(401)
+      .send({ message: "내 컬렉션 불러오기 : 로그인이 만료되었습니다." });
     return;
   }
-  console.log(req.params.id);
-  const id = req.params.id;
+  const { id } = accessTokenData;
   sequelize
     .query(
       `select i.id as interviews_id, i.title, i.description, i.categorys_id, ca.category
@@ -24,13 +24,13 @@ module.exports = (req, res) => {
         `);`,
       { type: sequelize.QueryTypes.SELECT }
     )
-    .then((questions) => {
-      if (!questions) {
+    .then((collections) => {
+      if (!collections) {
         res
           .status(400)
           .send({ message: "내 컬렉션 불러오기 : 데이터를 찾을 수 없습니다." });
       } else {
-        res.status(200).send({ questions });
+        res.status(200).send({ collections });
       }
     })
     .catch((error) => {

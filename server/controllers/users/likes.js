@@ -6,6 +6,10 @@ const {
   sendAccessToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
+  if (!req.params.id) {
+    res.status(400).send({ message: "좋아요 등록 : 데이터가 부족합니다." });
+    return;
+  }
   const { answers_id } = req.params.id;
   const accessTokenData = isAuthorized(req);
   if (!accessTokenData) {
