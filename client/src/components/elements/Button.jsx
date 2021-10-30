@@ -154,9 +154,9 @@ const variation = (props, theme) => {
   `;
 };
 
-const Button = ({ children, className, onClick, icon: Icon, ...styles }) => {
+const Button = ({ children, className, onClick, type, icon: Icon, ...styles }) => {
   return (
-    <button {...{ className, onClick }} css={theme => variation({ ...styles, Icon }, theme)}>
+    <button {...{ className, onClick, type }} css={theme => variation({ ...styles, Icon }, theme)}>
       {Icon && (
         <Icon
           css={css`
