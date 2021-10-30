@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
+import media from '@/utils/media';
 const CountTimer = ({ isPlay, setIsPlay }) => {
   const [startCount, setStartCount] = useState(false);
   const [minutes, setMinutes] = useState(2);
@@ -41,17 +42,23 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
     <div
       css={css`
         width: 100vw;
-        margin-top: 1.5em;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 5px;
+        ${media.desktop(css`
+          position: relative;
+
+          right: 1rem;
+          width: 50vw;
+        `)}
       `}
     >
       <div
         css={css`
           font-size: ${fontSizes[900]};
-          margin-right: ${spacing[5]};
+          ${media.desktop(css`
+            margin-right: ${spacing[8]};
+          `)}
         `}
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -71,7 +78,10 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
           시작하기
         </Button>
         <Button
-          onClick={() => setStartCount(false)}
+          onClick={() => {
+            setMinutes(0);
+            setSeconds(0);
+          }}
           css={css`
             position: relative;
             top: 0.2rem;
@@ -81,7 +91,7 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
           secondary
           sm
         >
-          정지하기
+          리셋버튼
         </Button>
         <Button
           css={css`
@@ -90,7 +100,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
             margin: auto ${spacing[1]};
             cursor: pointer;
           `}
-          tertiary
           sm
           onClick={minuteAdd}
         >
@@ -103,7 +112,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
             margin: auto ${spacing[1]};
             cursor: pointer;
           `}
-          tertiary
           sm
           onClick={secondsAdd}
         >
