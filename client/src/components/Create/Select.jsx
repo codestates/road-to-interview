@@ -28,7 +28,7 @@ export default function Select({ items, selectedItems, addItems, removeItems, cl
         {selectedItems.map((item, idx) => (
           <Tag tertiary sm round key={idx} onClick={() => removeItems(item)}>
             {item}
-            <XIcon color="red" width="1rem" height="1rem" />
+            <XIcon width="1rem" height="1rem" />
           </Tag>
         ))}
       </Display>
@@ -61,6 +61,7 @@ const Dropdown = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 const Tag = styled(Button)`
   margin-top: 0.5em;
@@ -70,7 +71,6 @@ const Tag = styled(Button)`
 `;
 
 const Preview = styled.ul`
-  cursor: pointer;
   width: 100%;
   height: 300%;
   position: absolute;
