@@ -4,22 +4,71 @@ import styled from '@emotion/styled';
 import { spacing } from '@/styles';
 import Button from '@/components/elements/Button';
 import Input from '@/components/elements/Input';
+import Select from '@/components/Create/Select';
 import { ReactComponent as Pen } from 'assets/pencli-alt.svg';
 import { ReactComponent as Minus } from 'assets/minus.svg';
 import { ReactComponent as Eye } from 'assets/eye.svg';
 import { ReactComponent as Trash } from 'assets/trash.svg';
 import { ReactComponent as Upload } from 'assets/upload.svg';
 import { ReactComponent as Archive } from 'assets/archive.svg';
+import { useState } from 'react';
+
+// mock
+const category = [
+  { id: '1', name: 'Javascript' },
+  { id: '2', name: 'CSS' },
+  { id: '3', name: 'HTML' },
+  { id: '4', name: '기술면접' },
+  { id: '5', name: '인성면접' },
+];
 
 export default function Create() {
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const addItems = name => {
+    setSelectedItems(prev => {
+      const cte = category.find(cte => cte.name === name);
+      if (!cte || prev.includes(cte)) {
+        return prev;
+      }
+      return [...prev, cte];
+    });
+  };
+
+  const removeItems = name => {
+    setSelectedItems(prev => prev.filter(item => item.name !== name));
+  };
+
   const onSubmit = e => {
     e.preventDefault();
   };
   return (
     <Container>
-      <Button lg primary icon={Upload}>
-        Upload
-      </Button>
+      <Header>
+        <div
+          css={css`
+            width: 100%;
+          `}
+        >
+          <Input
+            css={theme => css`
+              ${theme.typography.subtitle[4]};
+              border: none;
+              margin-right: auto;
+            `}
+            placeholder="Title"
+          />
+          <Select
+            items={category.map(cte => cte.name)}
+            selectedItems={selectedItems.map(cte => cte.name)}
+            addItems={addItems}
+            removeItems={removeItems}
+          />
+        </div>
+        <Button sm round primary icon={Upload}>
+          Upload
+        </Button>
+      </Header>
       <List>
         <Item>
           <span>애니메이션을 최적화하기 위한 방법을 얘기해보세요.</span>
@@ -72,7 +121,7 @@ export default function Create() {
             ${theme.typography.subtitle[4]};
             border: none;
           `}
-          placeholder="Title"
+          placeholder="Question"
         />
         <Bar>
           <Button type="button" sm text tertiary icon={Pen}>
@@ -88,7 +137,7 @@ export default function Create() {
             Delete
           </Button>
         </Bar>
-        <Textarea placeholder="내용을 입력하세요!" />
+        <Textarea placeholder="모범답안을 입력하세요." />
       </Form>
     </Container>
   );
@@ -120,6 +169,13 @@ const Controller = styled.div`
   & > *:first-child {
     margin-right: 1em;
   }
+`;
+
+// * Header
+const Header = styled.header`
+  position: relative;
+  display: flex;
+  align-items: flex-end;
 `;
 
 // * Bar
