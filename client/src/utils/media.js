@@ -4,6 +4,12 @@ const tablet = '768px';
 const laptop = '1024px';
 const desktop = '1368px';
 
+export const query = {
+  tablet: `(min-width: ${tablet})`,
+  laptop: `(min-width: ${laptop})`,
+  desktop: `(min-width: ${desktop})`,
+};
+
 const media = {
   tablet: cssObj => css`
     @media screen and (min-width: ${tablet}) {

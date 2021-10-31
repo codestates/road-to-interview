@@ -13,35 +13,11 @@ Flex.defaultProps = {
 };
 
 Flex.propTypes = {
-  direction: PropTypes.oneOf([
-    'row',
-    'row-reverse',
-    'column',
-    'column-reverse',
-  ]),
+  direction: PropTypes.oneOf(['row', 'row-reverse', 'column', 'column-reverse']),
   wrap: PropTypes.oneOf(['nowrap', 'wrap', 'reverse']),
-  justifyContent: PropTypes.oneOf([
-    'start',
-    'end',
-    'center',
-    'between',
-    'around',
-  ]),
-  alignContent: PropTypes.oneOf([
-    'stretch',
-    'start',
-    'end',
-    'center',
-    'between',
-    'around',
-  ]),
-  alignItems: PropTypes.oneOf([
-    'stretch',
-    'start',
-    'end',
-    'center',
-    'baseline',
-  ]),
+  justifyContent: PropTypes.oneOf(['start', 'end', 'center', 'between', 'around']),
+  alignContent: PropTypes.oneOf(['stretch', 'start', 'end', 'center', 'between', 'around']),
+  alignItems: PropTypes.oneOf(['stretch', 'start', 'end', 'center', 'baseline']),
   columnGap: PropTypes.string,
   rowGap: PropTypes.string,
 };
@@ -89,7 +65,7 @@ const rowGapToFlex = gap => {
   if (gap.trim() === '') return;
   return css`
     & > *:not(:last-child) {
-      margin-left: ${gap};
+      margin-right: ${gap};
     }
   `;
 };
