@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { fontSizes, spacing } from '@/styles';
+import { useRef } from 'react';
 /*
   페이지네이션 내부 아이템 종류: next, prev, ellipsis, number
   props: totalPage, page, setPage, siblingCount, boundaryCount
@@ -8,30 +9,53 @@ import { fontSizes, spacing } from '@/styles';
 
 Pagination.defaultProps = {
   totalPage: 24,
-  siblingCount: 1,
-  boundaryCount: 1,
+  page: 1,
 };
 
-export default function Pagination({ totalPage, page, setPage, siblingCount, boundaryCount }) {
+export default function Pagination({ totalPage, page, setPage }) {
+  const enableSpace = useRef(7);
+
   // mockup
-  const items = [
-    { value: '이전', disable: true, selected: false },
-    { value: '1', disable: false, selected: true },
-    { value: '2', disable: false, selected: false },
-    { value: '3', disable: false, selected: false },
-    { value: '4', disable: false, selected: false },
-    { value: '...', disable: true, selected: false },
-    { value: '63', disable: false, selected: false },
-    { value: '다음', disable: false, selected: false },
+  const mockup = [
+    { value: '이전', disable: true },
+    { value: 1, disable: false },
+    { value: 2, disable: false },
+    { value: 3, disable: false },
+    { value: 4, disable: false },
+    { value: 5, disable: false },
+    { value: '...', disable: true },
+    { value: 63, disable: false },
+    { value: '다음', disable: false },
   ];
-  // selected -> index === page
+
+  // * 첫 페이지 , 마지막 페이지 처리
+  // startPage = 1, endPage = totalPage
+  // * sibling 처리
+  // page === 1 -> [{value: 2, disable: false}]
+  // page === totalPage -> [{value: totalPage - 1, disable: false}]
+
+  // page === 3 -> [{value: 2, disable: false}, {value: 4, disable: false}]
+  // page === 4 -> [{value: 3, disable: false}, {value: 5, disable: false}]
+
+  // * prevSibling
+  // page - 1(start) - 1 -> 첫 페이지와 현재 페이지 사이의 공간
+  // 전체 칸 수(7) - 위에서 추가된 페이지 => prevSibling 들어갈 수 있는 공간 크기
+  // 첫 페이지와 현재 페이지 사이의 공간 < prevSibling 들어갈 수 있는 공간 크기 => prevSibling을 먼저 채우고 남는 것을 nextSibling에 배정하기
+
+  // * nextSibling
+  // totalPage - page - 1 -> 현재 페이지와 마지막 페이지 사이의 공간
+  // 전체 칸 수(7) - 위에서 추가된 페이지 => nextSibling 들어갈 수 있는 공간 크기
+  // 첫 페이지와 현재 페이지 사이의 공간 < nextSibling 들어갈 수 있는 공간 크기 => 배정하기 나머지는 빈칸으로 유지
+
+  // * disable 처리
   // disable ellipsis
   // disable page 1일 때, 이전 버튼
   // disable page === totalPage 일 때, 다음 버튼
+
   return (
     <Container>
-      {items.map(({ value, disable, selected }, index) => (
-        <Item selected={page === index} key={index}>
+      {mockup.map(({ value, disable }, index) => (
+        <Item selected={page === value} disable={disable} key={index}>
           {value}
         </Item>
       ))}
