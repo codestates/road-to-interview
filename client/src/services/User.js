@@ -16,18 +16,14 @@ export default class User {
   }
 
   // 로그아웃
-  async getLogout(accessToken) {
-    const response = await this.client.get('/logout', {
-      headers: { Authorization: `${accessToken}` },
-    });
+  async getLogout() {
+    const response = await this.client.get('/logout');
     return response.data;
   }
 
   // 유저 권한 인증 (refresh token)
-  async getAuth(accessToken) {
-    const response = await this.client.get('/users', {
-      headers: { Authorization: `${accessToken}` },
-    });
+  async getAuth() {
+    const response = await this.client.get('/users');
     return response.data;
   }
 }

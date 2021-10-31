@@ -4,7 +4,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import { logout } from '@/store/reducers/users';
+import { logout } from '@/store/creator/usersCreator';
 import { useMode } from '@/contexts/ModeContext';
 import { spacing } from '@/styles';
 import { ReactComponent as LogoLight } from 'assets/logo-light.svg';
@@ -33,11 +33,11 @@ export default function Nav() {
     setOpen(prev => !prev);
   };
 
-  const { userInfo, accessToken } = useSelector(state => state.users);
+  const { userInfo } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
   const onLogout = () => {
-    dispatch(logout(accessToken));
+    dispatch(logout);
   };
 
   const { pathname } = useLocation();
