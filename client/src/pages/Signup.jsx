@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { signup } from '@/store/reducers/users';
+import { signup } from '@/store/creator/usersCreator';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Input from '@/components/elements/Input';

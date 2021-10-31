@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { login } from '@/store/reducers/users';
+import { login } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
