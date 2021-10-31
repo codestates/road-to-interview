@@ -1,8 +1,8 @@
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import { spacing } from '@/styles';
+import { spacing, palette, fontSizes } from '@/styles';
 import Button from '@/components/elements/Button';
 import { ReactComponent as Chv } from 'assets/chv-right.svg';
 import { ReactComponent as Job } from 'assets/job-ill.svg';
@@ -63,6 +63,134 @@ export default function Landing() {
           <Text>인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!</Text>
         </Section>
       </Sections>
+      <Section
+        css={css`
+          height: 50vh;
+          position: relative;
+          top: ${spacing[6]};
+        `}
+      >
+        <Footer>
+          <div
+            css={css`
+              margin-top: auto;
+              margin-bottom: auto;
+            `}
+          >
+            <div
+              css={css`
+                font-size: ${fontSizes[800]};
+                text-align: center;
+                margin-bottom: ${spacing[3]};
+              `}
+            >
+              TEAM KKAN-BU
+            </div>
+            <div
+              css={css`
+                display: flex;
+                height: 25vh;
+              `}
+            >
+              <a href="https://github.com/scvd03">
+                <TeamProfile>
+                  <TeamImg>
+                    <img
+                      css={css`
+                        width: 100%;
+                        height: 100%;
+                      `}
+                      src="/images/intae.png"
+                      alt="intae"
+                    />
+                  </TeamImg>
+                  <TeamName>김인태 Github</TeamName>
+                </TeamProfile>
+              </a>
+              <a href="https://github.com/yg-kim-korean">
+                <TeamProfile>
+                  <TeamImg>
+                    <img
+                      css={css`
+                        width: 100%;
+                        height: 100%;
+                      `}
+                      src="/images/yonggun.png"
+                      alt="intae"
+                    />
+                  </TeamImg>
+                  <TeamName>김용건 Github</TeamName>
+                </TeamProfile>
+              </a>
+              <a href="https://github.com/jvn4dev">
+                <TeamProfile>
+                  <TeamImg>
+                    <img
+                      css={css`
+                        width: 100%;
+                        height: 100%;
+                      `}
+                      src="/images/sungjun.png"
+                      alt="intae"
+                    />
+                  </TeamImg>
+                  <TeamName>정성준 Github</TeamName>
+                </TeamProfile>
+              </a>
+              <a href="https://github.com/findmytrueself">
+                <TeamProfile>
+                  <TeamImg>
+                    <img
+                      css={css`
+                        width: 100%;
+                        height: 100%;
+                      `}
+                      src="/images/hun.png"
+                      alt="intae"
+                    />
+                  </TeamImg>
+                  <TeamName>임&nbsp;&nbsp;&nbsp;훈 Github</TeamName>
+                </TeamProfile>
+              </a>
+            </div>
+          </div>
+          <div
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 80vw;
+              /* border: solid; */
+              margin: auto;
+            `}
+          >
+            <a href="https://github.com/codestates/road-to-interview/wiki">
+              <Button
+                css={css`
+                  width: 9rem;
+                  font-size: ${fontSizes[100]};
+                  margin-left: ${spacing[4]};
+                  margin-right: ${spacing[3]};
+                `}
+                secondary
+                md
+              >
+                Wiki페이지로 가기
+              </Button>
+            </a>
+            <Button
+              css={css`
+                width: 8rem;
+                font-size: ${fontSizes[100]};
+              `}
+              tertiary
+              md
+            >
+              관리자 로그인
+            </Button>
+          </div>
+        </Footer>
+      </Section>
     </Layout>
   );
 }
@@ -145,4 +273,30 @@ const Text = styled.p`
   line-height: 1.5em;
   word-spacing: 2px;
   ${({ theme }) => theme.typography.body[1]}
+`;
+
+// * Footer
+const Footer = styled.div`
+  background: ${palette.light.gray[800]};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  color: ${palette.light.gray[300]};
+`;
+
+const TeamName = styled.div`
+  font-size: ${fontSizes[300]};
+  color: ${palette.light.gray[400]};
+  text-align: center;
+`;
+
+const TeamProfile = styled.div`
+  margin: auto;
+`;
+
+const TeamImg = styled.div`
+  height: 20vh;
 `;
