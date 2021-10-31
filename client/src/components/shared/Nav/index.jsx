@@ -33,11 +33,11 @@ export default function Nav() {
     setOpen(prev => !prev);
   };
 
-  const { userInfo, accessToken } = useSelector(state => state.users);
+  const { userInfo } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
   const onLogout = () => {
-    dispatch(logout(accessToken));
+    dispatch(logout);
   };
 
   const { pathname } = useLocation();

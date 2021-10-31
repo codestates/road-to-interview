@@ -27,10 +27,10 @@ export const login = data => async dispatch => {
   }
 };
 // 로그아웃 요청
-export const logout = accessToken => async dispatch => {
+export const logout = async dispatch => {
   try {
     dispatch({ type: logoutRequest });
-    await USER_API.getLogout(accessToken);
+    await USER_API.getLogout();
     dispatch({ type: logoutSuccess });
   } catch (e) {
     dispatch({ type: logoutFailure, payload: e.message });
@@ -47,14 +47,12 @@ export const signup = data => async dispatch => {
   }
 };
 // 권한인증 요청
-export const auth =
-  (accessToken = '') =>
-  async dispatch => {
-    try {
-      dispatch({ type: authRequest });
-      const data = await USER_API.getAuth(accessToken);
-      dispatch({ type: authSuccess, payload: data });
-    } catch (e) {
-      dispatch({ type: authFailure, payload: e.message });
-    }
-  };
+export const auth = async dispatch => {
+  try {
+    dispatch({ type: authRequest });
+    const data = await USER_API.getAuth();
+    dispatch({ type: authSuccess, payload: data });
+  } catch (e) {
+    dispatch({ type: authFailure, payload: e.message });
+  }
+};

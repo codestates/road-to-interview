@@ -12,7 +12,7 @@ function AuthHoc(Component) {
   // 로그인이 풀려있을 때, 자동로그인
   useEffect(() => {
     if (!userInfo) {
-      dispatch(auth());
+      dispatch(auth);
     }
   }, [userInfo, dispatch]);
 
