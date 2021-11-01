@@ -1,20 +1,20 @@
-import { auth } from '@/store/reducers/users';
+import { auth } from '@/store/creator/usersCreator';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 function AuthHoc(Component) {
   const dispatch = useDispatch();
-  const { authLoading, authDone, userInfo, accessToken } = useSelector(state => state.users);
+  const { authLoading, authDone, userInfo } = useSelector(state => state.users);
 
   const history = useHistory();
 
   // 로그인이 풀려있을 때, 자동로그인
   useEffect(() => {
     if (!userInfo) {
-      dispatch(auth(accessToken));
+      dispatch(auth);
     }
-  }, [userInfo, accessToken, dispatch]);
+  }, [userInfo, dispatch]);
 
   // 권한인증이 실패한 경우 -> 로그인 페이지로 라우팅
   useEffect(() => {

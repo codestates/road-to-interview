@@ -6,7 +6,7 @@ import { Switch } from 'react-router';
 import Global from '@/styles/Global';
 import { theme as THEME } from '@/styles';
 import { useMode } from '@/contexts/ModeContext';
-import { auth } from '@/store/reducers/users';
+import { auth } from '@/store/creator/usersCreator';
 
 import RouteWithLayout from '@/hoc/RouteWithLayout';
 import MainLayout from '@/components/layouts/MainLayout';
@@ -27,7 +27,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(auth());
+    dispatch(auth);
   }, [dispatch]);
 
   return (

@@ -1,3 +1,5 @@
+// * Action Type
+
 // 로그인 요청
 export const loginRequest = 'users/login/pending';
 export const loginSuccess = 'users/login/fullfilled';
