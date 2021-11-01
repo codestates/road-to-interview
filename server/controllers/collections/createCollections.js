@@ -16,12 +16,12 @@ module.exports = (req, res) => {
       .send({ message: "컬렉션 추가하기 : 로그인이 만료되었습니다." });
     return;
   }
-  const { users_id } = accessTokenData;
+  const { id } = accessTokenData;
 
   collections
     .findOrCreate({
       where: {
-        users_id,
+        users_id: id,
         interviews_id,
       },
     })

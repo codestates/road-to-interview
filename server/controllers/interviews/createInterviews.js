@@ -10,6 +10,7 @@ module.exports = (req, res) => {
     return;
   }
   const { id } = accessTokenData;
+
   interviews
     .create({
       title,
@@ -24,7 +25,7 @@ module.exports = (req, res) => {
       } else {
         interviews_id = interview.dataValues.id;
         new_cate = categorys_data.map((el) => {
-          return { categorys_id: el["id"], interviews_id };
+          return { categorys_id: el["categorys_id"], interviews_id };
         });
         cate_inter
           .bulkCreate(new_cate)
