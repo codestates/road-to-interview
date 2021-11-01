@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import Button from '../elements/Button';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
+import Loading from '../elements/Loading';
 const getWebcam = callback => {
   try {
     const constraints = {
@@ -19,10 +20,15 @@ const getWebcam = callback => {
 
 const VideoRecorder = ({ countHandler }) => {
   const [playing, setPlaying] = useState(null);
+  const [isHint, setIsHint] = useState(false);
   const [data, setData] = useState([]);
   const [src, setSrc] = useState(null);
-  console.log(src);
   const videoRef = useRef(null);
+  console.log(videoRef);
+  console.log(playing);
+  const hintHandler = () => {
+    setIsHint(true);
+  };
   useEffect(() => {
     if (!playing && data.length !== 0) {
       setSrc(window.URL.createObjectURL(new Blob([data], { type: 'video/webm;codecs=vp9' })));
@@ -60,61 +66,71 @@ const VideoRecorder = ({ countHandler }) => {
         flex-direction: column;
         ${media.desktop(css`
           position: relative;
-          bottom: ${spacing[7]};
+          bottom: ${spacing[6]};
         `)}
       `}
     >
+      {videoRef.current === null && playing === null ? (
+        <div
+          css={css`
+            width: 90vw;
+            height: 38vh;
+            ${media.desktop(css`
+              width: 45vw;
+              height: 61.5vh;
+            `)}
+          `}
+        >
+          <Loading />
+        </div>
+      ) : null}
       {playing ? <Video ref={videoRef} autoPlay muted /> : null}
       {!playing && src ? <Video src={src} autoPlay controls /> : null}
       {playing ? (
         <div
           css={css`
-            margin-top: ${spacing[6]};
+            width: 90vw;
+            margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.desktop(css`
               margin-top: ${spacing[3]};
+              width: 45vw;
             `)}
           `}
         >
-          <Button
-            tertiary
-            lg
-            css={css`
-              width: 90vw;
-              ${media.desktop(css`
-                width: 45vw;
-              `)}
-            `}
-            onClick={() => startOrStop()}
-          >
+          <Button tertiary lg onClick={() => startOrStop()}>
             그만하기
           </Button>
         </div>
       ) : (
         <div
           css={css`
-            margin-top: ${spacing[6]};
+            width: 90vw;
+            margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.desktop(css`
+              width: 45vw;
               margin-top: ${spacing[3]};
             `)}
           `}
         >
-          <Button
-            css={css`
-              width: 90vw;
-              ${media.desktop(css`
-                width: 45vw;
-              `)}
-            `}
-            onClick={() => startOrStop()}
-            primary
-            lg
-          >
+          <Button onClick={() => startOrStop()} primary lg>
             시작하기
           </Button>
         </div>
       )}
+      <div
+        css={css`
+          width: 90vw;
+          ${media.desktop(css`
+            width: 45vw;
+          `)}
+        `}
+      >
+        <Button secondary lg>
+          힌트보기
+        </Button>
+      </div>
     </div>
   );
 };
