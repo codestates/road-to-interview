@@ -41,24 +41,23 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
   return (
     <div
       css={css`
+        /* border: solid; */
         width: 100vw;
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
+        position: relative;
+        top: ${spacing[4]};
         ${media.desktop(css`
-          position: relative;
-
-          right: 1rem;
-          width: 50vw;
+          display: none;
         `)}
       `}
     >
       <div
         css={css`
+          position: relative;
+          bottom: 0.1em;
           font-size: ${fontSizes[900]};
-          ${media.desktop(css`
-            margin-right: ${spacing[8]};
-          `)}
         `}
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -67,9 +66,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
         <Button
           onClick={() => setStartCount(true)}
           css={css`
-            position: relative;
-            top: 0.2rem;
-            margin: auto ${spacing[1]};
             cursor: pointer;
           `}
           primary
@@ -83,9 +79,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
             setSeconds(0);
           }}
           css={css`
-            position: relative;
-            top: 0.2rem;
-            margin: auto ${spacing[1]};
             cursor: pointer;
           `}
           secondary
@@ -95,8 +88,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
         </Button>
         <Button
           css={css`
-            position: relative;
-            top: 0.2rem;
             margin: auto ${spacing[1]};
             cursor: pointer;
           `}
@@ -107,8 +98,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
         </Button>
         <Button
           css={css`
-            position: relative;
-            top: 0.2rem;
             margin: auto ${spacing[1]};
             cursor: pointer;
           `}

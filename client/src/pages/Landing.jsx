@@ -89,7 +89,7 @@ export default function Landing() {
             <div
               css={css`
                 display: flex;
-                height: 25vh;
+                height: 20vh;
               `}
             >
               <a href="https://github.com/scvd03">
@@ -104,7 +104,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>김인태 Github</TeamName>
+                  <TeamName>김인태</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
               <a href="https://github.com/yg-kim-korean">
@@ -119,7 +120,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>김용건 Github</TeamName>
+                  <TeamName>김용건</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
               <a href="https://github.com/jvn4dev">
@@ -134,7 +136,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>정성준 Github</TeamName>
+                  <TeamName>정성준</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
               <a href="https://github.com/findmytrueself">
@@ -149,7 +152,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>임&nbsp;&nbsp;&nbsp;훈 Github</TeamName>
+                  <TeamName>임&nbsp;&nbsp;&nbsp;훈</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
             </div>
@@ -165,29 +169,10 @@ export default function Landing() {
             `}
           >
             <a href="https://github.com/codestates/road-to-interview/wiki">
-              <Button
-                css={css`
-                  width: 9rem;
-                  font-size: ${fontSizes[100]};
-                  margin-left: ${spacing[4]};
-                  margin-right: ${spacing[3]};
-                `}
-                secondary
-                md
-              >
+              <Button secondary lg>
                 Wiki페이지로 가기
               </Button>
             </a>
-            <Button
-              css={css`
-                width: 8rem;
-                font-size: ${fontSizes[100]};
-              `}
-              tertiary
-              md
-            >
-              관리자 로그인
-            </Button>
           </div>
         </Footer>
       </Section>
@@ -294,9 +279,12 @@ const TeamName = styled.div`
 `;
 
 const TeamProfile = styled.div`
-  margin: auto;
+  margin: ${spacing[6]} 0;
+  ${media.desktop(css`
+    margin: 0 ${spacing[4]};
+  `)}
 `;
 
 const TeamImg = styled.div`
-  height: 20vh;
+  height: 15vh;
 `;
