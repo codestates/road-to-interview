@@ -1,17 +1,17 @@
 import axios from 'axios';
-import Interview from './Interview';
 
 import store from '@/store';
-import User from './User';
 
-const { accessToken } = store.getState().users;
+import Interview from './Interview';
+import User from './User';
+import Category from './Category';
+
 const dispatch = store.dispatch;
 
 const instance = axios.create({
   baseURL: 'https://sjitygfree.ga',
   withCredentials: true,
   headers: {
-    Authorization: `${accessToken}`,
     'Content-Type': 'application/json',
   },
 });
@@ -45,3 +45,4 @@ const instance = axios.create({
 
 export const USER_API = new User(instance);
 export const INTERVIEW_API = new Interview(instance);
+export const CATEGORY_API = new Category(instance);

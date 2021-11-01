@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -10,18 +12,26 @@ import Modal from '@/components/shared/Modal';
 import Table from '@/components/shared/Table';
 import Pagination from '@/components/shared/Pagination';
 
-import { INTERVIEWS } from '@/constants/mock';
+import { getInterviews } from '@/store/creator/InterviewsCreator';
 import Tabs from '@/components/shared/Tab';
 import { spacing } from '@/styles';
-import { useHistory } from 'react-router-dom';
 
 export default function InterviewList() {
-  // TODO: 선택한 인터뷰 상태 값 필요 -> 모달창에 전달할..
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState(null);
 
-  const onOpen = () => {
+  const { interviews, totalPage, getInterviewsLoading, getInterviewsError } = useSelector(state => state.interviews);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getInterviews({ page, size: 10, category: '' }));
+  }, [page, dispatch]);
+
+  const onOpen = interview => {
     setOpen(true);
+    setSelected(interview);
   };
   const onClose = () => {
     setOpen(false);
@@ -29,6 +39,8 @@ export default function InterviewList() {
 
   const { push } = useHistory();
 
+  if (getInterviewsLoading) return <span>로딩 중</span>;
+  if (getInterviewsError) return <span>{getInterviewsError}</span>;
   return (
     <div>
       <Tabs
@@ -42,9 +54,9 @@ export default function InterviewList() {
         <Tabs.Tab id="3">백엔드</Tabs.Tab>
       </Tabs>
       <div>
-        {INTERVIEWS.map(interview => (
+        {interviews?.map(interview => (
           <Table
-            key={interview.id}
+            key={interview.interviews_id}
             css={css`
               margin-bottom: 2.5rem;
             `}
@@ -73,7 +85,7 @@ export default function InterviewList() {
               </p>
             </Table.Body>
             <Table.FooterTop>
-              <UserInfo nickname={interview.author.nickname} />
+              <UserInfo nickname={interview.userInfo.nickname} />
             </Table.FooterTop>
             <Table.FooterStart
               css={css`
@@ -88,23 +100,23 @@ export default function InterviewList() {
                 }
               `}
             >
-              {interview.categorys.map(category => (
-                <Tag key={category.id}>{category.name}</Tag>
+              {interview.categorys?.map(category => (
+                <Tag key={category.categorys_id}>{category.category}</Tag>
               ))}
             </Table.FooterStart>
             <Table.FooterEnd>
-              <Button sm secondary onClick={onOpen}>
+              <Button sm secondary onClick={() => onOpen(interview)}>
                 도전하기
               </Button>
             </Table.FooterEnd>
           </Table>
         ))}
-        <Pagination page={page} setPage={setPage} />
+        <Pagination totalPage={parseInt(totalPage, 10)} page={page} setPage={setPage} />
       </div>
       <Portal selector="#modal">
         <Modal open={open} onClose={onClose}>
           <DrawerBody>
-            <Modaltitle>안내사항</Modaltitle>
+            <Modaltitle>{selected?.title}</Modaltitle>
             <Button
               onClick={() => push('/test/1')}
               primary
