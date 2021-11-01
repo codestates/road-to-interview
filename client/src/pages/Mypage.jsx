@@ -26,6 +26,8 @@ export default function Mypage() {
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
   const password = useRef();
   password.current = watch('password');
 
@@ -86,9 +88,9 @@ export default function Mypage() {
             margin-top: 1.75rem;
           `}
         >
-          <ButtonBox>
+          <ButtonBox onClick={() => history.push('/collection')}>
             <CollectionIcon width="1.5rem" height="1.5rem" />
-            <Label>찜목록</Label>
+            <Label>컬렉션</Label>
           </ButtonBox>
           <ButtonBox>
             <QuestionIcon width="1.5rem" height="1.5rem" />
@@ -166,5 +168,6 @@ const ButtonBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 `;
 const Form = styled.form``;
