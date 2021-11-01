@@ -1,67 +1,115 @@
+import { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { fontSizes, spacing } from '@/styles';
-import { useRef } from 'react';
-/*
-  페이지네이션 내부 아이템 종류: next, prev, ellipsis, number
-  props: totalPage, page, setPage, siblingCount, boundaryCount
-*/
 
 Pagination.defaultProps = {
-  totalPage: 24,
+  totalPage: 63,
   page: 1,
 };
 
 export default function Pagination({ totalPage, page, setPage }) {
   const enableSpace = useRef(7);
+  const [items, setItems] = useState(calcItems(totalPage, page, enableSpace.current));
 
-  // mockup
-  const mockup = [
-    { value: '이전', disable: true },
-    { value: 1, disable: false },
-    { value: 2, disable: false },
-    { value: 3, disable: false },
-    { value: 4, disable: false },
-    { value: 5, disable: false },
-    { value: '...', disable: true },
-    { value: 63, disable: false },
-    { value: '다음', disable: false },
-  ];
+  const onSetPage = value => {
+    if (value === '...') return;
+    if (value === '이전') {
+      if (page > 1) {
+        setPage(prev => prev - 1);
+      }
+      return;
+    } else if (value === '다음') {
+      if (page < totalPage) {
+        setPage(prev => prev + 1);
+      }
+      return;
+    }
 
-  // * 첫 페이지 , 마지막 페이지 처리
-  // startPage = 1, endPage = totalPage
-  // * sibling 처리
-  // page === 1 -> [{value: 2, disable: false}]
-  // page === totalPage -> [{value: totalPage - 1, disable: false}]
+    setPage(value);
+  };
 
-  // page === 3 -> [{value: 2, disable: false}, {value: 4, disable: false}]
-  // page === 4 -> [{value: 3, disable: false}, {value: 5, disable: false}]
-
-  // * prevSibling
-  // page - 1(start) - 1 -> 첫 페이지와 현재 페이지 사이의 공간
-  // 전체 칸 수(7) - 위에서 추가된 페이지 => prevSibling 들어갈 수 있는 공간 크기
-  // 첫 페이지와 현재 페이지 사이의 공간 < prevSibling 들어갈 수 있는 공간 크기 => prevSibling을 먼저 채우고 남는 것을 nextSibling에 배정하기
-
-  // * nextSibling
-  // totalPage - page - 1 -> 현재 페이지와 마지막 페이지 사이의 공간
-  // 전체 칸 수(7) - 위에서 추가된 페이지 => nextSibling 들어갈 수 있는 공간 크기
-  // 첫 페이지와 현재 페이지 사이의 공간 < nextSibling 들어갈 수 있는 공간 크기 => 배정하기 나머지는 빈칸으로 유지
-
-  // * disable 처리
-  // disable ellipsis
-  // disable page 1일 때, 이전 버튼
-  // disable page === totalPage 일 때, 다음 버튼
+  useEffect(() => {
+    setItems(calcItems(totalPage, page, enableSpace.current));
+  }, [totalPage, page]);
 
   return (
     <Container>
-      {mockup.map(({ value, disable }, index) => (
-        <Item selected={page === value} disable={disable} key={index}>
+      {items.map(({ value, disable }, index) => (
+        <Item selected={page === value} disable={disable} key={index} onClick={() => onSetPage(value)}>
           {value}
         </Item>
       ))}
     </Container>
   );
 }
+
+function calcItems(totalPage, page, enableSpace) {
+  let items = [];
+  // * 이전, 다음 버튼
+  const prev = { value: '이전', disable: page === 1 };
+  const next = { value: '다음', disable: page === totalPage };
+
+  // * enableSpace 공간보다 totalPage가 작을 때 처리하기
+  if (enableSpace >= totalPage) {
+    items = new Array(totalPage).fill(0).map((_, index) => ({ value: index + 1, disable: false }));
+    return [prev, ...items, next];
+  }
+  // * 첫 페이지 , 현재 페이지, 마지막 페이지 처리
+  // startPage = 1, endPage = totalPage
+  const currentPage = { value: page, disable: false };
+  // * sibling 처리
+  let prevSibling = [];
+  let nextSibling = [];
+
+  const startToCurrentSpace = page - 1;
+  const currentToEndSpace = totalPage - page;
+
+  // * ellipse 처리 (prevSibling)
+  if (0 < startToCurrentSpace && startToCurrentSpace <= 3) {
+    // 첫 페이지와 현재 페이지 사이의 공간 <= prevSibling 들어갈 수 있는 공간 크기 -> ellipse 없이..
+    prevSibling = new Array(startToCurrentSpace)
+      .fill(0)
+      .map((_, index) => ({ value: page - (index + 1), disable: false }))
+      .reverse();
+  }
+  if (startToCurrentSpace > 3) {
+    // ellipse or 남은 공간 채우기
+    const restSpace = 6 - currentToEndSpace - 2;
+    const prevSpace = restSpace < 0 ? 1 : restSpace;
+    const additionalItems = new Array(prevSpace)
+      .fill(0)
+      .map((_, idx) => ({ value: page - (idx + 1), disable: false }))
+      .reverse();
+    prevSibling.push(...additionalItems);
+    if (additionalItems.shift()?.value !== 2) {
+      prevSibling.unshift({ value: '...', disable: true });
+    }
+    prevSibling.unshift({ value: 1, disable: false });
+  }
+
+  // * ellipse 처리 (nextSibling)
+  if (0 < currentToEndSpace && currentToEndSpace <= 3) {
+    // 현재 페이지와 마지막 페이지 사이의 공간 <= nextSibling 들어갈 수 있는 공간 크기 -> ellipse 없이..
+    nextSibling = new Array(currentToEndSpace).fill(0).map((_, index) => ({ value: page + index + 1, disable: false }));
+  }
+  if (currentToEndSpace > 3) {
+    // ellipse or 남은 공간 채우기
+    const restSpace = 6 - prevSibling.length - 2;
+    if (restSpace > 0) {
+      const additionalItems = new Array(restSpace).fill(0).map((_, idx) => ({ value: page + idx + 1, disable: false }));
+      nextSibling.push(...additionalItems);
+      if (additionalItems.pop()?.value !== totalPage - 1) {
+        nextSibling.push({ value: '...', disable: true });
+      }
+      nextSibling.push({ value: totalPage, disable: false });
+    }
+  }
+
+  return [prev, ...prevSibling, currentPage, ...nextSibling, next];
+}
+
+// * styling
 
 const Container = styled.ul`
   display: flex;
