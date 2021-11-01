@@ -20,7 +20,6 @@ module.exports = (req, res) => {
       type: sequelize.QueryTypes.SELECT,
     })
     .then((result) => {
-      console.log(result);
       if (result[0].users_id === id) {
         collections
           .destroy({
@@ -31,7 +30,9 @@ module.exports = (req, res) => {
           })
           .catch((error) => {
             console.log(error);
-            res.status(500).send({ message: "컬렉션 삭제하기 Server Error" }); // Server error
+            res
+              .status(500)
+              .send({ error, message: "컬렉션 삭제하기 Server Error" }); // Server error
           });
       } else {
         res.status(400).send({ message: "작성자가 아닙니다." });
@@ -42,7 +43,7 @@ module.exports = (req, res) => {
       console.log(error);
       res
         .status(500)
-        .send({ message: "컬렉션 삭제하기 user 찾기 Server Error" }); // Server error
+        .send({ error, message: "컬렉션 삭제하기 user 찾기 Server Error" }); // Server error
       return;
     });
 };

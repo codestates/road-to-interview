@@ -29,6 +29,8 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "인터뷰 질문 리스트 Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "인터뷰 질문 리스트 Server Error" }); // Server error
     });
 };

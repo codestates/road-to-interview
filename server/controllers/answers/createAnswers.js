@@ -23,6 +23,6 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "답변 제출 : Server Error" }); // Server error
+      res.status(500).send({ error, message: "답변 제출 : Server Error" }); // Server error
     });
 };

@@ -38,6 +38,8 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "컬렉션 추가하기 : Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "컬렉션 추가하기 : Server Error" }); // Server error
     });
 };

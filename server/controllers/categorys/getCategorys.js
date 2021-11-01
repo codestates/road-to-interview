@@ -14,6 +14,8 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "카테고리 불러오기 Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "카테고리 불러오기 Server Error" }); // Server error
     });
 };

@@ -66,7 +66,10 @@ module.exports = (req, res) => {
                   console.log(error);
                   res
                     .status(500)
-                    .send({ message: "인터뷰 생성 questions : Server Error" }); // Server error
+                    .send({
+                      error,
+                      message: "인터뷰 생성 questions : Server Error",
+                    }); // Server error
                 });
             }
           })
@@ -74,12 +77,17 @@ module.exports = (req, res) => {
             console.log(error);
             res
               .status(500)
-              .send({ message: "인터뷰 생성 cate_inters : Server Error" }); // Server error
+              .send({
+                error,
+                message: "인터뷰 생성 cate_inters : Server Error",
+              }); // Server error
           });
       }
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "인터뷰 생성 interview : Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "인터뷰 생성 interview : Server Error" }); // Server error
     });
 };
