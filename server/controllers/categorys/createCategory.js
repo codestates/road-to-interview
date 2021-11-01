@@ -16,7 +16,7 @@ module.exports = (req, res) => {
       .send({ message: "카테고리 등록하기 : 로그인이 만료되었습니다." });
     return;
   }
-  const { users_id } = accessTokenData;
+  const { id } = accessTokenData;
 
   categorys
     .findOrCreate({
@@ -25,7 +25,7 @@ module.exports = (req, res) => {
       },
       defaults: {
         category: category,
-        users_id: users_id,
+        users_id: id,
       },
     })
     .then(([categoryss, created]) => {

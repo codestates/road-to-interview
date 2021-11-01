@@ -9,12 +9,12 @@ module.exports = (req, res) => {
     res.status(401).send({ message: "인터뷰 생성 : 로그인이 만료되었습니다." });
     return;
   }
-  const { users_id } = accessTokenData;
+  const { id } = accessTokenData;
   interviews
     .create({
       title,
       description,
-      users_id,
+      users_id: id,
     })
     .then((interview) => {
       if (!interview) {

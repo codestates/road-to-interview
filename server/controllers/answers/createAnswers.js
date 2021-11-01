@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     res.status(401).send({ message: "답변 제출 : 로그인이 만료되었습니다." });
     return;
   }
-  const { users_id } = accessTokenData;
+  const { id } = accessTokenData;
 
   let created_answers = [];
   //[{answer,users_id,questions_id}]
