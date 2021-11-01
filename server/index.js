@@ -54,6 +54,10 @@ app.get("/questions/:id", controllers.getQuestions);
 //collection
 app.post("/collections/:id", controllers.createCollections);
 app.get("/collections", controllers.getCollections);
+//categorys
+app.post("/categorys", controllers.createCategory);
+app.get("/categorys", controllers.getCategorys);
+
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행합니다.
