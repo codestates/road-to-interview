@@ -18,7 +18,7 @@ export default function Landing() {
       <Header>
         <Box>
           <Title>
-            Road To <HighLight>Interview</HighLight>{' '}
+            Road To <HighLight>Interview</HighLight>
           </Title>
           <Caption>Rehearsal for Practicing for a Job Interview</Caption>
           <SubTitle>Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.</SubTitle>
@@ -33,14 +33,14 @@ export default function Landing() {
         </Box>
         <Box>
           <Illustration>
-            <Job />
+            <Job width="100%" height="100%" />
           </Illustration>
         </Box>
       </Header>
       <Sections>
         <Section>
           <Illustration>
-            <Test />
+            <Test width="100%" height="100%" />
           </Illustration>
           <SectionTitle>인터뷰 테스트</SectionTitle>
           <Text>
@@ -50,14 +50,14 @@ export default function Landing() {
         </Section>
         <Section>
           <Illustration>
-            <Feedback />
+            <Feedback width="100%" height="100%" />
           </Illustration>
           <SectionTitle>개인 피드백</SectionTitle>
           <Text>녹화된 테스트 영상과 관리자가 준비한 모범 답변을 보면서 피드백하세요!</Text>
         </Section>
         <Section>
           <Illustration>
-            <Share />
+            <Share width="100%" height="100%" />
           </Illustration>
           <SectionTitle>공유하기</SectionTitle>
           <Text>인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!</Text>
@@ -89,7 +89,7 @@ export default function Landing() {
             <div
               css={css`
                 display: flex;
-                height: 25vh;
+                height: 20vh;
               `}
             >
               <a href="https://github.com/scvd03">
@@ -104,7 +104,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>김인태 Github</TeamName>
+                  <TeamName>김인태</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
               <a href="https://github.com/yg-kim-korean">
@@ -119,7 +120,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>김용건 Github</TeamName>
+                  <TeamName>김용건</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
               <a href="https://github.com/jvn4dev">
@@ -134,7 +136,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>정성준 Github</TeamName>
+                  <TeamName>정성준</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
               <a href="https://github.com/findmytrueself">
@@ -149,7 +152,8 @@ export default function Landing() {
                       alt="intae"
                     />
                   </TeamImg>
-                  <TeamName>임&nbsp;&nbsp;&nbsp;훈 Github</TeamName>
+                  <TeamName>임&nbsp;&nbsp;&nbsp;훈</TeamName>
+                  <TeamName>Github</TeamName>
                 </TeamProfile>
               </a>
             </div>
@@ -165,29 +169,10 @@ export default function Landing() {
             `}
           >
             <a href="https://github.com/codestates/road-to-interview/wiki">
-              <Button
-                css={css`
-                  width: 9rem;
-                  font-size: ${fontSizes[100]};
-                  margin-left: ${spacing[4]};
-                  margin-right: ${spacing[3]};
-                `}
-                secondary
-                md
-              >
+              <Button secondary lg>
                 Wiki페이지로 가기
               </Button>
             </a>
-            <Button
-              css={css`
-                width: 8rem;
-                font-size: ${fontSizes[100]};
-              `}
-              tertiary
-              md
-            >
-              관리자 로그인
-            </Button>
           </div>
         </Footer>
       </Section>
@@ -205,7 +190,7 @@ const Header = styled.div`
   padding-top: ${spacing[10]};
   ${media.desktop(css`
     display: flex;
-    & > *:first-child {
+    & > *:first-of-type {
       text-align: start;
     }
     & > * {
@@ -240,7 +225,7 @@ const Links = styled.div`
   align-items: center;
   margin: ${spacing[7]} 0;
 
-  & > *:first-child {
+  & > *:first-of-type {
     margin-right: 2rem;
   }
 
@@ -294,9 +279,12 @@ const TeamName = styled.div`
 `;
 
 const TeamProfile = styled.div`
-  margin: auto;
+  margin: ${spacing[6]} 0;
+  ${media.desktop(css`
+    margin: 0 ${spacing[4]};
+  `)}
 `;
 
 const TeamImg = styled.div`
-  height: 20vh;
+  height: 15vh;
 `;
