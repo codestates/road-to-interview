@@ -53,6 +53,7 @@ app.post("/answers", controllers.createAnswers);
 app.get("/questions/:id", controllers.getQuestions);
 //collection
 app.post("/collections/:id", controllers.createCollections);
+app.delete("/collections/:id", controllers.deleteCollections);
 app.get("/collections", controllers.getCollections);
 //categorys
 app.post("/categorys", controllers.createCategory);

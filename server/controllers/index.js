@@ -20,6 +20,7 @@ module.exports = {
   //collections
   createCollections: require("./collections/createCollections"),
   getCollections: require("./collections/getCollections"),
+  deleteCollections: require("./collections/deleteCollections"),
   //categorys
   createCategory: require("./categorys/createCategory"),
   getCategorys: require("./categorys/getCategorys"),
