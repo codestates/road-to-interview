@@ -20,6 +20,9 @@ module.exports = {
   //collections
   createCollections: require("./collections/createCollections"),
   getCollections: require("./collections/getCollections"),
+  //categorys
+  createCategory: require("./categorys/createCategory"),
+  getCategorys: require("./categorys/getCategorys"),
   //multer
   photos: require("./functions/multerFunctions/photos"),
 };
