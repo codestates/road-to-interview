@@ -55,13 +55,14 @@ function calcItems(totalPage, page, enableSpace) {
     items = new Array(totalPage).fill(0).map((_, index) => ({ value: index + 1, disable: false }));
     return [prev, ...items, next];
   }
-  // * 첫 페이지 , 현재 페이지, 마지막 페이지 처리
-  // startPage = 1, endPage = totalPage
+
+  // 현재 페이지
   const currentPage = { value: page, disable: false };
-  // * sibling 처리
+  // sibling
   let prevSibling = [];
   let nextSibling = [];
-
+  // 처음 ~ 현재 거리
+  // 현재 ~ 마지막 거리
   const startToCurrentSpace = page - 1;
   const currentToEndSpace = totalPage - page;
 
