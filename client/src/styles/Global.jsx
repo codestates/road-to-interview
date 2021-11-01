@@ -36,7 +36,7 @@ const globalStyles = theme => css`
     color: inherit;
   }
 
-  ul {
+  li {
     list-style: none;
   }
 `;
