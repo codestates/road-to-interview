@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import { Switch } from 'react-router';
 
@@ -24,11 +24,12 @@ import Create from './pages/Create';
 export default function App() {
   const [mode] = useMode();
 
+  const { accessToken } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(auth);
-  }, [dispatch]);
+    dispatch(auth(accessToken));
+  }, [dispatch, accessToken]);
 
   return (
     <ThemeProvider theme={THEME[mode]}>

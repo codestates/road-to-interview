@@ -10,6 +10,7 @@ import {
 const initialState = {
   // 인터뷰 리스트 데이터
   interviews: [],
+  totalPage: 1,
   // 인터뷰 리스트 요청
   getInterviewsLoading: false,
   getInterviewsDone: false,
@@ -32,7 +33,8 @@ export default function reducer(state = initialState, action) {
     case getInterviewsSuccess:
       return {
         ...state,
-        interviews: action.payload,
+        interviews: action.payload.interviews,
+        totalPage: action.payload.totalPage,
         getInterviewsLoading: false,
         getInterviewsDone: true,
         getInterviewsError: null,

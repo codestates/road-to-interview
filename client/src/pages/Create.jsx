@@ -3,6 +3,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
 
+import { createInterview } from '@/store/creator/InterviewsCreator';
+import { getCategory } from '@/store/creator/categoryCreator';
 import { fontSizes, spacing } from '@/styles';
 import Button from '@/components/elements/Button';
 import Input from '@/components/elements/Input';
@@ -15,14 +17,23 @@ import { ReactComponent as Eye } from 'assets/eye.svg';
 import { ReactComponent as Trash } from 'assets/trash.svg';
 import { ReactComponent as Upload } from 'assets/upload.svg';
 import { ReactComponent as Archive } from 'assets/archive.svg';
+import { useDispatch, useSelector } from 'react-redux';
 
 // mock
-const category = [
-  { id: '1', name: 'Javascript' },
-  { id: '2', name: 'CSS' },
-  { id: '3', name: 'HTML' },
-  { id: '4', name: '기술면접' },
-  { id: '5', name: '인성면접' },
+const categorys = [
+  { id: '21', category: 'Browser' },
+  { id: '22', category: 'DOM' },
+  { id: '23', category: 'CORS' },
+  { id: '24', category: 'SSR' },
+  { id: '25', category: 'CSS' },
+  { id: '26', category: '개발환경' },
+  { id: '27', category: 'HTML' },
+  { id: '28', category: 'Javascript' },
+  { id: '29', category: 'CS' },
+  { id: '30', category: 'React' },
+  { id: '31', category: '성장' },
+  { id: '32', category: '소프트스킬' },
+  { id: '33', category: '역질문' },
 ];
 export default function Create() {
   const {
@@ -38,21 +49,29 @@ export default function Create() {
   // error
   const [errorState, setErrorState] = useState({ category: '', questions: '' });
 
+  const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCategory);
+  }, [dispatch]);
+
+  const { accessToken } = useSelector(state => state.users);
+
   const id = useRef(0);
   const submitted = useRef(false);
 
   // * category state
   const addItems = name => {
     setSelectedItems(prev => {
-      const cte = category.find(cte => cte.name === name);
-      if (!cte || prev.findIndex(cte => cte.name === name) !== -1) {
+      const cte = categorys.find(cte => cte.category === name);
+      if (!cte || prev.findIndex(cte => cte.category === name) !== -1) {
         return prev;
       }
       return [...prev, cte];
     });
   };
   const removeItems = name => {
-    setSelectedItems(prev => prev.filter(item => item.name !== name));
+    setSelectedItems(prev => prev.filter(item => item.category !== name));
   };
   // required, 1, 5
   const checkCategoryValidate = () => {
@@ -105,13 +124,14 @@ export default function Create() {
   const uploadInterview = data => {
     submitted.current = true;
     if (checkValidate()) {
-      const interviews = {
+      const interview = {
         title: data.title,
         description: data.description,
         categorys: selectedItems,
         questions: questions.map(q => ({ title: q.title, description: q.description, limit: q.limit })),
       };
-      console.log(interviews);
+      console.log(interview);
+      dispatch(createInterview({ payload: interview, accessToken }));
     }
   };
   return (
@@ -152,12 +172,14 @@ export default function Create() {
             placeholder="description"
           />
           <ErrorMessage>{errors.description?.message}</ErrorMessage>
-          <Select
-            items={category.map(cte => cte.name)}
-            selectedItems={selectedItems.map(cte => cte.name)}
-            addItems={addItems}
-            removeItems={removeItems}
-          />
+          {!getCategoryLoading && getCategoryDone && (
+            <Select
+              items={categorys.map(cte => cte.category)}
+              selectedItems={selectedItems.map(cte => cte.category)}
+              addItems={addItems}
+              removeItems={removeItems}
+            />
+          )}
           <ErrorMessage>{errorState.category}</ErrorMessage>
         </div>
         <Button sm round primary icon={Upload}>

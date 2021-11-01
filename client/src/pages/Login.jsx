@@ -61,7 +61,7 @@ export default function Login() {
           type="password"
           {...register('password', {
             required: { value: true, message: '필수로 입력해야 합니다.' },
-            minLength: { value: 8, message: '비밀번호는 8자 이상이여야 합니다.' },
+            minLength: { value: 4, message: '비밀번호는 4자 이상이여야 합니다.' },
           })}
         />
         {errors?.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
