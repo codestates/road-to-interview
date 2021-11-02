@@ -118,7 +118,7 @@ export default function InterviewList() {
           <DrawerBody>
             <Modaltitle>{selected?.title}</Modaltitle>
             <Button
-              onClick={() => push('/test/1')}
+              onClick={() => push(`/test/${selected.interviews_id}`)}
               primary
               lg
               css={css`

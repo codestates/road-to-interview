@@ -6,6 +6,6 @@ export default class Questions {
   // 문제 가져오기
   async getQuestions(interviewsId) {
     const res = await this.client.get(`/questions/${interviewsId}`);
-    return res.data;
+    return res.data.questions;
   }
 }
