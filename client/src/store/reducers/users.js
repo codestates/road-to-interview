@@ -11,6 +11,9 @@ import {
   authRequest,
   authSuccess,
   authFailure,
+  editRequest,
+  editSuccess,
+  editFailure,
 } from '../actions/usersAction';
 
 const initialState = {
@@ -34,6 +37,10 @@ const initialState = {
   authLoading: false,
   authDone: false,
   authError: null,
+  // 유저 정보수정 요청
+  editLoading: false,
+  editDone: false,
+  editError: null,
 };
 
 // * Reducer
@@ -130,6 +137,29 @@ export default function reducer(state = initialState, action) {
         authLoading: false,
         authDone: false,
         authError: action.payload,
+      };
+    case editRequest:
+      return {
+        ...state,
+        editLoading: true,
+        editDone: false,
+        editError: null,
+      };
+    case editSuccess:
+      return {
+        ...state,
+        userInfo: action.payload.userInfo,
+        accessToken: action.payload.accessToken,
+        editLoading: false,
+        editDone: true,
+        editError: null,
+      };
+    case editFailure:
+      return {
+        ...state,
+        editLoading: false,
+        editDone: false,
+        editError: action.payload,
       };
     default:
       return state;

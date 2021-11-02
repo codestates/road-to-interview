@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
-import questions from '../../constants/mock/questions';
 import { palette, fontSizes, spacing } from '@/styles';
 import media from '@/utils/media';
 
-const Question = () => {
+const Question = ({ questions }) => {
   return (
     <div
       css={css`
@@ -22,7 +21,11 @@ const Question = () => {
         `)}
       `}
     >
-      Q. {questions[Math.floor(Math.random() * 10)].title}
+      Q.{' '}
+      {questions.map(q => (
+        <p>{q.title}</p>
+      ))}
+      ;
     </div>
   );
 };

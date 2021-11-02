@@ -1,18 +1,16 @@
-import { useEffect, useRef } from 'react';
-import { login } from '@/store/reducers/users';
+import { useEffect, useRef, useState } from 'react';
+import { edit } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { CURRENT_USER } from '@/constants/mock';
 
 import { ReactComponent as UserIcon } from 'assets/user.svg';
 import Label from '@/components/elements/Label';
 import Button from '@/components/elements/Button';
 import Input from '@/components/elements/Input';
 import ErrorMessage from '@/components/shared/ErrorMessage';
-import { theme } from '@/styles';
 
 import { ReactComponent as CollectionIcon } from 'assets/collection.svg';
 import { ReactComponent as QuestionIcon } from 'assets/question.svg';
@@ -25,18 +23,24 @@ export default function Mypage() {
     watch,
     formState: { errors },
   } = useForm();
-
   const password = useRef();
   password.current = watch('password');
 
-  // const { userInfo } = useSelector(state => state.users);
-  // const history = useHistory();
-  // const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { id, nickname, email } = CURRENT_USER?.userInfo;
+  const { userInfo, accessToken } = useSelector(state => state.users);
+  const dispatch = useDispatch();
+
+  // TODO: 수정하려는 닉네임 받아두고 정보 수정할 때 dispatch
+  // const [changeNickname, setChangeNickname] = useState(watch('nickname'));
 
   const onSubmit = data => {
-    console.log(data);
+    const newData = {
+      nickname: data.nickname,
+      password: data.password,
+      email: userInfo?.email,
+    };
+    dispatch(edit(accessToken, newData));
   };
 
   return (
@@ -72,9 +76,9 @@ export default function Mypage() {
               ${theme.typography.subtitle[4]}
             `}
           >
-            {nickname}
+            {userInfo?.nickname}
           </Text>
-          <Label>{email}</Label>
+          <Label>{userInfo?.email}</Label>
         </div>
       </div>
       <Field>
@@ -86,9 +90,9 @@ export default function Mypage() {
             margin-top: 1.75rem;
           `}
         >
-          <ButtonBox>
+          <ButtonBox onClick={() => history.push('/collection')}>
             <CollectionIcon width="1.5rem" height="1.5rem" />
-            <Label>찜목록</Label>
+            <Label>컬렉션</Label>
           </ButtonBox>
           <ButtonBox>
             <QuestionIcon width="1.5rem" height="1.5rem" />
@@ -166,5 +170,6 @@ const ButtonBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 `;
 const Form = styled.form``;

@@ -42,23 +42,53 @@ export default function InterviewList() {
   if (getInterviewsLoading) return <span>로딩 중</span>;
   if (getInterviewsError) return <span>{getInterviewsError}</span>;
   return (
-    <div>
+    <Layout>
       <Tabs
         currentTab="1"
         css={css`
-          margin-bottom: 1.5rem;
+          margin: 1rem 0;
         `}
       >
-        <Tabs.Tab id="1">모든 게시물</Tabs.Tab>
-        <Tabs.Tab id="2">프론트엔드</Tabs.Tab>
-        <Tabs.Tab id="3">백엔드</Tabs.Tab>
+        <Tabs.Tab
+          css={theme =>
+            css`
+              ${theme.typography.caption[1]}
+            `
+          }
+          id="1"
+        >
+          모든 게시물
+        </Tabs.Tab>
+        <Tabs.Tab
+          css={theme =>
+            css`
+              ${theme.typography.caption[1]}
+            `
+          }
+          id="2"
+        >
+          프론트엔드
+        </Tabs.Tab>
+        <Tabs.Tab
+          css={theme =>
+            css`
+              ${theme.typography.caption[1]}
+            `
+          }
+          id="3"
+        >
+          백엔드
+        </Tabs.Tab>
       </Tabs>
-      <div>
+      <Main>
         {interviews?.map(interview => (
           <Table
             key={interview.interviews_id}
-            css={css`
-              margin-bottom: 2.5rem;
+            css={theme => css`
+              background: ${theme.colors.background_elevated};
+              padding: ${spacing[4]};
+              border-radius: 0.5em;
+              margin-bottom: 1em;
             `}
           >
             <Table.Header>
@@ -112,13 +142,13 @@ export default function InterviewList() {
           </Table>
         ))}
         <Pagination totalPage={parseInt(totalPage, 10)} page={page} setPage={setPage} />
-      </div>
+      </Main>
       <Portal selector="#modal">
         <Modal open={open} onClose={onClose}>
           <DrawerBody>
             <Modaltitle>{selected?.title}</Modaltitle>
             <Button
-              onClick={() => push('/test/1')}
+              onClick={() => push(`/test/${selected.interviews_id}`)}
               primary
               lg
               css={css`
@@ -133,9 +163,13 @@ export default function InterviewList() {
           </DrawerBody>
         </Modal>
       </Portal>
-    </div>
+    </Layout>
   );
 }
+
+const Layout = styled.div``;
+
+const Main = styled.main``;
 
 const DrawerBody = styled.div`
   position: relative;

@@ -1,18 +1,49 @@
+import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import Slider from 'react-slick';
 
-import { spacing, palette, fontSizes } from '@/styles';
+import Flex from '@/components/layouts/Flex';
 import Button from '@/components/elements/Button';
+import media from '@/utils/media';
+import { spacing, palette, fontSizes } from '@/styles';
 import { ReactComponent as Chv } from 'assets/chv-right.svg';
 import { ReactComponent as Job } from 'assets/job-ill.svg';
 import { ReactComponent as Test } from 'assets/test-ill.svg';
 import { ReactComponent as Feedback } from 'assets/checklist-ill.svg';
 import { ReactComponent as Share } from 'assets/share-ill.svg';
-import media from '@/utils/media';
+import { settings } from '@/constants/Landing';
+
+const sectionData = [
+  {
+    Vector: Test,
+    title: '인터뷰 테스트',
+    text: '제한시간 내에 준비된 인터뷰 질문에 답하는 테스트를 진행할 수 있습니다. 실제 화상면접처럼, 웹캠을 키고 말해보세요!',
+  },
+  {
+    Vector: Feedback,
+    title: '개인 피드백',
+    text: '녹화된 테스트 영상과 관리자가 준비한 모범 답변을 보면서 피드백하세요!',
+  },
+  {
+    Vector: Share,
+    title: '공유하기',
+    text: '인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!',
+  },
+];
 
 export default function Landing() {
   const history = useHistory();
+
+  const scrollTo = id => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    element.scrollIntoView({
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <Layout>
       <Header>
@@ -26,7 +57,7 @@ export default function Landing() {
             <Button round primary onClick={() => history.push('/list')}>
               둘러보기
             </Button>
-            <Button text tertiary icon={Chv}>
+            <Button text tertiary icon={Chv} onClick={() => scrollTo('section')}>
               더 알아보기
             </Button>
           </Links>
@@ -37,155 +68,30 @@ export default function Landing() {
           </Illustration>
         </Box>
       </Header>
-      <Sections>
-        <Section>
-          <Illustration>
-            <Test width="100%" height="100%" />
-          </Illustration>
-          <SectionTitle>인터뷰 테스트</SectionTitle>
-          <Text>
-            제한시간 내에 준비된 인터뷰 질문에 답하는 테스트를 진행할 수 있습니다. 실제 화상면접처럼, 웹캠을 키고
-            말해보세요!
-          </Text>
-        </Section>
-        <Section>
-          <Illustration>
-            <Feedback width="100%" height="100%" />
-          </Illustration>
-          <SectionTitle>개인 피드백</SectionTitle>
-          <Text>녹화된 테스트 영상과 관리자가 준비한 모범 답변을 보면서 피드백하세요!</Text>
-        </Section>
-        <Section>
-          <Illustration>
-            <Share width="100%" height="100%" />
-          </Illustration>
-          <SectionTitle>공유하기</SectionTitle>
-          <Text>인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!</Text>
-        </Section>
+      <Sections id="section">
+        <StyledSlider {...settings}>
+          {sectionData.map(({ Vector, title, text }) => (
+            <Section>
+              <Illustration>
+                <Vector width="100%" height="100%" />
+              </Illustration>
+              <SectionTitle>{title}</SectionTitle>
+              <Text>{text}</Text>
+            </Section>
+          ))}
+        </StyledSlider>
       </Sections>
-      <Section
-        css={css`
-          height: 50vh;
-          position: relative;
-          top: ${spacing[6]};
-        `}
-      >
-        <Footer>
-          <div
-            css={css`
-              margin-top: auto;
-              margin-bottom: auto;
-            `}
-          >
-            <div
-              css={css`
-                font-size: ${fontSizes[800]};
-                text-align: center;
-                margin-bottom: ${spacing[3]};
-              `}
-            >
-              TEAM KKAN-BU
-            </div>
-            <div
-              css={css`
-                display: flex;
-                height: 20vh;
-              `}
-            >
-              <a href="https://github.com/scvd03">
-                <TeamProfile>
-                  <TeamImg>
-                    <img
-                      css={css`
-                        width: 100%;
-                        height: 100%;
-                      `}
-                      src="/images/intae.png"
-                      alt="intae"
-                    />
-                  </TeamImg>
-                  <TeamName>김인태</TeamName>
-                  <TeamName>Github</TeamName>
-                </TeamProfile>
-              </a>
-              <a href="https://github.com/yg-kim-korean">
-                <TeamProfile>
-                  <TeamImg>
-                    <img
-                      css={css`
-                        width: 100%;
-                        height: 100%;
-                      `}
-                      src="/images/yonggun.png"
-                      alt="intae"
-                    />
-                  </TeamImg>
-                  <TeamName>김용건</TeamName>
-                  <TeamName>Github</TeamName>
-                </TeamProfile>
-              </a>
-              <a href="https://github.com/jvn4dev">
-                <TeamProfile>
-                  <TeamImg>
-                    <img
-                      css={css`
-                        width: 100%;
-                        height: 100%;
-                      `}
-                      src="/images/sungjun.png"
-                      alt="intae"
-                    />
-                  </TeamImg>
-                  <TeamName>정성준</TeamName>
-                  <TeamName>Github</TeamName>
-                </TeamProfile>
-              </a>
-              <a href="https://github.com/findmytrueself">
-                <TeamProfile>
-                  <TeamImg>
-                    <img
-                      css={css`
-                        width: 100%;
-                        height: 100%;
-                      `}
-                      src="/images/hun.png"
-                      alt="intae"
-                    />
-                  </TeamImg>
-                  <TeamName>임&nbsp;&nbsp;&nbsp;훈</TeamName>
-                  <TeamName>Github</TeamName>
-                </TeamProfile>
-              </a>
-            </div>
-          </div>
-          <div
-            css={css`
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 80vw;
-              /* border: solid; */
-              margin: auto;
-            `}
-          >
-            <a href="https://github.com/codestates/road-to-interview/wiki">
-              <Button secondary lg>
-                Wiki페이지로 가기
-              </Button>
-            </a>
-          </div>
-        </Footer>
-      </Section>
     </Layout>
   );
 }
 
 const Layout = styled.div`
-  padding: 0 ${spacing[5]};
+  position: relative;
 `;
 
 // * Header
 const Header = styled.div`
+  height: 100vh;
   text-align: center;
   padding-top: ${spacing[10]};
   ${media.desktop(css`
@@ -201,7 +107,8 @@ const Header = styled.div`
 const Box = styled.div``;
 const Title = styled.h1`
   ${({ theme }) => theme.typography.header[1]}
-  line-height: 0.9em;
+  line-height: 1.1em;
+  letter-spacing: 0.1em;
   margin-bottom: ${spacing[3]};
 `;
 const HighLight = styled.b`
@@ -209,6 +116,7 @@ const HighLight = styled.b`
 `;
 const Caption = styled.h5`
   ${({ theme }) => theme.typography.caption[1]}
+  letter-spacing: 1px;
   margin-bottom: ${spacing[6]};
 `;
 const SubTitle = styled.p`
@@ -216,6 +124,48 @@ const SubTitle = styled.p`
   word-break: keep-all;
   font-weight: 400;
   line-height: 1.4em;
+  letter-spacing: 1px;
+`;
+// * Slider
+const StyledSlider = styled(Slider)`
+  width: 80%;
+  margin: 0 auto;
+
+  .slick-list {
+    overflow: hidden;
+  }
+  .slick-track {
+    display: flex;
+    align-items: center;
+  }
+  .slick-slide {
+  }
+
+  .slick-dots {
+    display: flex;
+    justify-content: center;
+    padding: ${spacing[5]} 0;
+
+    & > *:not(:last-child) {
+      margin-right: 0.7em;
+    }
+
+    .slick-active {
+      & span {
+        background: ${({ theme }) => theme.colors.text.primary};
+      }
+    }
+  }
+
+  .dots__dot {
+    & > span {
+      display: inline-block;
+      width: 0.8em;
+      height: 0.8em;
+      border-radius: 50%;
+      background: ${({ theme }) => theme.colors.text.disable_placeholder};
+    }
+  }
 `;
 
 // * Links
@@ -236,55 +186,29 @@ const Links = styled.div`
 
 // * Illustration
 
-const Illustration = styled.div``;
+const Illustration = styled.div`
+  margin: 0 auto;
+  max-width: 650px;
+`;
 
 // * Sections
-const Sections = styled.section``;
-const Section = styled.div`
+const Sections = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: 100vh;
+`;
+const Section = styled.section`
+  text-align: center;
 `;
 const SectionTitle = styled.h3`
   ${({ theme }) => theme.typography.subtitle[2]}
   margin: ${spacing[6]} 0;
 `;
 const Text = styled.p`
-  width: 80%;
   text-align: center;
   word-break: keep-all;
   line-height: 1.5em;
   word-spacing: 2px;
   ${({ theme }) => theme.typography.body[1]}
-`;
-
-// * Footer
-const Footer = styled.div`
-  background: ${palette.light.gray[800]};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  color: ${palette.light.gray[300]};
-`;
-
-const TeamName = styled.div`
-  font-size: ${fontSizes[300]};
-  color: ${palette.light.gray[400]};
-  text-align: center;
-`;
-
-const TeamProfile = styled.div`
-  margin: ${spacing[6]} 0;
-  ${media.desktop(css`
-    margin: 0 ${spacing[4]};
-  `)}
-`;
-
-const TeamImg = styled.div`
-  height: 15vh;
 `;

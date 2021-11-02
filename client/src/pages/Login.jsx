@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { login } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -16,10 +17,9 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
-  const { userInfo } = useSelector(state => state.users);
+  const { userInfo, loginDone } = useSelector(state => state.users);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,11 +28,13 @@ export default function Login() {
     dispatch(login(data));
   };
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     history.push('/');
-  //   }
-  // });
+  // TODO: 유저정보 불러와지면 로그인 상태로 메인으로
+  useEffect(() => {
+    if (userInfo && loginDone) {
+      history.replace('/');
+    }
+  });
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Title

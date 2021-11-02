@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 
 import { logout } from '@/store/creator/usersCreator';
 import { useMode } from '@/contexts/ModeContext';
-import { spacing } from '@/styles';
+import { fontSizes, spacing } from '@/styles';
 import { ReactComponent as LogoLight } from 'assets/logo-light.svg';
 import { ReactComponent as LogoDark } from 'assets/logo-dark.svg';
 import { ReactComponent as Menu } from 'assets/menu.svg';
@@ -26,6 +26,7 @@ const INTETVIEW_LIST = 'list'; // 로고 - nav item
 const INTETVIEW_RESULT = 'result'; // 로고 - nav item
 const MYPAGE = 'mypage'; // 로고 - nav item
 const CREATE = 'create'; // 로고 - nav item
+const COLLECTION = 'collection'; // 로고 - nav item
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -40,13 +41,15 @@ export default function Nav() {
   const { userInfo, accessToken } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
+  const { push, goBack, replace } = useHistory();
+
   const onLogout = () => {
     dispatch(logout(accessToken));
+    replace('/');
   };
 
   const { pathname } = useLocation();
   const page = pathname.split('/')[1];
-  const { push, goBack } = useHistory();
 
   switch (page) {
     case INTETVIEW_LIST:
@@ -59,11 +62,16 @@ export default function Nav() {
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
           {tabletMetches ? (
-            <Flex rowGap="2rem">
+            <Flex
+              rowGap="2rem"
+              css={css`
+                font-size: ${fontSizes[100]};
+              `}
+            >
               {userInfo ? (
                 <>
                   <LinkItem to="/mypage">마이페이지</LinkItem>
-                  <LinkItem to="/create">인터뷰 목록 생성하기</LinkItem>
+                  <LinkItem to="/create">인터뷰 생성하기</LinkItem>
                   <Item onClick={onLogout}>로그아웃</Item>
                 </>
               ) : (
@@ -76,7 +84,7 @@ export default function Nav() {
             </Flex>
           ) : (
             <>
-              <Flex>
+              <Flex rowGap="1em">
                 <Menu
                   onClick={toggleOpen}
                   css={css`
@@ -85,6 +93,7 @@ export default function Nav() {
                   width="2rem"
                   height="2rem"
                 />
+                <ToggleButton />
               </Flex>
               <Drawer open={open} setOpen={setOpen}>
                 <Drawer.Body>
@@ -102,7 +111,6 @@ export default function Nav() {
                         <LinkItem to="/signup">회원가입</LinkItem>
                       </>
                     )}
-                    <ToggleButton />
                   </List>
                 </Drawer.Body>
               </Drawer>
@@ -110,6 +118,7 @@ export default function Nav() {
           )}
         </Layout>
       );
+    case COLLECTION:
     case LOGIN:
     case SIGNUP:
       return (
@@ -137,17 +146,37 @@ export default function Nav() {
     case LANDING:
       return (
         <Layout>
-          <Logo
-            css={css`
-              /* margin: 0 auto; */
-            `}
-            onClick={() => push('/')}
-          >
-            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
-          </Logo>
-          <Button tertiary sm onClick={() => push('/login')}>
-            로그인
-          </Button>
+          {userInfo ? (
+            <>
+              <Logo
+                css={css`
+                  /* margin: 0 auto; */
+                  cursor: pointer;
+                `}
+                onClick={() => push('/')}
+              >
+                {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+              </Logo>
+              <Button secondary sm onClick={() => push('/mypage')}>
+                마이페이지
+              </Button>
+            </>
+          ) : (
+            <>
+              <Logo
+                css={css`
+                  /* margin: 0 auto; */
+                  cursor: pointer;
+                `}
+                onClick={() => push('/')}
+              >
+                {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+              </Logo>
+              <Button tertiary sm onClick={() => push('/login')}>
+                로그인
+              </Button>
+            </>
+          )}
         </Layout>
       );
     case INTETVIEW_TEST:
@@ -185,8 +214,12 @@ const Layout = styled.nav`
 `;
 
 const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: ${fontSizes[600]};
   & > * {
-    padding: ${spacing[4]} 0;
+    padding: ${spacing[6]} 0;
   }
 `;
 const Item = styled.li`
@@ -197,7 +230,7 @@ const LinkItem = styled(Link)`
 `;
 
 const Logo = styled.i`
-  flex-basis: 35%;
+  flex-basis: 25%;
   min-width: 200px;
   max-width: 420px;
   margin-right: auto;
