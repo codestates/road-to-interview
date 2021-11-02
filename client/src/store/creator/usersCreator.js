@@ -13,6 +13,9 @@ import {
   authRequest,
   authSuccess,
   authFailure,
+  editRequest,
+  editSuccess,
+  editFailure,
 } from '../actions/usersAction';
 
 // * Action Creator
@@ -54,5 +57,16 @@ export const auth = accessToken => async dispatch => {
     dispatch({ type: authSuccess, payload: data });
   } catch (e) {
     dispatch({ type: authFailure, payload: e.message });
+  }
+};
+// 유저정보 수정 요청
+export const edit = data => async dispatch => {
+  const { accessToken, payload } = data;
+  try {
+    dispatch({ type: editRequest });
+    const data = await USER_API.putUserInfo(accessToken, payload);
+    dispatch({ type: editSuccess, payload: data });
+  } catch (e) {
+    dispatch({ type: editFailure, payload: e.message });
   }
 };

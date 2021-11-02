@@ -34,4 +34,17 @@ export default class User {
     });
     return response.data;
   }
+
+  // 유저 정보 수정
+  async putUserInfo(accessToken, payload) {
+    const response = await this.client.put('/users', {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+      data: {
+        payload,
+      },
+    });
+    return response.data;
+  }
 }

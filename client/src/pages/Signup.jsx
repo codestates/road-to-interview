@@ -1,6 +1,7 @@
-import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useRef, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { USER_API } from '@/services';
 
 import { signup } from '@/store/creator/usersCreator';
 import { css } from '@emotion/react';
@@ -19,16 +20,33 @@ export default function Signup() {
     watch,
     formState: { errors },
   } = useForm();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const password = useRef();
   password.current = watch('password');
 
-  const onSubmit = data => {
-    console.log(data);
+  // 회원가입 완료 후 응답에 따른 라우팅 처리
+  const { signupDone, signupError } = useSelector(state => state.users);
+  useEffect(() => {
+    if (signupDone) {
+      history.push('/');
+    }
+  }, [signupDone]);
 
-    dispatch(signup(data));
-  };
+  // TODO: 회원가입 에러시 브라우저 처리 어떻게 해줄지 정하고 적용 예정
+  useEffect(() => {
+    if (signupError) {
+      alert(signupError);
+    }
+  }, [signupError]);
+
+  const onSubmit = useCallback(
+    data => {
+      dispatch(signup(data));
+    },
+    [dispatch],
+  );
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

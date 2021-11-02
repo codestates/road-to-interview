@@ -16,3 +16,7 @@ export const signupFailure = 'users/signup/rejected';
 export const authRequest = 'users/auth/pending';
 export const authSuccess = 'users/auth/fullfilled';
 export const authFailure = 'users/auth/rejected';
+// 정보수정 요청
+export const editRequest = 'users/edit/pending';
+export const editSuccess = 'users/edit/fulfilled';
+export const editFailure = 'users/edit/rejected';
