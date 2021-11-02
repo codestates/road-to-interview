@@ -5,7 +5,8 @@ module.exports = (req, res) => {
   if (
     req.body.nickname === "" ||
     req.body.password === "" ||
-    req.body.email === ""
+    req.body.email === "" ||
+    req.body.src === ""
   ) {
     res.status(422).send({
       message: "회원 가입 : 누락된 회원정보가 있습니다.",

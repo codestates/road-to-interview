@@ -100,7 +100,7 @@ limit ` +
                   }
                 }
               }
-              console.log(result_inter);
+
               res.status(200).send({ interviews: result_inter, totalPage });
             }
           })

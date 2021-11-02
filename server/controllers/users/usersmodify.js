@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     return;
   }
   const { id } = accessTokenData;
-  const { nickname, password, email } = req.body;
+  const { nickname, password, email, src } = req.body;
   let salt = Math.round(new Date().valueOf() * Math.random()) + "";
   let hashPassword = crypto
     .createHash("sha512")
@@ -30,6 +30,7 @@ module.exports = (req, res) => {
               password: hashPassword,
               email,
               salt,
+              src,
             },
             {
               where: { id: id },
@@ -37,7 +38,7 @@ module.exports = (req, res) => {
           )
           .then((result) => {
             console.log(result);
-            res.status(201).send({ userInfo: { nickname, email, id } });
+            res.status(201).send({ userInfo: { nickname, email, id, src } });
           })
           .catch((error) => {
             console.log(error);
@@ -58,7 +59,7 @@ module.exports = (req, res) => {
               }
             )
             .then((result) => {
-              res.status(201).send({ userInfo: { nickname, email, id } });
+              res.status(201).send({ userInfo: { nickname, email, id, src } });
             })
             .catch((error) => {
               console.log(error);
@@ -66,6 +67,7 @@ module.exports = (req, res) => {
                 .status(500)
                 .send({ message: "유저 정보 수정 : Server Error" }); // Server error
             });
+          0;
         } else {
           res
             .status(404)
