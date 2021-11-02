@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { login } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -16,7 +17,6 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const { userInfo } = useSelector(state => state.users);
@@ -28,11 +28,12 @@ export default function Login() {
     dispatch(login(data));
   };
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     history.push('/');
-  //   }
-  // });
+  useEffect(() => {
+    if (userInfo) {
+      history.push('/');
+    }
+  });
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Title

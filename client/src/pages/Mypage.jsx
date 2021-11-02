@@ -12,7 +12,6 @@ import Label from '@/components/elements/Label';
 import Button from '@/components/elements/Button';
 import Input from '@/components/elements/Input';
 import ErrorMessage from '@/components/shared/ErrorMessage';
-import { theme } from '@/styles';
 
 import { ReactComponent as CollectionIcon } from 'assets/collection.svg';
 import { ReactComponent as QuestionIcon } from 'assets/question.svg';
@@ -31,14 +30,13 @@ export default function Mypage() {
   const password = useRef();
   password.current = watch('password');
 
-  // const { userInfo } = useSelector(state => state.users);
-  // const history = useHistory();
-  // const dispatch = useDispatch();
+  const { userInfo } = useSelector(state => state.users);
+  const dispatch = useDispatch();
 
   const { id, nickname, email } = CURRENT_USER?.userInfo;
 
   const onSubmit = data => {
-    console.log(data);
+    console.log(userInfo);
   };
 
   return (
