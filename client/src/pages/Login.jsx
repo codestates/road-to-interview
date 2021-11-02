@@ -19,7 +19,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { userInfo } = useSelector(state => state.users);
+  const { userInfo, loginDone } = useSelector(state => state.users);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,9 +28,10 @@ export default function Login() {
     dispatch(login(data));
   };
 
+  // TODO: 유저정보 불러와지면 로그인 상태로 메인으로
   useEffect(() => {
-    if (userInfo) {
-      history.push('/');
+    if (userInfo && loginDone) {
+      history.replace('/');
     }
   });
 

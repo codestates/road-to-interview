@@ -1,11 +1,10 @@
-import { useEffect, useRef } from 'react';
-import { login } from '@/store/reducers/users';
+import { useEffect, useRef, useState } from 'react';
+import { edit } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { CURRENT_USER } from '@/constants/mock';
 
 import { ReactComponent as UserIcon } from 'assets/user.svg';
 import Label from '@/components/elements/Label';
@@ -24,19 +23,24 @@ export default function Mypage() {
     watch,
     formState: { errors },
   } = useForm();
-
-  const history = useHistory();
-
   const password = useRef();
   password.current = watch('password');
 
-  const { userInfo } = useSelector(state => state.users);
+  const history = useHistory();
+
+  const { userInfo, accessToken } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
-  const { id, nickname, email } = CURRENT_USER?.userInfo;
+  // TODO: 수정하려는 닉네임 받아두고 정보 수정할 때 dispatch
+  // const [changeNickname, setChangeNickname] = useState(watch('nickname'));
 
   const onSubmit = data => {
-    console.log(userInfo);
+    const newData = {
+      nickname: data.nickname,
+      password: data.password,
+      email: userInfo?.email,
+    };
+    dispatch(edit(accessToken, newData));
   };
 
   return (
@@ -72,9 +76,9 @@ export default function Mypage() {
               ${theme.typography.subtitle[4]}
             `}
           >
-            {nickname}
+            {userInfo?.nickname}
           </Text>
-          <Label>{email}</Label>
+          <Label>{userInfo?.email}</Label>
         </div>
       </div>
       <Field>

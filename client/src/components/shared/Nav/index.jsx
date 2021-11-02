@@ -41,13 +41,15 @@ export default function Nav() {
   const { userInfo, accessToken } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
+  const { push, goBack, replace } = useHistory();
+
   const onLogout = () => {
     dispatch(logout(accessToken));
+    replace('/');
   };
 
   const { pathname } = useLocation();
   const page = pathname.split('/')[1];
-  const { push, goBack } = useHistory();
 
   switch (page) {
     case INTETVIEW_LIST:
@@ -139,17 +141,37 @@ export default function Nav() {
     case LANDING:
       return (
         <Layout>
-          <Logo
-            css={css`
-              /* margin: 0 auto; */
-            `}
-            onClick={() => push('/')}
-          >
-            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
-          </Logo>
-          <Button tertiary sm onClick={() => push('/login')}>
-            로그인
-          </Button>
+          {userInfo ? (
+            <>
+              <Logo
+                css={css`
+                  /* margin: 0 auto; */
+                  cursor: pointer;
+                `}
+                onClick={() => push('/')}
+              >
+                {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+              </Logo>
+              <Button secondary sm onClick={() => push('/mypage')}>
+                마이페이지
+              </Button>
+            </>
+          ) : (
+            <>
+              <Logo
+                css={css`
+                  /* margin: 0 auto; */
+                  cursor: pointer;
+                `}
+                onClick={() => push('/')}
+              >
+                {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+              </Logo>
+              <Button tertiary sm onClick={() => push('/login')}>
+                로그인
+              </Button>
+            </>
+          )}
         </Layout>
       );
     case INTETVIEW_TEST:
