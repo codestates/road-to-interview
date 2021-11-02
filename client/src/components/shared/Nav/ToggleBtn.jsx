@@ -7,7 +7,7 @@ export default function ToggleBtn({ className }) {
   const [mode, toggleMode] = useMode();
   return (
     <Button className={className} onClick={toggleMode}>
-      {mode === 'dark' ? <Sun width="2rem" height="2rem" /> : <Moon width="2rem" height="2rem" />}
+      {mode === 'dark' ? <Sun width="1.5rem" height="1.5rem" /> : <Moon width="1.5rem" height="1.5rem" />}
     </Button>
   );
 }

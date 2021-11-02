@@ -155,7 +155,7 @@ const ItemDynamicStyles = ({ disable, selected, theme }) => {
 };
 
 const Item = styled.li`
-  font-size: ${fontSizes[200]};
+  font-size: ${fontSizes[100]};
   flex-grow: 1;
   padding: ${spacing[3]} ${spacing[1]};
   background: ${({ theme }) => theme.colors.gray[300]};
