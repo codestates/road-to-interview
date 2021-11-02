@@ -5,6 +5,7 @@ import store from '@/store';
 import Interview from './Interview';
 import User from './User';
 import Category from './Category';
+import Questions from './Questions';
 
 const dispatch = store.dispatch;
 
@@ -46,3 +47,4 @@ const instance = axios.create({
 export const USER_API = new User(instance);
 export const INTERVIEW_API = new Interview(instance);
 export const CATEGORY_API = new Category(instance);
+export const QUESTIONS_API = new Questions(instance);
