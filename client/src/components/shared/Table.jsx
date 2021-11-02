@@ -15,7 +15,6 @@ const Container = styled.div`
   justify-items: start;
   row-gap: 1em;
   padding-bottom: ${spacing[4]};
-  border-bottom: 2px solid ${({ theme }) => theme.colors.borderColor.inner};
 `;
 
 const Header = styled.div`

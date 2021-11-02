@@ -2,7 +2,7 @@ import { palette, spacing } from '@/styles';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 
 const OpenContext = createContext();
 
@@ -15,9 +15,12 @@ function Drawer({ children, open, setOpen }) {
 }
 const Container = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   top: 0;
   right: 0;
-  width: 60vw;
+  width: 100vw;
   height: 100vh;
   background: ${({ theme }) => theme.colors.background};
   padding-top: ${spacing[10]};
@@ -25,24 +28,23 @@ const Container = styled.div`
   z-index: 50;
 
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateY(-100%);
 
   ${props =>
     props.open &&
     css`
       opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     `}
-  // FIXME: 다크모드 색상 변경까지도 트랜잭션이 걸린다.
   transition: all 0.3s ease-in;
 `;
 
 const Body = ({ children }) => {
   const { open, setOpen } = useContext(OpenContext);
   return (
-    <Wrapper open={open}>
-      <Close onClick={() => setOpen(false)}>
-        <CloseIcon width="1.5rem" height="1.5rem" />
+    <Wrapper open={open} onClick={() => setOpen(false)}>
+      <Close>
+        <CloseIcon width="2rem" height="2rem" />
       </Close>
       {children}
     </Wrapper>
@@ -63,7 +65,7 @@ const Close = styled.span`
   cursor: pointer;
   position: absolute;
   top: ${spacing[4]};
-  left: ${spacing[4]};
+  right: ${spacing[4]};
 `;
 
 Drawer.Body = Body;

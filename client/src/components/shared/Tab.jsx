@@ -32,7 +32,7 @@ export default function Tabs({ children, className, currentTab }) {
 
 const Container = styled.div`
   display: flex;
-  border-bottom: 2px solid ${({ theme }) => theme.colors.borderColor.inner};
+  /* border-bottom: 2px solid ${({ theme }) => theme.colors.borderColor.inner}; */
   & > *:not(:last-child) {
     margin-right: 1em;
   }

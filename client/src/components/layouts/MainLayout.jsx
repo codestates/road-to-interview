@@ -18,6 +18,7 @@ const Container = styled.div`
 `;
 
 const Main = styled.main`
+  position: relative;
   max-width: 1400px;
   margin: 0 auto;
   padding: ${spacing[5]};
