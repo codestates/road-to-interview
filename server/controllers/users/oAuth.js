@@ -6,7 +6,7 @@ const {
   sendAccessToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
-  const { email, name, src, emailauth } = req.body.profileObj;
+  const { email, name, src, emailauth } = req.body;
 
   users
     .findOrCreate({
