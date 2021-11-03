@@ -10,13 +10,19 @@ import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import Button from '../components/elements/Button';
 import { fontSizes, spacing } from '@/styles';
 import media from '@/utils/media';
-
+import HintViewer from '@/components/InterviewTest/HintViewer';
+import { useLocation } from 'react-router-dom';
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
   const dispatch = useDispatch();
   const {
     params: { id },
   } = useRouteMatch();
+
+  const { search } = useLocation();
+  console.log(search);
+  // ?isVoice=true
+  // ?isVideo=true
 
   useEffect(() => {
     dispatch(getQuestions(id));
@@ -25,7 +31,7 @@ const InterviewTest = () => {
   const [isPlay, setIsPlay] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questionNum, setQuestionNum] = useState(0);
-
+  const [view, setView] = useState(false);
   useEffect(() => {
     if (getQuestionsDone) {
       setCurrentQuestion(questions[0]); // 처음 문제
@@ -43,7 +49,13 @@ const InterviewTest = () => {
       setQuestionNum(questionNum - 1);
     }
   };
-
+  const hintHandler = openHint => {
+    if (!openHint) {
+      setView(true);
+    } else {
+      setView(false);
+    }
+  };
   const countHandler = playing => {
     setIsPlay(playing);
   };
@@ -60,8 +72,7 @@ const InterviewTest = () => {
         position: relative;
         bottom: ${spacing[6]};
         ${media.desktop(css`
-          bottom: ${spacing[7]};
-          height: 20vh;
+          bottom: ${spacing[8]};
         `)}
       `}
     >
@@ -75,27 +86,22 @@ const InterviewTest = () => {
         <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} setIsPlay={setIsPlay} />
         <Question currentQuestion={currentQuestion} />
       </div>
-      <div>
-        <VideoRecorder countHandler={countHandler} />
-      </div>
       <div
+        view={view}
         css={css`
-          display: flex;
-          justify-content: space-between;
-          margin-top: ${spacing[5]};
-          width: 90vw;
           ${media.desktop(css`
-            width: 45vw;
+            display: flex;
+            width: ${props => (props.view ? '90vw' : null)};
           `)}
         `}
       >
-        <Button onClick={prevHandler} tertiary lg>
-          이전문제
-        </Button>
-
-        <Button onClick={nextHandler} tertiary lg>
-          다음문제
-        </Button>
+        <VideoRecorder
+          prevHandler={prevHandler}
+          nextHandler={nextHandler}
+          hintHandler={hintHandler}
+          countHandler={countHandler}
+        />
+        {view ? <HintViewer currentQuestion={currentQuestion} /> : null}
       </div>
     </div>
   );
