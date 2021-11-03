@@ -29,7 +29,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(auth(accessToken));
+    // dispatch(auth(accessToken));
   }, [dispatch, accessToken]);
 
   return (

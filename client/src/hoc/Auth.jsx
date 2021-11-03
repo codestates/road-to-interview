@@ -12,6 +12,7 @@ function AuthHoc(Component) {
 
   // 로그인이 풀려있을 때, 자동로그인
   useEffect(() => {
+
     if (!userInfo && !authLoading && !authIsDone) {
       console.log('자동 로그인 요청');
       dispatch(auth);
