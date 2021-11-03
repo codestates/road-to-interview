@@ -28,6 +28,8 @@ export default function Login() {
     dispatch(login(data));
   };
 
+  // * 카카오 소셜 로그인
+  // TODOS: 인가코드로 토큰 발급받기
   const uri = window.location.href;
   const code = uri.split('=')[1];
   console.log(code);
