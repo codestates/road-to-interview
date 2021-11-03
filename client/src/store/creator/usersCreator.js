@@ -4,6 +4,12 @@ import {
   loginRequest,
   loginSuccess,
   loginFailure,
+  googleLoginRequest,
+  googleLoginSuccess,
+  googleLoginFailure,
+  kakaoLoginRequest,
+  kakaoLoginSuccess,
+  kakaoLoginFailure,
   logoutRequest,
   logoutSuccess,
   logoutFailure,
@@ -27,6 +33,26 @@ export const login = data => async dispatch => {
     dispatch({ type: loginSuccess, payload: res });
   } catch (e) {
     dispatch({ type: loginFailure, payload: e.response?.data?.message });
+  }
+};
+// 구글 로그인 요청
+export const googleLogin = data => async dispatch => {
+  try {
+    dispatch({ type: googleLoginRequest });
+    const res = await USER_API.postOauth(data);
+    dispatch({ type: googleLoginSuccess, payload: res });
+  } catch (e) {
+    dispatch({ type: googleLoginFailure, payload: e.response?.data?.message });
+  }
+};
+// 카카오 로그인 요청
+export const kakaoLogin = data => async dispatch => {
+  try {
+    dispatch({ type: kakaoLoginRequest });
+    const res = await USER_API.postOauth(data);
+    dispatch({ type: kakaoLoginSuccess, payload: res });
+  } catch (e) {
+    dispatch({ type: kakaoLoginFailure, payload: e.response?.data?.message });
   }
 };
 // 로그아웃 요청

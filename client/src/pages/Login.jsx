@@ -8,7 +8,8 @@ import styled from '@emotion/styled';
 
 import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
-import SocialBtn from '@/components/elements/SocialBtn';
+import GoogleSocialLogin from '@/components/Login/GoogleLogin';
+import KakaoLogin from '@/components/Login/KakaoLogin';
 import Button from '@/components/elements/Button';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 
@@ -24,9 +25,12 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    console.log(data);
     dispatch(login(data));
   };
+
+  const uri = window.location.href;
+  const code = uri.split('=')[1];
+  console.log(code);
 
   // TODO: 유저정보 불러와지면 로그인 상태로 메인으로
   useEffect(() => {
@@ -87,9 +91,9 @@ export default function Login() {
             margin-bottom: 0.75rem;
           `}
         >
-          <SocialBtn type="google" />
+          <GoogleSocialLogin />
         </Field>
-        <SocialBtn type="kakao" />
+        <KakaoLogin />
       </Field>
       <Field
         css={css`

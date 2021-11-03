@@ -2,6 +2,12 @@ import {
   loginRequest,
   loginSuccess,
   loginFailure,
+  googleLoginRequest,
+  googleLoginSuccess,
+  googleLoginFailure,
+  kakaoLoginRequest,
+  kakaoLoginSuccess,
+  kakaoLoginFailure,
   logoutRequest,
   logoutSuccess,
   logoutFailure,
@@ -25,6 +31,13 @@ const initialState = {
   loginLoading: false,
   loginDone: false,
   loginError: null,
+  // 소셜 로그인
+  googleLoginLoading: false,
+  googleLoginDone: false,
+  googleLoginError: null,
+  kakaoLoginLoading: false,
+  kakaoLoginDone: false,
+  kakaoLoginError: null,
   // 로그아웃 요청
   logoutLoading: false,
   logoutDone: false,
@@ -68,6 +81,53 @@ export default function reducer(state = initialState, action) {
         loginLoading: false,
         loginDone: false,
         loginError: action.payload,
+      };
+
+    case googleLoginRequest:
+      return {
+        ...state,
+        googleLoginLoading: true,
+        googleLoginDone: false,
+        googleLoginError: null,
+      };
+    case googleLoginSuccess:
+      return {
+        ...state,
+        userInfo: action.payload.userInfo,
+        accessToken: action.payload.accessToken,
+        googleLoginLoading: false,
+        googleLoginDone: true,
+        googleLoginError: null,
+      };
+    case googleLoginFailure:
+      return {
+        ...state,
+        googleLoginLoading: false,
+        googleLoginDone: false,
+        googleLoginError: action.payload,
+      };
+    case kakaoLoginRequest:
+      return {
+        ...state,
+        kakaoLoginLoading: true,
+        kakaoLoginDone: false,
+        kakaoLoginError: null,
+      };
+    case kakaoLoginSuccess:
+      return {
+        ...state,
+        userInfo: action.payload.userInfo,
+        accessToken: action.payload.accessToken,
+        kakaoLoginLoading: false,
+        kakaoLoginDone: true,
+        kakaoLoginError: null,
+      };
+    case kakaoLoginFailure:
+      return {
+        ...state,
+        kakaoLoginLoading: false,
+        kakaoLoginDone: false,
+        kakaoLoginError: action.payload,
       };
     case logoutRequest:
       return {

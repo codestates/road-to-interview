@@ -9,6 +9,12 @@ export default class User {
     return response.data;
   }
 
+  // 소셜 로그인
+  async postOauth(payload) {
+    const response = await this.client.post('/oauth', payload);
+    return response.data;
+  }
+
   // 회원가입
   async postSignup(payload) {
     const response = await this.client.post('/signup', payload);
