@@ -1,31 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { palette, fontSizes, spacing } from '@/styles';
 import media from '@/utils/media';
 
-const Question = ({ questions }) => {
+const Question = ({ currentQuestion }) => {
   return (
     <div
       css={css`
         font-size: ${fontSizes[500]};
-        height: 15vh;
-        margin-top: ${spacing[7]};
-        margin-bottom: ${spacing[5]};
-        position: relative;
-        bottom: ${spacing[3]};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90vw;
+        height: 12vh;
+        margin-top: ${spacing[4]};
+        margin-bottom: ${spacing[4]};
         ${media.desktop(css`
-          position: relative;
-          bottom: ${spacing[1]};
+          margin-top: ${spacing[7]};
+          margin-bottom: ${spacing[5]};
           font-size: ${fontSizes[600]};
           text-align: center;
         `)}
       `}
     >
-      Q.{' '}
-      {questions.map(q => (
-        <p>{q.title}</p>
-      ))}
-      ;
+      {currentQuestion !== null && currentQuestion !== undefined ? <div>{currentQuestion.title}</div> : null}
     </div>
   );
 };
