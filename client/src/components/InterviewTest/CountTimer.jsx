@@ -3,14 +3,16 @@ import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 import media from '@/utils/media';
-const CountTimer = ({ isPlay, setIsPlay }) => {
-  const [startCount, setStartCount] = useState(false);
-  const [minutes, setMinutes] = useState(2);
+const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
+  const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+
   const minuteAdd = () => {
+    // 1분추가
     setMinutes(minutes + 1);
   };
   const secondsAdd = () => {
+    // 30초추가
     if (seconds < 30) {
       setSeconds(seconds + 30);
     } else {
@@ -18,25 +20,45 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
       setSeconds(seconds - 30);
     }
   };
+
   useEffect(() => {
-    if (startCount || isPlay) {
+    if (currentQuestion !== undefined && currentQuestion !== null) {
+      if (Number.isInteger(currentQuestion.limit_second / 60)) {
+        setMinutes(currentQuestion.limit_second / 60);
+      }
+    }
+  }, [currentQuestion]);
+  // useEffect(() => {
+  //   if (currentQuestion !== undefined && currentQuestion !== null) {
+  //     setMinutes(2); // 초를 분으로 변환
+
+  //     if (currentQuestion.limit_second / 60 !== parseInt(currentQuestion.limit_second / 60)) {
+  //       setSeconds(currentQuestion.limit_second - parseInt(currentQuestion.limit_second / 60));
+  //     } // 분으로 변환한 나머지 초로 넣는다
+  //   }
+  // }, [currentQuestion, setMinutes, setSeconds]);
+
+  useEffect(() => {
+    if (isPlay) {
+      //버튼 누르면
       const countdown = setInterval(() => {
+        // 카운트다운 시작
         if (parseInt(seconds) > 0) {
           setSeconds(parseInt(seconds) - 1);
         }
 
         if (parseInt(seconds) === 0) {
           if (parseInt(minutes) === 0) {
-            clearInterval(countdown);
+            clearInterval(countdown); // 0분 0초되면 카운트다운 중지
           } else {
             setMinutes(parseInt(minutes) - 1);
-            setSeconds(59);
+            setSeconds(59); // 0초되면 1분제거, 59초시작
           }
         }
       }, 1000);
       return () => clearInterval(countdown);
     }
-  }, [startCount, minutes, seconds, isPlay]);
+  }, [minutes, seconds, isPlay]);
 
   return (
     <div
@@ -64,7 +86,6 @@ const CountTimer = ({ isPlay, setIsPlay }) => {
       </div>
       <div>
         <Button
-          onClick={() => setStartCount(true)}
           css={css`
             cursor: pointer;
           `}
