@@ -18,7 +18,7 @@ export const getInterviews =
       const data = await INTERVIEW_API.getInterviews(page, size, category);
       dispatch({ type: getInterviewsSuccess, payload: data });
     } catch (e) {
-      dispatch({ type: getInterviewsFailure, payload: e.message });
+      dispatch({ type: getInterviewsFailure, payload: e.response?.data?.message });
     }
   };
 
@@ -31,6 +31,6 @@ export const createInterview =
       await INTERVIEW_API.createInterview(payload, accessToken);
       dispatch({ type: createInterviewSuccess });
     } catch (e) {
-      dispatch({ type: createInterviewFailure, payload: e.message });
+      dispatch({ type: createInterviewFailure, payload: e.response?.data?.message });
     }
   };

@@ -7,6 +7,6 @@ export const getCategory = async dispatch => {
     const data = await CATEGORY_API.getCategory();
     dispatch({ type: getCategorySuccess, payload: data });
   } catch (e) {
-    dispatch({ type: getCategoryFailure, payload: e.message });
+    dispatch({ type: getCategoryFailure, payload: e.response?.data?.message });
   }
 };

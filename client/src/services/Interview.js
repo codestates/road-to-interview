@@ -13,8 +13,14 @@ export default class Interview {
     return response.data;
   }
   // 인터뷰 리스트 불러오기
-  async getInterviews(page = 1, size = 10, categorys_id = '') {
-    const response = await this.client.get(`/interviews?page=${page}&size=${size}&categorys_id=${categorys_id}`);
+  async getInterviews(page = 1, size = 10, categorys_id = null) {
+    const response = await this.client.get('/interviews', {
+      params: {
+        page: page,
+        size: size,
+        categorys_id: categorys_id,
+      },
+    });
     return response.data;
   }
 }
