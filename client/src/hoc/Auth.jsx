@@ -11,9 +11,9 @@ function AuthHoc(Component) {
 
   // 로그인이 풀려있을 때, 자동로그인
   useEffect(() => {
-    if (!userInfo) {
-      dispatch(auth);
-    }
+    // if (!userInfo) {
+    //   dispatch(auth);
+    // }
   }, [userInfo, dispatch]);
 
   // 권한인증이 실패한 경우 -> 로그인 페이지로 라우팅
