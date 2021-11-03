@@ -6,7 +6,7 @@ const {
   sendAccessToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
-  const { email, name, src } = req.body.profileObj;
+  const { email, name, src, emailauth } = req.body.profileObj;
 
   users
     .findOrCreate({
@@ -15,20 +15,34 @@ module.exports = (req, res) => {
       },
       defaults: {
         nickname: name,
-        emailauth: true,
+        emailauth,
         src,
       },
     })
     .then(([result, created]) => {
       let id = "";
       if (!created) {
-        //있을때
-        id = result.dataValues.id;
+        //emailauth 카카오 2 구글 3
+        let auth = result.dataValues.emailauth;
+        if (emailauth === auth) {
+          id = result.dataValues.id;
+        } else {
+          if (auth === "1" || auth === "0") {
+            res.status(400).send({ message: "이메일로 로그인 해주세요" });
+            return;
+          } else if (auth === "2") {
+            res.status(400).send({ message: "카카오로 로그인 해주세요" });
+            return;
+          } else {
+            res.status(400).send({ message: "구글로 로그인 해주세요" });
+            return;
+          }
+        }
       } else {
         //없을때(새로만들었을때)
         id = result.dataValues.id;
       }
-      console.log(id);
+
       const accessToken = generateAccessToken({ name, email, id, src });
       const refreshToken = generateRefreshToken({ name, email, id, src });
       sendRefreshToken(res, refreshToken, { name, email, id, src });
@@ -36,6 +50,6 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "구글 로그인 : Server Error" }); // Server error
+      res.status(500).send({ message: "oAuth 로그인 : Server Error" }); // Server error
     });
 };

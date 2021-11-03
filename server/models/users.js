@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       salt: DataTypes.STRING,
       emailauth: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       manager: {
         type: DataTypes.BOOLEAN,
