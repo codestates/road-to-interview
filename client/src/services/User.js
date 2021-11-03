@@ -37,12 +37,9 @@ export default class User {
 
   // 유저 정보 수정
   async putUserInfo(accessToken, payload) {
-    const response = await this.client.put('/users', {
+    const response = await this.client.put('/users', payload, {
       headers: {
         Authorization: `${accessToken}`,
-      },
-      data: {
-        payload,
       },
     });
     return response.data;

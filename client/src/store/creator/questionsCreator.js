@@ -12,6 +12,6 @@ export const getQuestions = interviewsId => async dispatch => {
     dispatch({ type: getQuestionsSuccess, payload: data });
   } catch (e) {
     // 실패
-    dispatch({ type: getQuestionsFailure, payload: e.message });
+    dispatch({ type: getQuestionsFailure, payload: e.response?.data?.message });
   }
 };
