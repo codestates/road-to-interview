@@ -26,7 +26,7 @@ export const login = data => async dispatch => {
     const res = await USER_API.postLogin(data);
     dispatch({ type: loginSuccess, payload: res });
   } catch (e) {
-    dispatch({ type: loginFailure, payload: e.message });
+    dispatch({ type: loginFailure, payload: e.response?.data?.message });
   }
 };
 // 로그아웃 요청
@@ -36,7 +36,7 @@ export const logout = accessToken => async dispatch => {
     await USER_API.getLogout(accessToken);
     dispatch({ type: logoutSuccess });
   } catch (e) {
-    dispatch({ type: logoutFailure, payload: e.message });
+    dispatch({ type: logoutFailure, payload: e.response?.data?.message });
   }
 };
 // 회원가입 요청
@@ -46,7 +46,7 @@ export const signup = data => async dispatch => {
     const res = await USER_API.postSignup(data);
     dispatch({ type: signupSuccess, payload: res });
   } catch (e) {
-    dispatch({ type: signupFailure, payload: e.message });
+    dispatch({ type: signupFailure, payload: e.response?.data?.message });
   }
 };
 // 권한인증 요청
@@ -56,7 +56,7 @@ export const auth = accessToken => async dispatch => {
     const data = await USER_API.getAuth(accessToken);
     dispatch({ type: authSuccess, payload: data });
   } catch (e) {
-    dispatch({ type: authFailure, payload: e.message });
+    dispatch({ type: authFailure, payload: e.response?.data?.message });
   }
 };
 // 유저정보 수정 요청
@@ -67,6 +67,6 @@ export const edit = data => async dispatch => {
     const data = await USER_API.putUserInfo(accessToken, payload);
     dispatch({ type: editSuccess, payload: data });
   } catch (e) {
-    dispatch({ type: editFailure, payload: e.message });
+    dispatch({ type: editFailure, payload: e.response?.data?.message });
   }
 };

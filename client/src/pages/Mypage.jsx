@@ -40,7 +40,7 @@ export default function Mypage() {
       password: data.password,
       email: userInfo?.email,
     };
-    dispatch(edit(accessToken, newData));
+    dispatch(edit({ accessToken, payload: newData }));
   };
 
   return (

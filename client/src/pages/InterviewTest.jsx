@@ -12,30 +12,53 @@ import { fontSizes, spacing } from '@/styles';
 import media from '@/utils/media';
 
 const InterviewTest = () => {
-  const [isClick, setIsClick] = useState(false);
-  const [isPlay, setIsPlay] = useState(null);
+  const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
+  const dispatch = useDispatch();
   const {
     params: { id },
   } = useRouteMatch();
+
+  useEffect(() => {
+    dispatch(getQuestions(id));
+  }, [id, dispatch]);
+
+  const [isPlay, setIsPlay] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [questionNum, setQuestionNum] = useState(0);
+
+  useEffect(() => {
+    if (getQuestionsDone) {
+      setCurrentQuestion(questions[0]); // 처음 문제
+    }
+    setCurrentQuestion(questions[questionNum]);
+  }, [getQuestionsDone, questions, questionNum]);
+
+  const nextHandler = () => {
+    if (questionNum < questions.length - 1) {
+      setQuestionNum(questionNum + 1);
+    }
+  };
+  const prevHandler = () => {
+    if (questionNum > 0) {
+      setQuestionNum(questionNum - 1);
+    }
+  };
 
   const countHandler = playing => {
     setIsPlay(playing);
   };
 
-  const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getQuestions(id));
-  }, [id, dispatch]);
-
   if (getQuestionsLoading) return <span>로딩중...</span>;
   if (getQuestionsError) return <span>{getQuestionsError}</span>;
+
   return (
     <div
       css={css`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         position: relative;
-        bottom: ${spacing[5]};
+        bottom: ${spacing[6]};
         ${media.desktop(css`
           bottom: ${spacing[7]};
           height: 20vh;
@@ -46,24 +69,33 @@ const InterviewTest = () => {
         css={css`
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
         `}
       >
-        <CountTimer isPlay={isPlay} setIsPlay={setIsPlay} />
-        <Question questions={questions} />
+        <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} setIsPlay={setIsPlay} />
+        <Question currentQuestion={currentQuestion} />
+      </div>
+      <div>
+        <VideoRecorder countHandler={countHandler} />
       </div>
       <div
         css={css`
-          position: relative;
-          bottom: ${spacing[6]};
+          display: flex;
+          justify-content: space-between;
+          margin-top: ${spacing[5]};
+          width: 90vw;
+          ${media.desktop(css`
+            width: 45vw;
+          `)}
         `}
       >
-        {!isClick ? (
-          <div>
-            <VideoRecorder countHandler={countHandler} />
-          </div>
-        ) : null}
+        <Button onClick={prevHandler} tertiary lg>
+          이전문제
+        </Button>
+
+        <Button onClick={nextHandler} tertiary lg>
+          다음문제
+        </Button>
       </div>
     </div>
   );

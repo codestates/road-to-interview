@@ -8,11 +8,10 @@ export const getQuestions = interviewsId => async dispatch => {
     // 로딩
     dispatch({ type: getQuestionsRequest });
     const data = await QUESTIONS_API.getQuestions(interviewsId); // 10초
-    console.log('Q data', data);
     // 성공
     dispatch({ type: getQuestionsSuccess, payload: data });
   } catch (e) {
     // 실패
-    dispatch({ type: getQuestionsFailure, payload: e.message });
+    dispatch({ type: getQuestionsFailure, payload: e.response?.data?.message });
   }
 };

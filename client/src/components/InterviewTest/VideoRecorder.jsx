@@ -25,7 +25,6 @@ const VideoRecorder = ({ countHandler }) => {
   const [src, setSrc] = useState(null);
   const videoRef = useRef(null);
   console.log(videoRef);
-  console.log(playing);
   const hintHandler = () => {
     setIsHint(true);
   };
@@ -51,9 +50,11 @@ const VideoRecorder = ({ countHandler }) => {
       });
     } else {
       const s = videoRef.current.srcObject;
-      s.getTracks().forEach(track => {
-        track.stop();
-      });
+      if (s !== null) {
+        s.getTracks().forEach(track => {
+          track.stop();
+        });
+      }
     }
     setPlaying(!playing);
   };
@@ -64,13 +65,9 @@ const VideoRecorder = ({ countHandler }) => {
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        ${media.desktop(css`
-          position: relative;
-          bottom: ${spacing[6]};
-        `)}
       `}
     >
-      {videoRef.current === null && playing === null ? (
+      {videoRef.current === null && playing === null /* 로딩중 */ ? (
         <div
           css={css`
             width: 90vw;
@@ -84,9 +81,9 @@ const VideoRecorder = ({ countHandler }) => {
           <Loading />
         </div>
       ) : null}
-      {playing ? <Video ref={videoRef} autoPlay muted /> : null}
-      {!playing && src ? <Video src={src} autoPlay controls /> : null}
-      {playing ? (
+      {playing ? <Video ref={videoRef} autoPlay muted /> : null /* 녹화상태 */}
+      {!playing && src ? <Video src={src} controls /> : null /* 녹화끝(다운로드가능) */}
+      {playing /* 시작하면 그만하기 버튼으로 바꾸기 */ ? (
         <div
           css={css`
             width: 90vw;
@@ -110,7 +107,7 @@ const VideoRecorder = ({ countHandler }) => {
             margin-bottom: ${spacing[5]};
             ${media.desktop(css`
               width: 45vw;
-              margin-top: ${spacing[3]};
+              margin-top: ${spacing[4]};
             `)}
           `}
         >
