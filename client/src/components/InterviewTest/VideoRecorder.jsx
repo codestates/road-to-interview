@@ -24,7 +24,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         navigator.mediaDevices.getUserMedia(constraints).then(callback);
       } else if (search === `?isVideo=true`) {
         const constraints = {
-          video: true,
+          video: { facingMode: 'user' },
           audio: true,
         };
         navigator.mediaDevices.getUserMedia(constraints).then(callback);
@@ -157,8 +157,8 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
           ></div>
         </div>
       ) : null}
-      {playing ? <Video ref={videoRef} autoPlay muted /> : null}
-      {!playing && src ? <Video src={src} autoPlay controls /> : null}
+      {playing ? <Video ref={videoRef} autoPlay muted playsInline /> : null}
+      {!playing && src ? <Video src={src} autoPlay controls playsInline /> : null}
       {playing ? (
         <div
           css={css`
