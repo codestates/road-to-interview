@@ -11,12 +11,18 @@ import Button from '../components/elements/Button';
 import { fontSizes, spacing } from '@/styles';
 import media from '@/utils/media';
 import HintViewer from '@/components/InterviewTest/HintViewer';
+import { useLocation } from 'react-router-dom';
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
   const dispatch = useDispatch();
   const {
     params: { id },
   } = useRouteMatch();
+
+  const { search } = useLocation();
+  console.log(search);
+  // ?isVoice=true
+  // ?isVideo=true
 
   useEffect(() => {
     dispatch(getQuestions(id));

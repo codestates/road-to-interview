@@ -15,6 +15,7 @@ import Pagination from '@/components/shared/Pagination';
 import { getInterviews } from '@/store/creator/InterviewsCreator';
 import Tabs from '@/components/shared/Tab';
 import { spacing } from '@/styles';
+import Flex from '@/components/layouts/Flex';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
@@ -147,19 +148,14 @@ export default function InterviewList() {
         <Modal open={open} onClose={onClose}>
           <DrawerBody>
             <Modaltitle>{selected?.title}</Modaltitle>
-            <Button
-              onClick={() => push(`/test/${selected.interviews_id}`)}
-              primary
-              lg
-              css={css`
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                border-radius: 0px;
-              `}
-            >
-              테스트하기
-            </Button>
+            <Flex direction="column" columnGap="1em">
+              <Button onClick={() => push(`/test/${selected.interviews_id}?isVoice=true`)} primary md>
+                음성녹음으로 테스트하기
+              </Button>
+              <Button onClick={() => push(`/test/${selected.interviews_id}?isVideo=true`)} primary md>
+                영상녹화로 테스트하기
+              </Button>
+            </Flex>
           </DrawerBody>
         </Modal>
       </Portal>
