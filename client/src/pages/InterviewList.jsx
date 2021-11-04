@@ -17,11 +17,13 @@ import { getCategory } from '@/store/creator/categoryCreator';
 import Tabs from '@/components/shared/Tab';
 import { spacing } from '@/styles';
 import Flex from '@/components/layouts/Flex';
+import { useMode } from '@/contexts/ModeContext';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null);
+  const [mode] = useMode();
 
   const { interviews, totalPage, getInterviewsLoading, getInterviewsError } = useSelector(state => state.interviews);
   const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
@@ -80,30 +82,21 @@ export default function InterviewList() {
               padding: ${spacing[4]};
               border-radius: 0.5em;
               margin-bottom: 1em;
+              transition: all 0.2s ease-out;
+              &:hover {
+                transform: scale(1.01);
+                box-shadow: 1px 3px 6px ${theme.colors.shadow.basic};
+              }
+              &:hover ${InterviewTitle}::after {
+                width: 100%;
+              }
             `}
           >
             <Table.Header>
-              <h3
-                css={theme =>
-                  css`
-                    ${theme.typography.subtitle[4]}
-                  `
-                }
-              >
-                {interview.title}
-              </h3>
+              <InterviewTitle mode={mode}>{interview.title}</InterviewTitle>
             </Table.Header>
             <Table.Body>
-              <p
-                css={theme =>
-                  css`
-                    ${theme.typography.body[2]};
-                    color: ${theme.colors.text.secondary};
-                  `
-                }
-              >
-                {interview.description}
-              </p>
+              <InterviewContent>{interview.description}</InterviewContent>
             </Table.Body>
             <Table.FooterTop>
               <UserInfo nickname={interview.userInfo.nickname} />
@@ -206,6 +199,37 @@ const DrawerBody = styled.div`
   color: ${({ theme }) => theme.colors.text.primary};
   overflow: hidden;
 `;
+// * Interview
+
+const InterviewTitle = styled.h3`
+  ${({ theme }) => theme.typography.subtitle[4]}
+  position: relative;
+  z-index: 2;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    bottom: 0px;
+    height: 100%;
+    z-index: -1;
+    transition: all 0.2s ease-in;
+    background-image: ${({ theme, mode }) =>
+      mode === 'dark'
+        ? `linear-gradient(-100deg, rgba(255, 255, 255, 0), ${theme.colors.tint.navy[500]} 35%, rgba(255, 255, 255, 0))`
+        : `linear-gradient(-100deg, rgba(255, 255, 255, 0), ${theme.colors.tint.yellow[500]} 35%, rgba(255, 255, 255, 0))`};
+    transition: all 0.2s ease-out;
+  }
+`;
+
+const InterviewContent = styled.p`
+  ${({ theme }) => theme.typography.body[2]};
+  color: ${({ theme }) => theme.colors.text.secondary};
+`;
+
+// * Modal
 
 const Modaltitle = styled.h3`
   ${({ theme }) => theme.typography.subtitle[4]}
