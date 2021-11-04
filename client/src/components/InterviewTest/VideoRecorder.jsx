@@ -39,7 +39,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 
   useEffect(() => {
     if (!playing && data.length !== 0) {
-      // , { type: 'video/webm;codecs=vp9' }
       setSrc(window.URL.createObjectURL(new Blob([data])));
     } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
     countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
@@ -48,7 +47,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const startOrStop = () => {
     if (!playing) {
       getWebcam(stream => {
-        // , { mimeType: `video/webm;codecs=vp9` }
         const videoRecorder = new MediaRecorder(stream);
         // videoRecorder.state === 'inactive' 녹음,녹화 준비중일때, 화면에 로딩스피너 띄우기
         if (videoRecorder.state === 'inactive') {
