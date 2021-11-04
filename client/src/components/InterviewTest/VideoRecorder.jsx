@@ -13,22 +13,23 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const [src, setSrc] = useState(null);
   const [recordState, setRecordState] = useState(null);
   const videoRef = useRef(null);
+  let constraints = {};
 
-  const getWebcam = callback => {
+  if (search === `?isVoice=true`) {
+    constraints = {
+      video: false,
+      audio: true,
+    };
+  } else if (search === `?isVideo=true`) {
+    constraints = {
+      video: true,
+      audio: true,
+    };
+  }
+
+  const getWebcam = stream => {
     try {
-      if (search === `?isVoice=true`) {
-        const constraints = {
-          video: false,
-          audio: true,
-        };
-        navigator.mediaDevices.getUserMedia(constraints).then(callback);
-      } else if (search === `?isVideo=true`) {
-        const constraints = {
-          video: { facingMode: 'user' },
-          audio: true,
-        };
-        navigator.mediaDevices.getUserMedia(constraints).then(callback);
-      }
+      navigator.mediaDevices.getUserMedia(constraints).then(stream);
     } catch (err) {
       console.log(err);
       return undefined;
@@ -48,17 +49,19 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         const videoRecorder = new MediaRecorder(stream, { mimeType: `video/webm;codecs=vp9` });
         // videoRecorder.state === 'inactive' 녹음,녹화 준비중일때, 화면에 로딩스피너 띄우기
         if (videoRecorder.state === 'inactive') {
+          // 시작 전 상태 저장
           setRecordState('inactive');
         }
-        videoRecorder.start();
+        videoRecorder.start(); // 시작
+        // videoRecorder.state==='recording' 녹음중일때 녹음중 UI띄우기, 녹화중일때 화면에 제거
         if (videoRecorder.state === 'recording') {
+          // 시작 후 상태 저장
           setRecordState('recording');
         }
-        // videoRecorder.state==='recording' 녹음중일때 녹음중 UI띄우기, 녹화중일때 화면에 제거
         setPlaying(true);
-        console.log(videoRecorder.state);
         videoRef.current.srcObject = stream;
         videoRecorder.ondataavailable = e => {
+          // blob 데이터 저장
           if (e.data && e.data.size > 0) {
             setData(e.data);
           }
@@ -66,9 +69,11 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
       });
     } else {
       const s = videoRef.current.srcObject;
-      s.getTracks().forEach(track => {
-        track.stop();
-      });
+      if (s !== null) {
+        s.getTracks().forEach(track => {
+          track.stop();
+        });
+      }
     }
     setPlaying(!playing);
   };
