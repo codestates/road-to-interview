@@ -1,9 +1,16 @@
-const axios = require("axios");
 const cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
-//리눅스 환경 적용
-//https://curryyou.tistory.com/222
+const mysql = require("mysql");
+const dotenv = require("dotenv");
+dotenv.config();
 
+let con = mysql.createConnection({
+  host: "rti.cqmaumynjbfr.ap-northeast-2.rds.amazonaws.com",
+  user: "admin",
+  password: "roadtointerview",
+  database: "RTI",
+  port: "13306",
+});
 const getHtml = async () => {
   const browser = await puppeteer.launch({
     headless: true,
@@ -20,10 +27,11 @@ const getHtml = async () => {
   );
 
   const content = await page.content();
-  return { content, browser };
+  browser.close();
+  return content;
 };
 
-getHtml().then(({ content, browser }) => {
+getHtml().then((content) => {
   let ulList = [];
   let url = "https://www.wanted.co.kr";
   const $ = cheerio.load(content);
@@ -34,11 +42,25 @@ getHtml().then(({ content, browser }) => {
     ulList[i] = {
       position: $(this).find("div.job-card-position").text(),
       company: $(this).find("div.job-card-company-name").text(),
-      src: url + $(this).find("div._3D4OeuZHyGXN7wwibRM5BJ a").attr("href"),
+      url: url + $(this).find("div._3D4OeuZHyGXN7wwibRM5BJ a").attr("href"),
     };
   });
-  console.log(ulList);
-  const data = ulList.filter((n) => n.title);
-  browser.close();
-  return data;
+
+  let nowList = ulList.map((el) => {
+    return ["null", el.position, el.company, el.url, "now()", "now()"];
+  });
+
+  console.log(nowList);
+  const sql =
+    "insert into news(id,position,company,url,createdAt,updatedAt) values ?";
+
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(sql, [nowList], function (err, result, fields) {
+      if (err) throw err;
+      console.log(result);
+      con.end();
+      return;
+    });
+  });
 });
