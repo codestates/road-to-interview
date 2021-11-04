@@ -20,7 +20,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { userInfo, loginDone } = useSelector(state => state.users);
+  const { userInfo, loginDone, kakaoLoginDone } = useSelector(state => state.users);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,15 +28,10 @@ export default function Login() {
     dispatch(login(data));
   };
 
-  // * 카카오 소셜 로그인
-  // TODOS: 인가코드로 토큰 발급받기
-  const uri = window.location.href;
-  const code = uri.split('=')[1];
-  console.log(code);
-
   // TODO: 유저정보 불러와지면 로그인 상태로 메인으로
   useEffect(() => {
-    if (userInfo && loginDone) {
+    const isLogin = loginDone || kakaoLoginDone;
+    if (userInfo && isLogin) {
       history.replace('/');
     }
   });
