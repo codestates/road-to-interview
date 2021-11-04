@@ -72,7 +72,11 @@ export default function Landing() {
         <StyledSlider {...settings}>
           {sectionData.map(({ Vector, title, text }) => (
             <Section>
-              <Illustration>
+              <Illustration
+                css={css`
+                  max-width: 500px;
+                `}
+              >
                 <Vector width="100%" height="100%" />
               </Illustration>
               <SectionTitle>{title}</SectionTitle>
@@ -90,12 +94,14 @@ const Layout = styled.div`
 `;
 
 // * Header
-const Header = styled.div`
+const Header = styled.header`
   height: 100vh;
   text-align: center;
+  padding: ${spacing[5]};
   padding-top: ${spacing[10]};
   ${media.desktop(css`
     display: flex;
+    height: auto;
     & > *:first-of-type {
       text-align: start;
     }

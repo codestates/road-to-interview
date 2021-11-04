@@ -68,6 +68,8 @@ export default function InterviewList() {
               ))}
           </Tabs>
         </Inner>
+        <FadeLeft />
+        <FadeRight />
       </Header>
       <Main>
         {interviews?.map(interview => (
@@ -153,12 +155,32 @@ export default function InterviewList() {
 
 const Layout = styled.div``;
 
+const FadeLeft = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2em;
+  height: calc(100% - 5px);
+  background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.background}, transparent)`};
+`;
+const FadeRight = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2em;
+  height: calc(100% - 5px);
+  background: ${({ theme }) => `linear-gradient(to left, ${theme.colors.background}, transparent)`};
+`;
+
 const Header = styled.header`
+  position: relative;
   margin-bottom: 1em;
 `;
+
 const Inner = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
+  padding: 0 2em;
   &::-webkit-scrollbar {
     height: 5px;
   }
