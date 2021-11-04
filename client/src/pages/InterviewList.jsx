@@ -158,16 +158,16 @@ const Layout = styled.div``;
 const FadeLeft = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  width: 2em;
+  left: -1px;
+  width: 2.2em;
   height: calc(100% - 5px);
   background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.background}, transparent)`};
 `;
 const FadeRight = styled.div`
   position: absolute;
   top: 0;
-  right: 0;
-  width: 2em;
+  right: -1px;
+  width: 2.2em;
   height: calc(100% - 5px);
   background: ${({ theme }) => `linear-gradient(to left, ${theme.colors.background}, transparent)`};
 `;
