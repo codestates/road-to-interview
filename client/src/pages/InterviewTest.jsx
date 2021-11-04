@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestions } from '@/store/creator/questionsCreator';
 
 import CountTimer from '../components/InterviewTest/CountTimer';
 import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
-import Button from '../components/elements/Button';
-import { fontSizes, spacing } from '@/styles';
+import { spacing } from '@/styles';
 import media from '@/utils/media';
 import HintViewer from '@/components/InterviewTest/HintViewer';
-import { useLocation } from 'react-router-dom';
+
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
   const dispatch = useDispatch();
@@ -20,9 +19,6 @@ const InterviewTest = () => {
   } = useRouteMatch();
 
   const { search } = useLocation();
-  console.log(search);
-  // ?isVoice=true
-  // ?isVideo=true
 
   useEffect(() => {
     dispatch(getQuestions(id));
@@ -32,6 +28,7 @@ const InterviewTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questionNum, setQuestionNum] = useState(0);
   const [view, setView] = useState(false);
+
   useEffect(() => {
     if (getQuestionsDone) {
       setCurrentQuestion(questions[0]); // 처음 문제
@@ -87,15 +84,14 @@ const InterviewTest = () => {
         <Question currentQuestion={currentQuestion} />
       </div>
       <div
-        view={view}
         css={css`
           ${media.desktop(css`
             display: flex;
-            width: ${props => (props.view ? '90vw' : null)};
           `)}
         `}
       >
         <VideoRecorder
+          search={search}
           prevHandler={prevHandler}
           nextHandler={nextHandler}
           hintHandler={hintHandler}
