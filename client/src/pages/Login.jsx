@@ -20,7 +20,8 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { userInfo, loginDone, kakaoLoginDone } = useSelector(state => state.users);
+  const { userInfo, loginDone, kakaoLoginDone, googleLoginDone, loginError, kakaoLoginError, googleLoginError } =
+    useSelector(state => state.users);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,12 +29,19 @@ export default function Login() {
     dispatch(login(data));
   };
 
-  // TODO: 유저정보 불러와지면 로그인 상태로 메인으로
+  // 유저정보 불러와지면 로그인 상태로 메인으로
   useEffect(() => {
-    const isLogin = loginDone || kakaoLoginDone;
+    const isLogin = loginDone || kakaoLoginDone || googleLoginDone;
     if (userInfo && isLogin) {
       history.replace('/');
     }
+  });
+
+  // 로그인 에러시 서버 에러 메시지 alert
+  useEffect(() => {
+    loginError && alert(loginError);
+    kakaoLoginError && alert(kakaoLoginError);
+    googleLoginError && alert(googleLoginError);
   });
 
   return (

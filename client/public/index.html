@@ -23,8 +23,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
+      function init() {
+        gapi.load('auth2', function () {
+          /* Ready. Make a call to gapi.auth2.init or some other API */
+          gapi.auth2.init({
+            client_id: '573846172229-e8cnd3ol79nr96r1f619ruo8eo9jq020.apps.googleusercontent.com',
+          });
+        });
+      }
       Kakao.init('cb7067af901789613dc72418d6ca454d');
     </script>
   </head>
