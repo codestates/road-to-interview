@@ -14,13 +14,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const [recordState, setRecordState] = useState(null);
   const videoRef = useRef(null);
   let constraints = {};
-
   if (search === `?isVoice=true`) {
+    //음성조건
     constraints = {
       video: false,
       audio: true,
     };
   } else if (search === `?isVideo=true`) {
+    //영상조건
     constraints = {
       video: true,
       audio: true,
@@ -38,15 +39,17 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 
   useEffect(() => {
     if (!playing && data.length !== 0) {
-      setSrc(window.URL.createObjectURL(new Blob([data], { type: 'video/webm;codecs=vp9' })));
-    }
-    countHandler(playing);
+      // , { type: 'video/webm;codecs=vp9' }
+      setSrc(window.URL.createObjectURL(new Blob([data])));
+    } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
+    countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
   }, [data, playing, countHandler]);
 
   const startOrStop = () => {
     if (!playing) {
       getWebcam(stream => {
-        const videoRecorder = new MediaRecorder(stream, { mimeType: `video/webm;codecs=vp9` });
+        // , { mimeType: `video/webm;codecs=vp9` }
+        const videoRecorder = new MediaRecorder(stream);
         // videoRecorder.state === 'inactive' 녹음,녹화 준비중일때, 화면에 로딩스피너 띄우기
         if (videoRecorder.state === 'inactive') {
           // 시작 전 상태 저장
@@ -70,8 +73,9 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
     } else {
       const s = videoRef.current.srcObject;
       if (s !== null) {
+        // 녹화중일때만 정지할수있다
         s.getTracks().forEach(track => {
-          track.stop();
+          track.stop(); // 정지
         });
       }
     }
