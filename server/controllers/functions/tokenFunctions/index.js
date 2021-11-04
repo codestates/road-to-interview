@@ -34,7 +34,7 @@ module.exports = {
       return null;
     }
     const token = authorization;
-    console.log(token);
+
     try {
       return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {

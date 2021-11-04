@@ -35,6 +35,8 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "내 답변 목록 불러오기 Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "내 답변 목록 불러오기 Server Error" }); // Server error
     });
 };

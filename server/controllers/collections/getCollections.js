@@ -11,10 +11,10 @@ module.exports = (req, res) => {
   const { id } = accessTokenData;
   sequelize
     .query(
-      `select i.id as interviews_id, i.title, i.description, i.categorys_id, ca.category
+      `select i.id as interviews_id, i.title, i.description, a.categorys_id, a.category
       from interviews i
-      join categorys ca
-      on ca.categorys_id = i.categorys_id
+      join (select c.category, c.categorys_id, ci.interviews_id from categorys c join cate_inters ci on c.categorys_id = ci.categorys_id ) a
+      on a.interviews_id = i.id
       where i.id in (select interviews_id 
               from collections c
               join users u
@@ -35,6 +35,8 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "내 컬렉션 불러오기 Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "내 컬렉션 불러오기 Server Error" }); // Server error
     });
 };

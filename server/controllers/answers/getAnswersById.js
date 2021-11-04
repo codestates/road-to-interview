@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     return;
   }
   console.log(req.params.id);
-  const id = req.params.id;
+  const interviews_id = req.params.id;
   sequelize
     .query(
       `select a.answer, a.id, a.questions_id,q.title,q.description, q.interviews_id
@@ -16,7 +16,7 @@ module.exports = (req, res) => {
       join questions q
       on a.questions_id = q.id
       where q.interviews_id = ` +
-        id +
+        interviews_id +
         `
       and a.users_id in (select u.id 
                  from users u 
@@ -39,7 +39,7 @@ module.exports = (req, res) => {
           join questions q
           on a.questions_id = q.id
           where q.interviews_id = ` +
-              id +
+              interviews_id +
               `
           and a.users_id not in (select u.id 
                      from users u 
@@ -60,9 +60,10 @@ module.exports = (req, res) => {
           })
           .catch((error) => {
             console.log(error);
-            res
-              .status(500)
-              .send({ message: "내 답변 목록 일반 불러오기 Server Error" }); // Server error
+            res.status(500).send({
+              error,
+              message: "내 답변 목록 일반 불러오기 Server Error",
+            }); // Server error
           });
       }
     })
@@ -70,6 +71,6 @@ module.exports = (req, res) => {
       console.log(error);
       res
         .status(500)
-        .send({ message: "내 답변 목록 모범 불러오기 Server Error" }); // Server error
+        .send({ error, message: "내 답변 목록 모범 불러오기 Server Error" }); // Server error
     });
 };

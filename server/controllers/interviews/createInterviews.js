@@ -10,6 +10,7 @@ module.exports = (req, res) => {
     return;
   }
   const { id } = accessTokenData;
+
   interviews
     .create({
       title,
@@ -24,7 +25,7 @@ module.exports = (req, res) => {
       } else {
         interviews_id = interview.dataValues.id;
         new_cate = categorys_data.map((el) => {
-          return { categorys_id: el["id"], interviews_id };
+          return { categorys_id: el["categorys_id"], interviews_id };
         });
         cate_inter
           .bulkCreate(new_cate)
@@ -65,7 +66,10 @@ module.exports = (req, res) => {
                   console.log(error);
                   res
                     .status(500)
-                    .send({ message: "인터뷰 생성 questions : Server Error" }); // Server error
+                    .send({
+                      error,
+                      message: "인터뷰 생성 questions : Server Error",
+                    }); // Server error
                 });
             }
           })
@@ -73,12 +77,17 @@ module.exports = (req, res) => {
             console.log(error);
             res
               .status(500)
-              .send({ message: "인터뷰 생성 cate_inters : Server Error" }); // Server error
+              .send({
+                error,
+                message: "인터뷰 생성 cate_inters : Server Error",
+              }); // Server error
           });
       }
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "인터뷰 생성 interview : Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "인터뷰 생성 interview : Server Error" }); // Server error
     });
 };

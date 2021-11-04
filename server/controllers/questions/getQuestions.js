@@ -7,7 +7,7 @@ module.exports = (req, res) => {
       .send({ message: "인터뷰 질문 리스트 : 데이터가 부족합니다." });
     return;
   }
-  console.log(req.params.id);
+
   const id = req.params.id;
   sequelize
     .query(
@@ -29,6 +29,8 @@ module.exports = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send({ message: "인터뷰 질문 리스트 Server Error" }); // Server error
+      res
+        .status(500)
+        .send({ error, message: "인터뷰 질문 리스트 Server Error" }); // Server error
     });
 };
