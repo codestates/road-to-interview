@@ -13,6 +13,7 @@ import Table from '@/components/shared/Table';
 import Pagination from '@/components/shared/Pagination';
 
 import { getInterviews } from '@/store/creator/InterviewsCreator';
+import { getCategory } from '@/store/creator/categoryCreator';
 import Tabs from '@/components/shared/Tab';
 import { spacing } from '@/styles';
 import Flex from '@/components/layouts/Flex';
@@ -23,12 +24,17 @@ export default function InterviewList() {
   const [selected, setSelected] = useState(null);
 
   const { interviews, totalPage, getInterviewsLoading, getInterviewsError } = useSelector(state => state.interviews);
+  const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getInterviews({ page, size: 10, category: '' }));
   }, [page, dispatch]);
+
+  useEffect(() => {
+    dispatch(getCategory);
+  }, []);
 
   const onOpen = interview => {
     setOpen(true);
@@ -42,45 +48,27 @@ export default function InterviewList() {
 
   if (getInterviewsLoading) return <span>로딩 중</span>;
   if (getInterviewsError) return <span>{getInterviewsError}</span>;
+
   return (
     <Layout>
-      <Tabs
-        currentTab="1"
-        css={css`
-          margin: 1rem 0;
-        `}
-      >
-        <Tabs.Tab
-          css={theme =>
-            css`
-              ${theme.typography.caption[1]}
-            `
-          }
-          id="1"
-        >
-          모든 게시물
-        </Tabs.Tab>
-        <Tabs.Tab
-          css={theme =>
-            css`
-              ${theme.typography.caption[1]}
-            `
-          }
-          id="2"
-        >
-          프론트엔드
-        </Tabs.Tab>
-        <Tabs.Tab
-          css={theme =>
-            css`
-              ${theme.typography.caption[1]}
-            `
-          }
-          id="3"
-        >
-          백엔드
-        </Tabs.Tab>
-      </Tabs>
+      <Header>
+        <Inner>
+          <Tabs
+            currentTab="1"
+            css={css`
+              padding-bottom: 0.5em;
+            `}
+          >
+            {!getCategoryLoading &&
+              getCategoryDone &&
+              categorys.map((cta, index) => (
+                <Tabs.Tab key={cta.id} id={String(index + 1)} noneLine={true}>
+                  {cta.category}
+                </Tabs.Tab>
+              ))}
+          </Tabs>
+        </Inner>
+      </Header>
       <Main>
         {interviews?.map(interview => (
           <Table
@@ -164,6 +152,23 @@ export default function InterviewList() {
 }
 
 const Layout = styled.div``;
+
+const Header = styled.header`
+  margin-bottom: 1em;
+`;
+const Inner = styled.div`
+  overflow-x: auto;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.background_elevated};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
+  }
+`;
 
 const Main = styled.main``;
 
