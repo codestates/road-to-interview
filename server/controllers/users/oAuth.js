@@ -6,7 +6,7 @@ const {
   sendAccessToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
-  const { email, name, src, emailauth } = req.body;
+  const { email, nickname, src, emailauth } = req.body;
 
   users
     .findOrCreate({
@@ -14,7 +14,7 @@ module.exports = (req, res) => {
         email,
       },
       defaults: {
-        nickname: name,
+        nickname,
         emailauth,
         src,
       },
@@ -43,10 +43,10 @@ module.exports = (req, res) => {
         id = result.dataValues.id;
       }
 
-      const accessToken = generateAccessToken({ name, email, id, src });
-      const refreshToken = generateRefreshToken({ name, email, id, src });
-      sendRefreshToken(res, refreshToken, { name, email, id, src });
-      sendAccessToken(res, accessToken, { name, email, id, src });
+      const accessToken = generateAccessToken({ nickname, email, id, src });
+      const refreshToken = generateRefreshToken({ nickname, email, id, src });
+      sendRefreshToken(res, refreshToken, { nickname, email, id, src });
+      sendAccessToken(res, accessToken, { nickname, email, id, src });
     })
     .catch((error) => {
       console.log(error);
