@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { edit } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -28,11 +28,17 @@ export default function Mypage() {
 
   const history = useHistory();
 
-  const { userInfo, accessToken } = useSelector(state => state.users);
+  const { userInfo, accessToken, editDone, editError } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
-  // TODO: 수정하려는 닉네임 받아두고 정보 수정할 때 dispatch
-  // const [changeNickname, setChangeNickname] = useState(watch('nickname'));
+  useEffect(() => {
+    if (editDone) {
+      alert('정보가 수정되었습니다.');
+    }
+    if (editError) {
+      alert(editError);
+    }
+  }, [editDone, editError]);
 
   const onSubmit = data => {
     const newData = {
