@@ -8,7 +8,8 @@ import styled from '@emotion/styled';
 
 import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
-import SocialBtn from '@/components/elements/SocialBtn';
+import GoogleSocialLogin from '@/components/Login/GoogleLogin';
+import KakaoLogin from '@/components/Login/KakaoLogin';
 import Button from '@/components/elements/Button';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 
@@ -19,20 +20,28 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { userInfo, loginDone } = useSelector(state => state.users);
+  const { userInfo, loginDone, kakaoLoginDone, googleLoginDone, loginError, kakaoLoginError, googleLoginError } =
+    useSelector(state => state.users);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const onSubmit = data => {
-    console.log(data);
     dispatch(login(data));
   };
 
-  // TODO: 유저정보 불러와지면 로그인 상태로 메인으로
+  // 유저정보 불러와지면 로그인 상태로 메인으로
   useEffect(() => {
-    if (userInfo && loginDone) {
+    const isLogin = loginDone || kakaoLoginDone || googleLoginDone;
+    if (userInfo && isLogin) {
       history.replace('/');
     }
+  });
+
+  // 로그인 에러시 서버 에러 메시지 alert
+  useEffect(() => {
+    loginError && alert(loginError);
+    kakaoLoginError && alert(kakaoLoginError);
+    googleLoginError && alert(googleLoginError);
   });
 
   return (
@@ -87,9 +96,9 @@ export default function Login() {
             margin-bottom: 0.75rem;
           `}
         >
-          <SocialBtn type="google" />
+          <GoogleSocialLogin />
         </Field>
-        <SocialBtn type="kakao" />
+        <KakaoLogin />
       </Field>
       <Field
         css={css`

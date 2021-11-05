@@ -4,6 +4,14 @@
 export const loginRequest = 'users/login/pending';
 export const loginSuccess = 'users/login/fullfilled';
 export const loginFailure = 'users/login/rejected';
+// 구글 소셜 로그인 요청
+export const googleLoginRequest = 'users/googlelogin/pending';
+export const googleLoginSuccess = 'users/googlelogin/fullfilled';
+export const googleLoginFailure = 'users/googlelogin/rejected';
+// 카카오 소셜 로그인 요청
+export const kakaoLoginRequest = 'users/kakaologin/pending';
+export const kakaoLoginSuccess = 'users/kakaologin/fullfilled';
+export const kakaoLoginFailure = 'users/kakaologin/rejected';
 // 로그아웃 요청
 export const logoutRequest = 'users/logout/pending';
 export const logoutSuccess = 'users/logout/fullfilled';
