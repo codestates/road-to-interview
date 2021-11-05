@@ -153,7 +153,7 @@ const FadeLeft = styled.div`
   top: 0;
   left: -1px;
   width: 2.2em;
-  height: calc(100% - 5px);
+  height: calc(100% - 7px);
   background: ${({ theme }) => `linear-gradient(to right, ${theme.colors.background}, transparent)`};
 `;
 const FadeRight = styled.div`
@@ -161,7 +161,7 @@ const FadeRight = styled.div`
   top: 0;
   right: -1px;
   width: 2.2em;
-  height: calc(100% - 5px);
+  height: calc(100% - 7px);
   background: ${({ theme }) => `linear-gradient(to left, ${theme.colors.background}, transparent)`};
 `;
 
@@ -175,7 +175,7 @@ const Inner = styled.div`
   overflow-y: hidden;
   padding: 0 2em;
   &::-webkit-scrollbar {
-    height: 5px;
+    height: 7px;
   }
   &::-webkit-scrollbar-track {
     background-color: ${({ theme }) => theme.colors.background_elevated};
