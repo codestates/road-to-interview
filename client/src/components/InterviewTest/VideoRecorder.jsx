@@ -39,7 +39,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 
   useEffect(() => {
     if (!playing && data.length !== 0) {
-      setSrc(window.URL.createObjectURL(new Blob([data])), { type: 'video/webm;codecs=h264' });
+      setSrc(window.URL.createObjectURL(new Blob([data])));
     } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
     countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
   }, [data, playing, countHandler]);
