@@ -159,6 +159,8 @@ const StyledSlider = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
+        width: 2.8em;
+        border-radius: 10px;
       }
     }
   }
@@ -170,6 +172,7 @@ const StyledSlider = styled(Slider)`
       height: 0.8em;
       border-radius: 50%;
       background: ${({ theme }) => theme.colors.text.disable_placeholder};
+      transition: all 0.3s ease-in-out;
     }
   }
 `;
