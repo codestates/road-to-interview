@@ -90,8 +90,8 @@ export default function Nav() {
                   css={css`
                     cursor: pointer;
                   `}
-                  width="2rem"
-                  height="2rem"
+                  width="1.7rem"
+                  height="1.7rem"
                 />
                 <ToggleButton />
               </Flex>
@@ -130,7 +130,7 @@ export default function Nav() {
             `}
             onClick={() => goBack()}
           >
-            <BackArrow width="2rem" height="2rem" />
+            <BackArrow width="1.7rem" height="1.7rem" />
           </i>
           <Logo
             css={css`
@@ -204,8 +204,8 @@ export default function Nav() {
 
 const Layout = styled.nav`
   max-width: 1920px;
-  height: 5rem;
-  padding: 0 ${spacing[7]};
+  height: 3rem;
+  padding: ${spacing[2]} ${spacing[7]};
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -231,8 +231,8 @@ const LinkItem = styled(Link)`
 
 const Logo = styled.i`
   flex-basis: 25%;
-  min-width: 200px;
-  max-width: 420px;
+  min-width: 180px;
+  max-width: 250px;
   margin-right: auto;
   & > * {
     transform: translateY(0.4em);

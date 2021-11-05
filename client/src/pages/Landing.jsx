@@ -72,7 +72,11 @@ export default function Landing() {
         <StyledSlider {...settings}>
           {sectionData.map(({ Vector, title, text }) => (
             <Section>
-              <Illustration>
+              <Illustration
+                css={css`
+                  max-width: 500px;
+                `}
+              >
                 <Vector width="100%" height="100%" />
               </Illustration>
               <SectionTitle>{title}</SectionTitle>
@@ -90,12 +94,14 @@ const Layout = styled.div`
 `;
 
 // * Header
-const Header = styled.div`
+const Header = styled.header`
   height: 100vh;
   text-align: center;
+  padding: ${spacing[5]};
   padding-top: ${spacing[10]};
   ${media.desktop(css`
     display: flex;
+    height: auto;
     & > *:first-of-type {
       text-align: start;
     }
@@ -153,6 +159,8 @@ const StyledSlider = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
+        width: 2.8em;
+        border-radius: 10px;
       }
     }
   }
@@ -164,6 +172,7 @@ const StyledSlider = styled(Slider)`
       height: 0.8em;
       border-radius: 50%;
       background: ${({ theme }) => theme.colors.text.disable_placeholder};
+      transition: all 0.3s ease-in-out;
     }
   }
 `;

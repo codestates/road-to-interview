@@ -4,11 +4,11 @@ import styled from '@emotion/styled';
 
 const variation = props => {
   const base = css`
-    border: 2px solid ${props.theme.colors.tint.navy[600]};
     border-radius: 3px;
     padding: ${spacing[2]} ${spacing[3]};
+    background: ${props.theme.colors.gray[300]};
     color: ${props.theme.colors.text.primary};
-    font-weight: bold;
+    font-weight: 700;
     ${props.theme.typography.caption[2]};
   `;
 
@@ -17,7 +17,7 @@ const variation = props => {
   `;
 };
 
-const Tag = styled.span`
+const Tag = styled.div`
   ${variation}
 `;
 
