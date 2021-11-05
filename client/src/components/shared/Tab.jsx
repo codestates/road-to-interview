@@ -66,6 +66,7 @@ const Wrapper = styled.div`
   position: relative;
   padding: ${spacing[2]};
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
   ${({ isCurrent, noneLine, theme }) =>
     !noneLine
       ? isCurrent &&
@@ -85,7 +86,9 @@ const Wrapper = styled.div`
         `
       : isCurrent &&
         css`
-          border: 2px solid ${theme.colors.tint.navy[500]};
+          background: ${theme.colors.tint.navy[500]};
+          color: whitesmoke;
+          border-radius: 5px;
           font-weight: bold;
         `}
   ${({ theme }) => theme.typography.caption[1]};

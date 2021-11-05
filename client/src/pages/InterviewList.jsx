@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { css, keyframes } from '@emotion/react';
@@ -23,6 +23,7 @@ import { modalSettings } from '@/constants/InterviewList';
 
 import { ReactComponent as Video } from 'assets/video.svg';
 import { ReactComponent as Mic } from 'assets/mic.svg';
+import { ReactComponent as TagIcon } from 'assets/tag.svg';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
@@ -51,8 +52,6 @@ export default function InterviewList() {
     setOpen(false);
   };
 
-  const { push } = useHistory();
-
   if (getInterviewsLoading) return <span>로딩 중</span>;
   if (getInterviewsError) return <span>{getInterviewsError}</span>;
 
@@ -61,11 +60,14 @@ export default function InterviewList() {
       <Header>
         <Inner>
           <Tabs
-            currentTab="1"
+            currentTab="0"
             css={css`
               padding-bottom: 0.5em;
             `}
           >
+            <Tabs.Tab key="all" id="0" noneLine={true}>
+              All
+            </Tabs.Tab>
             {!getCategoryLoading &&
               getCategoryDone &&
               categorys.map((cta, index) => (
@@ -120,7 +122,12 @@ export default function InterviewList() {
               `}
             >
               {interview.categorys?.map(category => (
-                <Tag key={category.categorys_id}>{category.category}</Tag>
+                <Tag key={category.categorys_id}>
+                  <Flex rowGap=".4em">
+                    <TagIcon width=".8rem" height=".8rem" />
+                    <span>{category.category}</span>
+                  </Flex>
+                </Tag>
               ))}
             </Table.FooterStart>
             <Table.FooterEnd>
@@ -200,7 +207,9 @@ const Inner = styled.div`
   }
 `;
 
-const Main = styled.main``;
+const Main = styled.main`
+  margin: 0 auto;
+`;
 
 const DrawerBody = styled.div`
   position: relative;
@@ -212,7 +221,7 @@ const DrawerBody = styled.div`
   align-items: center;
   background: ${({ theme }) => theme.colors.background_elevated};
   color: ${({ theme }) => theme.colors.text.primary};
-  overflow-y: auto;
+  overflow: hidden;
 `;
 // * Interview
 
@@ -228,7 +237,7 @@ const InterviewTitle = styled.h3`
     left: 0;
     width: 0;
     bottom: 0px;
-    height: 100%;
+    height: 10%;
     z-index: -1;
     transition: all 0.2s ease-in;
     background-image: ${({ theme, mode }) =>
@@ -240,7 +249,7 @@ const InterviewTitle = styled.h3`
 `;
 
 const InterviewContent = styled.p`
-  ${({ theme }) => theme.typography.body[2]};
+  ${({ theme }) => theme.typography.caption[1]};
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
