@@ -29,13 +29,25 @@ module.exports = (req, res) => {
           id = result.dataValues.id;
         } else {
           if (auth === 1 || auth === 0) {
-            res.status(400).send({ message: "이메일로 로그인 해주세요" });
+            res
+              .status(400)
+              .send({
+                message: "이미 가입된 회원입니다. 이메일로 로그인 해주세요",
+              });
             return;
           } else if (auth === 2) {
-            res.status(400).send({ message: "카카오로 로그인 해주세요" });
+            res
+              .status(400)
+              .send({
+                message: "이미 가입된 회원입니다. 카카오로 로그인 해주세요",
+              });
             return;
           } else {
-            res.status(400).send({ message: "구글로 로그인 해주세요" });
+            res
+              .status(400)
+              .send({
+                message: "이미 가입된 회원입니다. 구글로 로그인 해주세요",
+              });
             return;
           }
         }
