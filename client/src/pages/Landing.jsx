@@ -13,6 +13,7 @@ import { ReactComponent as Job } from 'assets/job-ill.svg';
 import { settings, sectionData, QnAData } from '@/constants/Landing';
 import Divider from '@/components/Landing/Divider';
 import Tabs from '@/components/Landing/Tab2';
+import ScrollBtn from '@/components/Landing/ScrollBtn';
 
 export default function Landing() {
   const history = useHistory();
@@ -84,6 +85,14 @@ export default function Landing() {
           ))}
         </Tabs>
       </Section>
+      <ScrollBtn
+        css={css`
+          position: fixed;
+          bottom: 1.5em;
+          right: 1.5em;
+          ${media.tablet()}
+        `}
+      />
     </Layout>
   );
 }
