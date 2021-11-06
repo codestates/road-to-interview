@@ -47,7 +47,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const startOrStop = () => {
     if (!playing) {
       getWebcam(stream => {
-        const videoRecorder = new MediaRecorder(stream);
+        const videoRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
         // videoRecorder.state === 'inactive' 녹음,녹화 준비중일때, 화면에 로딩스피너 띄우기
         if (videoRecorder.state === 'inactive') {
           // 시작 전 상태 저장
@@ -64,7 +64,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 
         videoRecorder.ondataavailable = e => {
           // blob 데이터 저장
-          console.log(e);
+          console.log(e.data.size);
           if (e.data && e.data.size > 0) {
             setData(e.data);
           }
