@@ -64,7 +64,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 
         videoRecorder.ondataavailable = e => {
           // blob 데이터 저장
-          console.log(e);
+          console.log(e.data.size);
           if (e.data && e.data.size > 0) {
             setData(e.data);
           }
