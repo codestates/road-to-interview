@@ -23,20 +23,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
 
   useEffect(() => {
     if (currentQuestion !== undefined && currentQuestion !== null) {
-      if (Number.isInteger(currentQuestion.limit_second / 60)) {
-        setMinutes(currentQuestion.limit_second / 60);
-      }
+      setMinutes(Number.parseInt(currentQuestion.limit_second / 60));
+      setSeconds(currentQuestion.limit_second - Number.parseInt(currentQuestion.limit_second));
     }
   }, [currentQuestion]);
-  // useEffect(() => {
-  //   if (currentQuestion !== undefined && currentQuestion !== null) {
-  //     setMinutes(2); // 초를 분으로 변환
-
-  //     if (currentQuestion.limit_second / 60 !== parseInt(currentQuestion.limit_second / 60)) {
-  //       setSeconds(currentQuestion.limit_second - parseInt(currentQuestion.limit_second / 60));
-  //     } // 분으로 변환한 나머지 초로 넣는다
-  //   }
-  // }, [currentQuestion, setMinutes, setSeconds]);
 
   useEffect(() => {
     if (isPlay) {
