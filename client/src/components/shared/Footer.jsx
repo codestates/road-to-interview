@@ -17,7 +17,7 @@ export default function Footer() {
         </Introduction>
         <Flex
           css={css`
-            padding: ${spacing[2]};
+            margin-right: auto;
           `}
         >
           <Title>제작자</Title>
@@ -31,16 +31,16 @@ export default function Footer() {
             </TeamInfo>
           ))}
         </Flex>
+        <Copyright>
+          ⓒ 2021. <b>Road to Interview</b> All Rights Reserved.
+        </Copyright>
       </List>
-      <Copyright>
-        ⓒ 2021. <b>Road to Interview</b> All Rights Reserved.
-      </Copyright>
     </Container>
   );
 }
 
 const Container = styled.div`
-  padding: ${spacing[3]} ${spacing[4]};
+  padding: ${spacing[3]} ${spacing[5]};
   background: ${({ theme }) => theme.colors.background_elevated};
   ${({ theme }) => theme.typography.caption[2]};
 
@@ -49,15 +49,15 @@ const Container = styled.div`
     transition: all 0.2s ease-in;
   }
   a:hover {
-    color: ${({ theme }) => theme.colors.tint.coral[700]};
+    color: ${({ theme }) => theme.colors.tint.blue[500]};
   }
 `;
 const List = styled.ul`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
+  justify-content: center;
 
-  ${media.tablet(
+  ${media.laptop(
     css`
       flex-direction: row;
       align-items: center;
@@ -68,6 +68,7 @@ const List = styled.ul`
 const Title = styled.span`
   position: relative;
   margin-right: 1em;
+  color: ${({ theme }) => theme.colors.gray[800]};
   &::after {
     content: '';
     display: inline-block;
@@ -83,9 +84,9 @@ const Title = styled.span`
 const Introduction = styled.li`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3em;
 
-  ${media.tablet(
+  ${media.laptop(
     css`
       margin-bottom: 0;
       margin-right: 1em;
@@ -95,10 +96,9 @@ const Introduction = styled.li`
 const TeamInfo = styled.li`
   display: flex;
   align-items: center;
-  padding: ${spacing[1]};
 
   &:not(:last-of-type) {
-    margin-right: 0.3em;
+    margin-right: 0.7em;
   }
 
   a {
@@ -109,4 +109,12 @@ const TeamInfo = styled.li`
 `;
 const Copyright = styled.p`
   text-align: center;
+
+  margin-top: 1em;
+
+  ${media.laptop(
+    css`
+      margin-top: 0;
+    `,
+  )}
 `;
