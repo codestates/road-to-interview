@@ -8,8 +8,9 @@ const HintViewer = ({ currentQuestion }) => {
   const content = currentQuestion.description.split('\n');
   return (
     <ul>
-      {content.map(el => (
+      {content.map((el, index) => (
         <li
+          key={content[index].length}
           mode={mode}
           css={css`
             margin-top: ${spacing[4]};

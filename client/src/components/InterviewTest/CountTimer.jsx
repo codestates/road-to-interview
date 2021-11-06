@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
@@ -6,7 +6,7 @@ import media from '@/utils/media';
 const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-
+  const timerRef = useRef();
   const minuteAdd = () => {
     // 1분추가
     setMinutes(minutes + 1);
@@ -28,6 +28,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
     }
   }, [currentQuestion]);
 
+  useEffect(() => {
+    if (isPlay) {
+    }
+  }, [isPlay]);
   useEffect(() => {
     if (isPlay) {
       //버튼 누르면
@@ -52,6 +56,7 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
 
   return (
     <div
+      timerRef={timerRef}
       css={css`
         /* border: solid; */
         width: 100vw;
@@ -80,6 +85,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
       </div>
       <div>
         <Button
+          onClick={() => {
+            setMinutes(Number.parseInt(currentQuestion.limit_second / 60));
+            setSeconds(currentQuestion.limit_second - Number.parseInt(currentQuestion.limit_second));
+          }}
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
@@ -91,7 +100,7 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           primary
           sm
         >
-          시작하기
+          초기화버튼
         </Button>
         <Button
           onClick={() => {
