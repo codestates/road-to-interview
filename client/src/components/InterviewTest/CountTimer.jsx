@@ -61,7 +61,8 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         position: relative;
         top: ${spacing[4]};
         ${media.desktop(css`
-          display: none;
+          top: ${spacing[7]};
+          width: 45vw;
         `)}
       `}
     >
@@ -70,6 +71,9 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           position: relative;
           bottom: 0.1em;
           font-size: ${fontSizes[900]};
+          ${media.desktop(css`
+            font-size: ${fontSizes[1000]};
+          `)}
         `}
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -77,7 +81,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
       <div>
         <Button
           css={css`
+            margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           primary
           sm
@@ -90,7 +99,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
             setSeconds(0);
           }}
           css={css`
+            margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           secondary
           sm
@@ -101,6 +115,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           sm
           onClick={minuteAdd}
@@ -111,6 +129,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           sm
           onClick={secondsAdd}

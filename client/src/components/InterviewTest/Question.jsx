@@ -16,8 +16,8 @@ const Question = ({ currentQuestion }) => {
         margin-top: ${spacing[4]};
         margin-bottom: ${spacing[4]};
         ${media.desktop(css`
-          margin-top: ${spacing[7]};
-          margin-bottom: ${spacing[5]};
+          margin-top: ${spacing[5]};
+          margin-bottom: ${spacing[2]};
           font-size: ${fontSizes[600]};
           text-align: center;
         `)}

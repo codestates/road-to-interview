@@ -14,8 +14,8 @@ const HintViewer = ({ currentQuestion }) => {
           css={css`
             margin-top: ${spacing[4]};
             width: 90vw;
-            list-style-type: disc;
             ${media.desktop(css`
+              list-style-type: disc;
               margin-top: 0;
               margin-left: ${spacing[8]};
               width: 35vw;
