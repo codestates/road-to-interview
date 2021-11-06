@@ -23,20 +23,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
 
   useEffect(() => {
     if (currentQuestion !== undefined && currentQuestion !== null) {
-      if (Number.isInteger(currentQuestion.limit_second / 60)) {
-        setMinutes(currentQuestion.limit_second / 60);
-      }
+      setMinutes(Number.parseInt(currentQuestion.limit_second / 60));
+      setSeconds(currentQuestion.limit_second - Number.parseInt(currentQuestion.limit_second));
     }
   }, [currentQuestion]);
-  // useEffect(() => {
-  //   if (currentQuestion !== undefined && currentQuestion !== null) {
-  //     setMinutes(2); // 초를 분으로 변환
-
-  //     if (currentQuestion.limit_second / 60 !== parseInt(currentQuestion.limit_second / 60)) {
-  //       setSeconds(currentQuestion.limit_second - parseInt(currentQuestion.limit_second / 60));
-  //     } // 분으로 변환한 나머지 초로 넣는다
-  //   }
-  // }, [currentQuestion, setMinutes, setSeconds]);
 
   useEffect(() => {
     if (isPlay) {
@@ -71,7 +61,8 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         position: relative;
         top: ${spacing[4]};
         ${media.desktop(css`
-          display: none;
+          top: ${spacing[7]};
+          width: 45vw;
         `)}
       `}
     >
@@ -80,6 +71,9 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           position: relative;
           bottom: 0.1em;
           font-size: ${fontSizes[900]};
+          ${media.desktop(css`
+            font-size: ${fontSizes[1000]};
+          `)}
         `}
       >
         {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
@@ -87,7 +81,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
       <div>
         <Button
           css={css`
+            margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           primary
           sm
@@ -100,7 +99,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
             setSeconds(0);
           }}
           css={css`
+            margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           secondary
           sm
@@ -111,6 +115,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           sm
           onClick={minuteAdd}
@@ -121,6 +129,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.desktop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
           `}
           sm
           onClick={secondsAdd}

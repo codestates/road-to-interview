@@ -30,6 +30,7 @@ export default function Mypage() {
 
   const { userInfo, accessToken, editDone, editError } = useSelector(state => state.users);
   const dispatch = useDispatch();
+  // console.log(userInfo);
 
   useEffect(() => {
     if (editDone) {

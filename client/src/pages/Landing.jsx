@@ -10,28 +10,10 @@ import media from '@/utils/media';
 import { spacing, palette, fontSizes } from '@/styles';
 import { ReactComponent as Chv } from 'assets/chv-right.svg';
 import { ReactComponent as Job } from 'assets/job-ill.svg';
-import { ReactComponent as Test } from 'assets/test-ill.svg';
-import { ReactComponent as Feedback } from 'assets/checklist-ill.svg';
-import { ReactComponent as Share } from 'assets/share-ill.svg';
-import { settings } from '@/constants/Landing';
-
-const sectionData = [
-  {
-    Vector: Test,
-    title: '인터뷰 테스트',
-    text: '제한시간 내에 준비된 인터뷰 질문에 답하는 테스트를 진행할 수 있습니다. 실제 화상면접처럼, 웹캠을 키고 말해보세요!',
-  },
-  {
-    Vector: Feedback,
-    title: '개인 피드백',
-    text: '녹화된 테스트 영상과 관리자가 준비한 모범 답변을 보면서 피드백하세요!',
-  },
-  {
-    Vector: Share,
-    title: '공유하기',
-    text: '인터뷰 질문 목록과 답변을 다른 사람들과 공유할 수 있습니다!',
-  },
-];
+import { settings, sectionData, QnAData } from '@/constants/Landing';
+import Divider from '@/components/Landing/Divider';
+import Tabs from '@/components/Landing/Tab2';
+import ScrollBtn from '@/components/Landing/ScrollBtn';
 
 export default function Landing() {
   const history = useHistory();
@@ -68,19 +50,49 @@ export default function Landing() {
           </Illustration>
         </Box>
       </Header>
-      <Sections id="section">
+      <Section id="section">
+        <Divider title="소개" />
         <StyledSlider {...settings}>
           {sectionData.map(({ Vector, title, text }) => (
-            <Section>
-              <Illustration>
+            <Flex direction="column">
+              <Illustration
+                css={css`
+                  max-width: 500px;
+                `}
+              >
                 <Vector width="100%" height="100%" />
               </Illustration>
               <SectionTitle>{title}</SectionTitle>
               <Text>{text}</Text>
-            </Section>
+            </Flex>
           ))}
         </StyledSlider>
-      </Sections>
+      </Section>
+      <Section>
+        <Divider title="이용가이드" />
+        <Grid>
+          <Step>step1</Step>
+          <Step>step2</Step>
+          <Step>step3</Step>
+          <Step>step4</Step>
+        </Grid>
+      </Section>
+      <Section>
+        <Divider title="q&a" />
+        <Tabs>
+          {QnAData.map(data => (
+            <Tabs.Tab {...data} />
+          ))}
+        </Tabs>
+      </Section>
+      <ScrollBtn
+        css={css`
+          position: fixed;
+          bottom: 1.5em;
+          right: 1.5em;
+          ${media.tablet()}
+        `}
+      />
     </Layout>
   );
 }
@@ -90,12 +102,15 @@ const Layout = styled.div`
 `;
 
 // * Header
-const Header = styled.div`
-  height: 100vh;
+const Header = styled.header`
+  height: auto;
   text-align: center;
+  padding: ${spacing[5]};
   padding-top: ${spacing[10]};
   ${media.desktop(css`
+    height: 100vh;
     display: flex;
+    align-items: flex-start;
     & > *:first-of-type {
       text-align: start;
     }
@@ -153,6 +168,8 @@ const StyledSlider = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
+        width: 2.8em;
+        border-radius: 10px;
       }
     }
   }
@@ -164,6 +181,7 @@ const StyledSlider = styled(Slider)`
       height: 0.8em;
       border-radius: 50%;
       background: ${({ theme }) => theme.colors.text.disable_placeholder};
+      transition: all 0.3s ease-in-out;
     }
   }
 `;
@@ -192,23 +210,41 @@ const Illustration = styled.div`
 `;
 
 // * Sections
-const Sections = styled.div`
+
+const Section = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
-`;
-const Section = styled.section`
-  text-align: center;
+  max-width: 1024px;
+  min-height: 100vh;
+  margin: 0 auto;
 `;
 const SectionTitle = styled.h3`
   ${({ theme }) => theme.typography.subtitle[2]}
   margin: ${spacing[6]} 0;
 `;
 const Text = styled.p`
+  width: 80%;
   text-align: center;
   word-break: keep-all;
   line-height: 1.5em;
   word-spacing: 2px;
   ${({ theme }) => theme.typography.body[1]}
+`;
+
+// * Grid
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  gap: 1em;
+
+  ${media.tablet(css`
+    grid-template-columns: repeat(2, 1fr);
+  `)}
+`;
+const Step = styled.div`
+  height: 350px;
+  background: ${({ theme }) => theme.colors.background_elevated};
 `;

@@ -4,10 +4,10 @@ const globalStyles = theme => css`
   html {
     height: 100%;
     ${media.tablet(css`
-      font-size: 125%;
+      font-size: 115%;
     `)}
     ${media.desktop(css`
-      font-size: 150%;
+      font-size: 130%;
     `)}
   }
 

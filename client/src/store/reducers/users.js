@@ -43,6 +43,7 @@ const initialState = {
   logoutDone: false,
   logoutError: null,
   // 회원가입 요청
+  statusCode: null,
   signupLoading: false,
   signupDone: false,
   signupError: null,
@@ -102,9 +103,10 @@ export default function reducer(state = initialState, action) {
     case googleLoginFailure:
       return {
         ...state,
+        statusCode: action.payload.status,
         googleLoginLoading: false,
         googleLoginDone: false,
-        googleLoginError: action.payload,
+        googleLoginError: action.payload.data.message,
       };
     case kakaoLoginRequest:
       return {
@@ -125,9 +127,10 @@ export default function reducer(state = initialState, action) {
     case kakaoLoginFailure:
       return {
         ...state,
+        statusCode: action.payload.status,
         kakaoLoginLoading: false,
         kakaoLoginDone: false,
-        kakaoLoginError: action.payload,
+        kakaoLoginError: action.payload.data.message,
       };
     case logoutRequest:
       return {
@@ -169,9 +172,10 @@ export default function reducer(state = initialState, action) {
     case signupFailure:
       return {
         ...state,
+        statusCode: action.payload.status,
         signupLoading: false,
         signupDone: false,
-        signupError: action.payload,
+        signupError: action.payload.data.message,
       };
     case authRequest:
       return {

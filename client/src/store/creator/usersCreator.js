@@ -42,7 +42,7 @@ export const googleLogin = data => async dispatch => {
     const res = await USER_API.postOauth(data);
     dispatch({ type: googleLoginSuccess, payload: res });
   } catch (e) {
-    dispatch({ type: googleLoginFailure, payload: e.response?.data?.message });
+    dispatch({ type: googleLoginFailure, payload: e.response });
   }
 };
 // 카카오 로그인 요청
@@ -52,7 +52,7 @@ export const kakaoLogin = data => async dispatch => {
     const res = await USER_API.postOauth(data);
     dispatch({ type: kakaoLoginSuccess, payload: res });
   } catch (e) {
-    dispatch({ type: kakaoLoginFailure, payload: e.response?.data?.message });
+    dispatch({ type: kakaoLoginFailure, payload: e.response });
   }
 };
 // 로그아웃 요청
@@ -72,7 +72,7 @@ export const signup = data => async dispatch => {
     const res = await USER_API.postSignup(data);
     dispatch({ type: signupSuccess, payload: res });
   } catch (e) {
-    dispatch({ type: signupFailure, payload: e.response?.data?.message });
+    dispatch({ type: signupFailure, payload: e.response });
   }
 };
 // 권한인증 요청

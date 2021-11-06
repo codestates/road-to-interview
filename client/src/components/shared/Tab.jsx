@@ -5,7 +5,7 @@ import { spacing } from '@/styles';
 import { css } from '@emotion/react';
 
 Tabs.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.bool]).isRequired,
   className: PropTypes.string,
   currentTab: PropTypes.string,
 };
@@ -23,6 +23,7 @@ export default function Tabs({ children, className, currentTab }) {
   const onTabChange = e => {
     if (e.target?.id) setCurrent(e.target.id);
   };
+
   return (
     <Container onClick={onTabChange} className={className}>
       <TabContext.Provider value={current}>{children}</TabContext.Provider>
@@ -32,19 +33,16 @@ export default function Tabs({ children, className, currentTab }) {
 
 const Container = styled.div`
   display: flex;
-  /* border-bottom: 2px solid ${({ theme }) => theme.colors.borderColor.inner}; */
-  & > *:not(:last-child) {
-    margin-right: 1em;
-  }
+  align-items: center;
 `;
 
 // * Tab 컴포넌트
 
-const Tab = ({ children, className, onClick, id, sm }) => {
+const Tab = ({ children, className, onClick, id, sm, noneLine }) => {
   const currentIdx = useContext(TabContext);
   return (
-    <Wrapper sm={sm} id={id} className={className} isCurrent={id === currentIdx} onClick={onClick}>
-      <span id={id}>{children}</span>
+    <Wrapper sm={sm} id={id} className={className} isCurrent={id === currentIdx} onClick={onClick} noneLine={noneLine}>
+      <p id={id}>{children}</p>
     </Wrapper>
   );
 };
@@ -53,6 +51,7 @@ Tab.defaultProps = {
   onClick: () => null,
   sm: false,
   className: '',
+  noneLine: false,
 };
 
 Tab.propTypes = {
@@ -67,23 +66,37 @@ const Wrapper = styled.div`
   position: relative;
   padding: ${spacing[2]};
   cursor: pointer;
-  ${({ isCurrent, theme }) =>
-    isCurrent &&
-    css`
-      color: ${theme.colors.tint.navy[500]};
-      &::after {
-        display: block;
-        content: '';
-        position: absolute;
-        width: 100%;
-        bottom: -2px;
-        left: 0;
-        height: 2px;
-        background-color: ${theme.colors.tint.navy[500]};
-      }
-      font-weight: bold;
-    `}
-  ${({ theme }) => theme.typography.body[1]};
+  transition: all 0.3s ease-in-out;
+  ${({ isCurrent, noneLine, theme }) =>
+    !noneLine
+      ? isCurrent &&
+        css`
+          &::after {
+            display: block;
+            content: '';
+            position: absolute;
+            width: 100%;
+            bottom: -2px;
+            left: 0;
+            height: 2px;
+            background-color: ${theme.colors.tint.navy[500]};
+          }
+          color: ${theme.colors.tint.navy[500]};
+          font-weight: bold;
+        `
+      : isCurrent &&
+        css`
+          background: ${theme.colors.tint.navy[500]};
+          color: whitesmoke;
+          border-radius: 5px;
+          font-weight: bold;
+        `}
+  ${({ theme }) => theme.typography.caption[1]};
+
+  & > p {
+    width: 5rem;
+    text-align: center;
+  }
 `;
 
 Tabs.Tab = Tab;

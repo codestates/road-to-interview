@@ -90,8 +90,8 @@ export default function Nav() {
                   css={css`
                     cursor: pointer;
                   `}
-                  width="2rem"
-                  height="2rem"
+                  width="1.7rem"
+                  height="1.7rem"
                 />
                 <ToggleButton />
               </Flex>
@@ -130,7 +130,7 @@ export default function Nav() {
             `}
             onClick={() => goBack()}
           >
-            <BackArrow width="2rem" height="2rem" />
+            <BackArrow width="1.7rem" height="1.7rem" />
           </i>
           <Logo
             css={css`
@@ -146,37 +146,37 @@ export default function Nav() {
     case LANDING:
       return (
         <Layout>
+          <Logo
+            css={css`
+              /* margin: 0 auto; */
+              cursor: pointer;
+            `}
+            onClick={() => push('/')}
+          >
+            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+          </Logo>
+
           {userInfo ? (
-            <>
-              <Logo
-                css={css`
-                  /* margin: 0 auto; */
-                  cursor: pointer;
-                `}
-                onClick={() => push('/')}
-              >
-                {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
-              </Logo>
-              <Button secondary sm onClick={() => push('/mypage')}>
+            <Flex>
+              <Button text secondary sm onClick={() => push('/mypage')}>
                 마이페이지
               </Button>
-            </>
+            </Flex>
           ) : (
-            <>
-              <Logo
-                css={css`
-                  /* margin: 0 auto; */
-                  cursor: pointer;
-                `}
-                onClick={() => push('/')}
-              >
-                {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
-              </Logo>
-              <Button tertiary sm onClick={() => push('/login')}>
+            <Flex rowGap="1em">
+              <Button text tertiary sm onClick={() => push('/login')}>
                 로그인
               </Button>
-            </>
+              <Button text tertiary sm onClick={() => push('/signup')}>
+                회원가입
+              </Button>
+            </Flex>
           )}
+          <ToggleButton
+            css={css`
+              margin-left: 1em;
+            `}
+          />
         </Layout>
       );
     case INTETVIEW_TEST:
@@ -204,8 +204,8 @@ export default function Nav() {
 
 const Layout = styled.nav`
   max-width: 1920px;
-  height: 5rem;
-  padding: 0 ${spacing[7]};
+  height: 3rem;
+  padding: ${spacing[2]} ${spacing[5]};
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -231,8 +231,8 @@ const LinkItem = styled(Link)`
 
 const Logo = styled.i`
   flex-basis: 25%;
-  min-width: 200px;
-  max-width: 420px;
+  min-width: 180px;
+  max-width: 250px;
   margin-right: auto;
   & > * {
     transform: translateY(0.4em);

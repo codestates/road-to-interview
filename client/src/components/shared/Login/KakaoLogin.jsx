@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { kakaoLogin } from '@/store/creator/usersCreator';
 
-import SocialBtn from '../elements/SocialBtn';
+import SocialBtn from '@/components/elements/SocialBtn';
 
 const { Kakao } = window;
 

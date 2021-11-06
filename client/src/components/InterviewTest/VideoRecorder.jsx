@@ -39,8 +39,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 
   useEffect(() => {
     if (!playing && data.length !== 0) {
-      // , { type: 'video/webm;codecs=vp9' }
-      setSrc(window.URL.createObjectURL(new Blob([data])));
+      setSrc(window.URL.createObjectURL(new Blob([data])), { type: 'video/webm;codecs=vp8' });
     } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
     countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
   }, [data, playing, countHandler]);
@@ -48,8 +47,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const startOrStop = () => {
     if (!playing) {
       getWebcam(stream => {
-        // , { mimeType: `video/webm;codecs=vp9` }
-        const videoRecorder = new MediaRecorder(stream);
+        const videoRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
         // videoRecorder.state === 'inactive' 녹음,녹화 준비중일때, 화면에 로딩스피너 띄우기
         if (videoRecorder.state === 'inactive') {
           // 시작 전 상태 저장
@@ -63,8 +61,10 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         }
         setPlaying(true);
         videoRef.current.srcObject = stream;
+
         videoRecorder.ondataavailable = e => {
           // blob 데이터 저장
+          console.log(e.data.size);
           if (e.data && e.data.size > 0) {
             setData(e.data);
           }
@@ -107,7 +107,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
       {recordState === 'recording' && search === `?isVoice=true` && playing ? (
         <div
           css={css`
-            background: ${palette.light.gray[300]};
             width: 90vw;
             height: 25vh;
             position: absolute;
@@ -166,7 +165,10 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
           ></div>
         </div>
       ) : null}
-      {playing ? <Video ref={videoRef} autoPlay muted playsInline /> : null}
+      {playing && search === `?isVoice=true` ? <Video ref={videoRef} autoPlay muted playsInline /> : null}
+      {playing && search === `?isVideo=true` ? (
+        <Video ref={videoRef} autoPlay muted playsInline poster="/images/loading.gif" />
+      ) : null}
       {!playing && src ? <Video src={src} autoPlay controls playsInline /> : null}
       {playing ? (
         <div
