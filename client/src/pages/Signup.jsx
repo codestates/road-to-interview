@@ -1,7 +1,7 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useForm } from 'react-hook-form';
-import { USER_API } from '@/services';
 
 import { signup } from '@/store/creator/usersCreator';
 import { css } from '@emotion/react';
@@ -10,7 +10,10 @@ import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
 import Button from '@/components/elements/Button';
 import ErrorMessage from '@/components/shared/ErrorMessage';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Portal from '@/hoc/Portal';
+import Modal from '@/components/shared/Modal';
+import GoogleSocialLogin from '@/components/shared/Login/GoogleLogin';
+import KakaoLogin from '@/components/shared/Login/KakaoLogin';
 
 export default function Signup() {
   // * react-hook-form
@@ -21,32 +24,58 @@ export default function Signup() {
     formState: { errors },
   } = useForm();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const password = useRef();
   password.current = watch('password');
 
   // 회원가입 완료 후 응답에 따른 라우팅 처리
-  const { signupDone, signupError } = useSelector(state => state.users);
+  const { userInfo, signupDone, signupError, kakaoLoginDone, googleLoginDone, kakaoLoginError, googleLoginError } =
+    useSelector(state => state.users);
+  // TODO: 회원가입 이후 새로고침 하지 않고 회원가입 창에 갔을 때 모달이 다시 뜨는 버그 수정...
   useEffect(() => {
     if (signupDone) {
-      history.push('/');
+      setIsModalOpen(true);
     }
   }, [signupDone]);
 
-  // TODO: 회원가입 에러시 브라우저 처리 어떻게 해줄지 정하고 적용 예정
-  useEffect(() => {
-    if (signupError) {
-      alert(signupError);
-    }
-  }, [signupError]);
+  const onClose = () => {
+    setIsModalOpen(false);
+    history.replace('/login');
+  };
 
-  const onSubmit = useCallback(
-    data => {
-      dispatch(signup(data));
-    },
-    [dispatch],
-  );
+  // 유저정보 불러와지면 로그인 상태로 메인으로
+  useEffect(() => {
+    const isLogin = kakaoLoginDone || googleLoginDone;
+    if (userInfo && isLogin) {
+      history.replace('/');
+    }
+  });
+
+  // // 로그인 에러시 서버 에러 메시지 alert
+  // useEffect(() => {
+  //   kakaoLoginError && alert(kakaoLoginError);
+  //   googleLoginError && alert(googleLoginError);
+  // }, [kakaoLoginError, googleLoginError]);
+
+  // // TODO: 회원가입 에러시 브라우저 처리 어떻게 해줄지 정하고 적용 예정
+  // useEffect(() => {
+  //   if (signupError) {
+  //     alert(signupError);
+  //   }
+  // }, [signupError]);
+
+  const onSubmit = data => {
+    const { email, nickname, password } = data;
+    const userData = {
+      email,
+      nickname,
+      password,
+      src: 'https://pixabay.com/get/g00db6ac259a14d899e8679c9b698dcf4228c6e1bfe25c4ea771bfbe044d4b0cf8ebb4cb0f053ab3a3ec83190d01cb0fe786e39ca3a83af5cc90d30d736dcb36a4b42cc36fffa8ee94166a4ee793c9484_1280.png',
+    };
+    dispatch(signup(userData));
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -108,6 +137,26 @@ export default function Signup() {
           회원가입
         </Button>
       </Field>
+      <Label
+        css={theme => css`
+          text-align: center;
+          ${theme.typography.caption[2]}
+          opacity: 0.5;
+          margin: 1.25rem 0;
+        `}
+      >
+        또는
+      </Label>
+      <Field>
+        <Field
+          css={css`
+            margin-bottom: 0.75rem;
+          `}
+        >
+          <GoogleSocialLogin />
+        </Field>
+        <KakaoLogin />
+      </Field>
       <Field
         css={css`
           display: flex;
@@ -129,6 +178,11 @@ export default function Signup() {
           로그인하기
         </Label>
       </Field>
+      <Portal selector="#modal">
+        <Modal open={isModalOpen} onClose={onClose}>
+          <ModalBody>축하합니다! 회원가입이 완료되었습니다. 로그인을 해주세요!</ModalBody>
+        </Modal>
+      </Portal>
     </Form>
   );
 }
@@ -137,3 +191,4 @@ const Form = styled.form``;
 const Field = styled.div`
   margin-bottom: 1.5rem;
 `;
+const ModalBody = styled.div``;

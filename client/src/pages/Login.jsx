@@ -8,8 +8,8 @@ import styled from '@emotion/styled';
 
 import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
-import GoogleSocialLogin from '@/components/Login/GoogleLogin';
-import KakaoLogin from '@/components/Login/KakaoLogin';
+import GoogleSocialLogin from '@/components/shared/Login/GoogleLogin';
+import KakaoLogin from '@/components/shared/Login/KakaoLogin';
 import Button from '@/components/elements/Button';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 
@@ -42,7 +42,7 @@ export default function Login() {
     loginError && alert(loginError);
     kakaoLoginError && alert(kakaoLoginError);
     googleLoginError && alert(googleLoginError);
-  });
+  }, [loginError, kakaoLoginError, googleLoginError]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
