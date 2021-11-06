@@ -10,6 +10,7 @@ import { auth } from '@/store/creator/usersCreator';
 
 import RouteWithLayout from '@/hoc/RouteWithLayout';
 import MainLayout from '@/components/layouts/MainLayout';
+import LandingLayout from '@/components/layouts/LandingLayout';
 import Auth from './hoc/Auth';
 
 import Landing from './pages/Landing';
@@ -36,7 +37,7 @@ export default function App() {
     <ThemeProvider theme={THEME[mode]}>
       <Global theme={THEME[mode]} />
       <Switch>
-        <RouteWithLayout path="/" component={Landing} layout={MainLayout} />
+        <RouteWithLayout path="/" component={Landing} layout={LandingLayout} />
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
