@@ -12,6 +12,7 @@ let server;
 const { Server } = require("socket.io");
 const cron = require("node-cron");
 const { insertNews } = require("./controllers/functions/crawlingFunctions");
+const { insertRankings } = require("./controllers/functions/rangkingFunctions");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -80,7 +81,9 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
 } else {
   server = app.listen(HTTPS_PORT);
   //node cron 서비스 예약 실행
-  cron.schedule("0 0 0 * * *", () => {
+  // insertRankings();
+  cron.schedule("0 0 * * *", () => {
+    // insertRankings();
     insertNews();
   });
 

@@ -6,11 +6,11 @@ dotenv.config();
 module.exports = {
   insertNews: () => {
     let con = mysql.createConnection({
-      host: "rti.cqmaumynjbfr.ap-northeast-2.rds.amazonaws.com",
-      user: "admin",
-      password: "roadtointerview",
-      database: "RTI",
-      port: "13306",
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
     });
     const getHtml = async () => {
       const browser = await puppeteer.launch({
@@ -48,7 +48,14 @@ module.exports = {
       });
 
       let nowList = ulList.map((el) => {
-        return ["null", el.position, el.company, el.url, "now()", "now()"];
+        return [
+          "null",
+          el.position,
+          el.company,
+          el.url,
+          new Date(),
+          new Date(),
+        ];
       });
 
       console.log(nowList);
