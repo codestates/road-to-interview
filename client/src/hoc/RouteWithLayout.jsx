@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 RouteWithLayout.defaultProps = {
   component: () => null,
-  layout: () => null,
+  layout: null,
   exact: true,
 };
 
@@ -14,12 +14,7 @@ RouteWithLayout.propTypes = {
   path: PropTypes.string.isRequired,
 };
 
-export default function RouteWithLayout({
-  component: Component,
-  layout: Layout,
-  exact,
-  path,
-}) {
+export default function RouteWithLayout({ component: Component, layout: Layout, exact, path }) {
   return (
     <Route {...{ exact, path }}>
       {Layout ? (
