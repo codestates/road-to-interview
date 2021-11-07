@@ -78,117 +78,161 @@ export default function Signup() {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Field>
-        <Label>이메일</Label>
-        <Input
-          placeholder="이메일을 입력하세요."
-          {...register('email', {
-            required: { value: true, message: '필수로 입력해야 합니다.' },
-            pattern: { value: /^\S+@\S+$/i, message: '이메일 형식에 맞게 작성해야 합니다.' },
-          })}
-        />
-        {errors?.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-      </Field>
-      <Field>
-        <Label>닉네임</Label>
-        <Input
-          placeholder="닉네임은 4~12자 사이여야 합니다."
-          {...register('nickname', {
-            required: { value: true, message: '필수로 입력해야 합니다.' },
-            minLength: { value: 4, message: '닉네임은 4자 이상이여야 합니다.' },
-            maxLength: { value: 12, message: '닉네임은 12자 이하여야 합니다.' },
-          })}
-        />
-        {errors?.nickname && <ErrorMessage>{errors.nickname.message}</ErrorMessage>}
-      </Field>
-      <Field>
-        <Label>비밀번호</Label>
-        <Input
-          ref={password}
-          placeholder="8자 이상의 비밀번호를 입력하세요."
-          type="password"
-          {...register('password', {
-            required: { value: true, message: '필수로 입력해야 합니다.' },
-            minLength: { value: 8, message: '비밀번호는 8자 이상이여야 합니다.' },
-          })}
-        />
-        {errors?.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
-      </Field>
-      <Field>
-        <Label>비밀번호 확인</Label>
-        <Input
-          placeholder="입력하신 비밀번호를 한번 더 입력하세요."
-          type="password"
-          {...register('passwordConfirm', {
-            required: true,
-            validate: value => value === password.current,
-          })}
-        />
-        {errors?.passwordConfirm && errors?.passwordConfirm?.type === 'required' && (
-          <ErrorMessage>필수로 입력해야 합니다.</ErrorMessage>
-        )}
-        {errors?.passwordConfirm && errors?.passwordConfirm?.type === 'validate' && (
-          <ErrorMessage>입력하신 비밀번호와 일치하지 않습니다.</ErrorMessage>
-        )}
-      </Field>
-      <Field>
-        <Button primary lg>
-          회원가입
-        </Button>
-      </Field>
-      <Label
-        css={theme => css`
-          text-align: center;
-          ${theme.typography.caption[2]}
-          opacity: 0.5;
-          margin: 1.25rem 0;
-        `}
-      >
-        또는
-      </Label>
-      <Field>
+    <Container>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Title>계정 만들기</Title>
+        <Field>
+          <Field
+            css={css`
+              margin-bottom: 0.75rem;
+            `}
+          >
+            <GoogleSocialLogin />
+          </Field>
+          <KakaoLogin />
+          <Label
+            css={theme => css`
+              text-align: center;
+              ${theme.typography.caption[2]}
+              opacity: 0.5;
+              margin-top: 0.8rem;
+            `}
+          >
+            Google/Kakao로 계정을 만들면 이용약관에 동의한 것으로 처리됩니다.
+          </Label>
+        </Field>
+        <UnderlineBox>
+          <Label
+            css={theme => css`
+              text-align: center;
+              ${theme.typography.caption[2]}
+              background-color: ${theme.colors.background};
+              position: absolute;
+              width: 50px;
+            `}
+          >
+            또는
+          </Label>
+        </UnderlineBox>
+        <Field>
+          <Label>이메일</Label>
+          <Input
+            placeholder="이메일을 입력하세요."
+            {...register('email', {
+              required: { value: true, message: '필수로 입력해야 합니다.' },
+              pattern: { value: /^\S+@\S+$/i, message: '이메일 형식에 맞게 작성해야 합니다.' },
+            })}
+          />
+          {errors?.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        </Field>
+        <Field>
+          <Label>닉네임</Label>
+          <Input
+            placeholder="닉네임은 4~12자 사이여야 합니다."
+            {...register('nickname', {
+              required: { value: true, message: '필수로 입력해야 합니다.' },
+              minLength: { value: 4, message: '닉네임은 4자 이상이여야 합니다.' },
+              maxLength: { value: 12, message: '닉네임은 12자 이하여야 합니다.' },
+            })}
+          />
+          {errors?.nickname && <ErrorMessage>{errors.nickname.message}</ErrorMessage>}
+        </Field>
+        <Field>
+          <Label>비밀번호</Label>
+          <Input
+            ref={password}
+            placeholder="8자 이상의 비밀번호를 입력하세요."
+            type="password"
+            {...register('password', {
+              required: { value: true, message: '필수로 입력해야 합니다.' },
+              minLength: { value: 8, message: '비밀번호는 8자 이상이여야 합니다.' },
+            })}
+          />
+          {errors?.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+        </Field>
+        <Field>
+          <Label>비밀번호 확인</Label>
+          <Input
+            placeholder="입력하신 비밀번호를 한번 더 입력하세요."
+            type="password"
+            {...register('passwordConfirm', {
+              required: true,
+              validate: value => value === password.current,
+            })}
+          />
+          {errors?.passwordConfirm && errors?.passwordConfirm?.type === 'required' && (
+            <ErrorMessage>필수로 입력해야 합니다.</ErrorMessage>
+          )}
+          {errors?.passwordConfirm && errors?.passwordConfirm?.type === 'validate' && (
+            <ErrorMessage>입력하신 비밀번호와 일치하지 않습니다.</ErrorMessage>
+          )}
+        </Field>
+        <Field>
+          <Button primary lg>
+            회원가입
+          </Button>
+        </Field>
+
         <Field
           css={css`
-            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           `}
         >
-          <GoogleSocialLogin />
+          <Label>이미 계정이 있으신가요?</Label>
+          <Label
+            css={theme =>
+              css`
+                color: ${theme.colors.tint.coral[500]};
+                margin-left: 0.25rem;
+                cursor: pointer;
+              `
+            }
+            onClick={() => history.push('/login')}
+          >
+            로그인
+          </Label>
         </Field>
-        <KakaoLogin />
-      </Field>
-      <Field
-        css={css`
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        `}
-      >
-        <Label>이미 회원이신가요?</Label>
-        <Label
-          css={theme =>
-            css`
-              color: ${theme.colors.tint.coral[500]};
-              margin-left: 0.25rem;
-              cursor: pointer;
-            `
-          }
-          onClick={() => history.push('/login')}
-        >
-          로그인하기
-        </Label>
-      </Field>
-      <Portal selector="#modal">
-        <Modal open={isModalOpen} onClose={onClose}>
-          <ModalBody>축하합니다! 회원가입이 완료되었습니다. 로그인을 해주세요!</ModalBody>
-        </Modal>
-      </Portal>
-    </Form>
+        <Portal selector="#modal">
+          <Modal open={isModalOpen} onClose={onClose}>
+            <ModalBody>축하합니다! 회원가입이 완료되었습니다. 로그인을 해주세요!</ModalBody>
+          </Modal>
+        </Portal>
+      </Form>
+    </Container>
   );
 }
 
-const Form = styled.form``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const Form = styled.form`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const UnderlineBox = styled.div`
+  width: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  height: auto;
+  margin: 1.5rem 0;
+  border-bottom: 1px solid rgba(1, 1, 1, 0.5);
+`;
 const Field = styled.div`
+  margin-bottom: 0.5rem;
+  width: 100%;
+`;
+const Title = styled.p`
+  ${({ theme }) => theme.typography.subtitle[3]}
   margin-bottom: 1.5rem;
+  text-align: center;
 `;
 const ModalBody = styled.div``;
