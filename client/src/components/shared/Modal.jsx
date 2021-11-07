@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
 
-export default function Modal({ children, open, onClose, fullScreen }) {
+export default function Modal({ children, open, onClose, fullScreen, CustomBtn }) {
   const onMaskClose = e => {
     if (e.target !== e.currentTarget) return;
     onClose();
@@ -11,9 +11,13 @@ export default function Modal({ children, open, onClose, fullScreen }) {
     <Overlay open={open}>
       {!fullScreen && <Dim onClick={onClose} open={open} />}
       <Content fullScreen={fullScreen}>
-        <CloseBtn tertiary sm onClick={onMaskClose}>
-          나가기
-        </CloseBtn>
+        {CustomBtn ? (
+          <CustomBtn onClick={onMaskClose} />
+        ) : (
+          <Close tertiary sm onClick={onMaskClose}>
+            나가기
+          </Close>
+        )}
         {children}
       </Content>
     </Overlay>
@@ -61,7 +65,7 @@ const Content = styled.div`
       height: 100%;
     `}
 `;
-const CloseBtn = styled(Button)`
+const Close = styled(Button)`
   position: absolute;
   top: 1rem;
   right: 1rem;

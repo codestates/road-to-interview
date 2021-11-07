@@ -26,7 +26,7 @@ export default function Select({ items, selectedItems, addItems, removeItems, cl
     <Wrapper className={className}>
       <Display>
         {selectedItems.map((item, idx) => (
-          <Tag tertiary sm round key={idx} onClick={() => removeItems(item)}>
+          <Tag secondary sm round key={idx} onClick={() => removeItems(item)}>
             {item}
             <XIcon width="1rem" height="1rem" />
           </Tag>
@@ -51,6 +51,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  ${({ theme }) => theme.typography.caption[1]}
 `;
 const Display = styled.div`
   display: flex;

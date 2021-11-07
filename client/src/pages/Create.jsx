@@ -5,12 +5,18 @@ import styled from '@emotion/styled';
 import { createInterview } from '@/store/creator/InterviewsCreator';
 import { getCategory } from '@/store/creator/categoryCreator';
 
+import Modal from '@/components/shared/Modal';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import QuestionForm from '@/components/Create/QuestionForm';
 import HeaderForm from '@/components/Create/HeaderForm';
 import List from '@/components/Create/List';
+import Button from '@/components/elements/Button';
+import { css } from '@emotion/react';
+import { spacing } from '@/styles';
+import media from '@/utils/media';
 
 export default function Create() {
+  // * State
   // 질문 데이터
   const [questions, setQuestions] = useState([]);
   // 카테고리
@@ -22,6 +28,11 @@ export default function Create() {
 
   const id = useRef(0);
   const submitted = useRef(false);
+
+  // * Modal
+  const [open, setOpen] = useState(false);
+  const onClose = () => setOpen(false);
+  const onOpen = () => setOpen(true);
 
   // * Data Fetch
   const dispatch = useDispatch();
@@ -92,12 +103,81 @@ export default function Create() {
 
   return (
     <Container>
-      <HeaderForm {...{ uploadInterview, categorys, setSelectedItems, selectedItems, errorState }} />
-      <List {...{ questions, setQuestions }} />
+      <HeaderForm {...{ uploadInterview, categorys, setSelectedItems, selectedItems }} />
       <ErrorMessage>{errorState.questions}</ErrorMessage>
-      <QuestionForm idRef={id} setQuestions={setQuestions} />
+      <ErrorMessage>{errorState.category}</ErrorMessage>
+      <List {...{ questions, setQuestions }} />
+      <Button tertiary lg onClick={onOpen}>
+        질문등록
+      </Button>
+      <Modal open={open} onClose={onClose} fullScreen CustomBtn={renderBtn}>
+        <ModalBody>
+          <ModalInner>
+            <QuestionForm idRef={id} setQuestions={setQuestions} />
+            <ModalSide>
+              <List
+                {...{ questions, setQuestions }}
+                css={css`
+                  padding-bottom: ${spacing[10]};
+                `}
+              />
+            </ModalSide>
+          </ModalInner>
+        </ModalBody>
+      </Modal>
     </Container>
   );
 }
 
 const Container = styled.div``;
+const ModalBody = styled.div`
+  background: ${({ theme }) => theme.colors.background};
+  height: 100%;
+`;
+const ModalInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: ${spacing[5]};
+  height: 100%;
+
+  ${media.tablet(css`
+    flex-direction: row;
+    & > *:first-child {
+      flex-basis: 70%;
+      border-right: 1px solid ${({ theme }) => theme.colors.borderColor.inner};
+    }
+    & > *:last-child {
+      flex-basis: 30%;
+    }
+  `)}
+`;
+const ModalSide = styled.aside`
+  padding: ${spacing[5]};
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.background_elevated};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
+  }
+`;
+
+const renderBtn = props => {
+  return (
+    <Button
+      secondary
+      {...props}
+      css={css`
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+      `}
+    >
+      나가기
+    </Button>
+  );
+};

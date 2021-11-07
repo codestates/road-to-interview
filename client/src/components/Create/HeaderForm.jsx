@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -8,11 +6,10 @@ import Input from '@/components/elements/Input';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import Button from '@/components/elements/Button';
 import Select from '@/components/Create/Select';
-import { getCategory } from '@/store/creator/categoryCreator';
 import { spacing } from '@/styles';
 import { ReactComponent as Upload } from 'assets/upload.svg';
 
-export default function HeaderForm({ uploadInterview, categorys, setSelectedItems, selectedItems, errorState }) {
+export default function HeaderForm({ uploadInterview, categorys, setSelectedItems, selectedItems }) {
   // * useForm
   const {
     register,
@@ -53,6 +50,7 @@ export default function HeaderForm({ uploadInterview, categorys, setSelectedItem
             ${theme.typography.subtitle[3]};
             border: none;
             margin-right: auto;
+            padding: ${spacing[4]} 0;
           `}
           placeholder="Title"
         />
@@ -68,6 +66,7 @@ export default function HeaderForm({ uploadInterview, categorys, setSelectedItem
             ${theme.typography.caption[1]};
             border: none;
             margin-right: auto;
+            padding: ${spacing[4]} 0;
           `}
           placeholder="description"
         />
@@ -80,9 +79,17 @@ export default function HeaderForm({ uploadInterview, categorys, setSelectedItem
             removeItems={removeItems}
           />
         }
-        <ErrorMessage>{errorState.category}</ErrorMessage>
       </div>
-      <Button sm round primary icon={Upload}>
+      <Button
+        round
+        primary
+        icon={Upload}
+        css={css`
+          position: absolute;
+          top: 0;
+          right: 0;
+        `}
+      >
         Upload
       </Button>
     </Form>
@@ -93,7 +100,7 @@ export default function HeaderForm({ uploadInterview, categorys, setSelectedItem
 const Form = styled.form`
   position: relative;
   display: flex;
-  align-items: flex-end;
-  padding-bottom: ${spacing[4]};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor.inner};
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: ${spacing[8]};
 `;

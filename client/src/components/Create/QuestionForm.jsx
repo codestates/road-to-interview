@@ -50,31 +50,42 @@ export default function QuestionForm({ idRef, setQuestions }) {
         css={theme => css`
           ${theme.typography.subtitle[4]};
           border: none;
+          padding: ${spacing[4]} 0;
         `}
         placeholder="Question"
       />
       <div
-        css={css`
-          width: 20%;
+        css={theme => css`
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          ${theme.typography.caption[1]};
+          padding: ${spacing[4]} 0;
         `}
       >
-        <Label htmlFor="limit">제한시간 설정</Label>
+        <Label
+          htmlFor="limit"
+          css={css`
+            margin: 0;
+            margin-right: 0.5em;
+          `}
+        >
+          제한시간
+        </Label>
         <Input
           id="limit"
           type="number"
           css={css`
             width: auto;
+            padding: 0;
             font-size: ${fontSizes[200]};
-            padding: ${spacing[3]} ${spacing[1]};
+            border: none;
           `}
           value={time}
           onChange={onChangeTime}
           min="10"
           max="600"
         />
+        <span>초</span>
       </div>
       <ErrorMessage>{errors.questions__title?.message}</ErrorMessage>
       <Bar>
@@ -109,7 +120,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: ${spacing[4]};
-  border-top: 1px solid ${({ theme }) => theme.colors.borderColor.inner};
 `;
 
 const Bar = styled.div`
@@ -120,13 +130,11 @@ const Bar = styled.div`
 `;
 
 const Textarea = styled.textarea`
-  width: 100%;
-  padding: ${spacing[4]};
-  min-height: 45vh;
+  height: 100%;
+  padding: ${spacing[4]} 0;
   color: ${({ theme }) => theme.colors.text.primary};
   background-color: transparent;
   ${({ theme }) => theme.typography.body[2]}
-  margin-bottom: 2rem;
 
   &:focus {
     outline: none;
