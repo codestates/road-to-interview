@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import Slider from 'react-slick';
@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import Flex from '@/components/layouts/Flex';
 import Button from '@/components/elements/Button';
 import media from '@/utils/media';
-import { spacing, palette, fontSizes } from '@/styles';
+import { spacing } from '@/styles';
 import { ReactComponent as Chv } from 'assets/chv-right.svg';
 import { ReactComponent as Job } from 'assets/job-ill.svg';
 import { settings, sectionData, QnAData } from '@/constants/Landing';
@@ -37,7 +37,7 @@ export default function Landing() {
           <SubTitle>Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.</SubTitle>
           <Links>
             <Button round primary onClick={() => history.push('/list')}>
-              둘러보기
+              시작하기
             </Button>
             <Button text tertiary icon={Chv} onClick={() => scrollTo('section')}>
               더 알아보기
@@ -99,6 +99,7 @@ export default function Landing() {
 
 const Layout = styled.div`
   position: relative;
+  overflow-y: auto;
 `;
 
 // * Header
@@ -106,11 +107,12 @@ const Header = styled.header`
   height: auto;
   text-align: center;
   padding: ${spacing[5]};
-  padding-top: ${spacing[10]};
+  margin-top: 3rem;
   ${media.desktop(css`
-    height: 100vh;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    height: 100vh;
+    margin-top: -3rem;
     & > *:first-of-type {
       text-align: start;
     }
@@ -121,21 +123,21 @@ const Header = styled.header`
 `;
 const Box = styled.div``;
 const Title = styled.h1`
-  ${({ theme }) => theme.typography.header[1]}
-  line-height: 1.1em;
-  letter-spacing: 0.1em;
+  font-family: 'Consolas';
+  ${({ theme }) => theme.typography.header[1]};
+  line-height: 1em;
   margin-bottom: ${spacing[3]};
 `;
 const HighLight = styled.b`
   color: ${({ theme }) => theme.colors.tint.coral[500]};
 `;
 const Caption = styled.h5`
+  font-family: 'Consolas';
   ${({ theme }) => theme.typography.caption[1]}
-  letter-spacing: 1px;
   margin-bottom: ${spacing[6]};
 `;
 const SubTitle = styled.p`
-  ${({ theme }) => theme.typography.subtitle[4]}
+  ${({ theme }) => theme.typography.body[2]}
   word-break: keep-all;
   font-weight: 400;
   line-height: 1.4em;

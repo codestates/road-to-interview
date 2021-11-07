@@ -214,6 +214,7 @@ const Main = styled.main`
 const DrawerBody = styled.div`
   position: relative;
   width: 90vw;
+  max-width: 768px;
   max-height: 80vh;
   padding: ${spacing[5]};
   display: flex;

@@ -1,13 +1,14 @@
 import { css, Global } from '@emotion/react';
 import media from '@/utils/media';
+
 const globalStyles = theme => css`
   html {
     height: 100%;
     ${media.tablet(css`
-      font-size: 115%;
+      font-size: 108%;
     `)}
     ${media.desktop(css`
-      font-size: 130%;
+      font-size: 116%;
     `)}
   }
 
@@ -15,7 +16,7 @@ const globalStyles = theme => css`
     box-sizing: border-box;
     background: ${theme.colors.background};
     color: ${theme.colors.text.primary};
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Spopa Han Sans', 'Noto Sans KR', sans-serif;
     height: 100%;
   }
 
