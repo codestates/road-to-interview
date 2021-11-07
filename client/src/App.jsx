@@ -23,6 +23,8 @@ import MyPage from './pages/Mypage';
 import Create from './pages/Create';
 import Collection from './pages/Collection';
 
+import '@/styles/fonts.css';
+
 export default function App() {
   const [mode] = useMode();
 

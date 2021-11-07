@@ -23,17 +23,17 @@ export const sectionData = [
 export const QnAData = [
   {
     id: '1',
-    title: 'Q.인터뷰 대비에 어떤 도움이 되나요?',
+    title: 'Q 인터뷰 대비에 어떤 도움이 되나요?',
     desc: '....',
   },
   {
     id: '2',
-    title: 'Q.회원가입 없이 이용할 수 있나요?',
+    title: 'Q 회원가입 없이 이용할 수 있나요?',
     desc: '....',
   },
   {
     id: '3',
-    title: 'Q.인터뷰 준비 팁은 무엇이 있을까요?',
+    title: 'Q 인터뷰 준비 팁은 무엇이 있을까요?',
     desc: '....',
   },
 ];
@@ -47,12 +47,12 @@ export const FooterData = [
   {
     name: '정성준',
     role: 'FE',
-    link: 'https://github.com/findmytrueself',
+    link: 'https://github.com/jvn4dev',
   },
   {
     name: '임훈',
     role: 'FE',
-    link: 'https://github.com/jvn4dev',
+    link: 'https://github.com/findmytrueself',
   },
   {
     name: '김용건',
