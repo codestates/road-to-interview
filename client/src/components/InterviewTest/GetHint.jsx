@@ -17,6 +17,12 @@ const GetHint = ({ hintHandler }) => {
       <div
         css={css`
           width: 90vw;
+          ${media.tablet(css`
+            width: 75vw;
+          `)}
+          ${media.laptop(css`
+            width: 50vw;
+          `)}
           ${media.desktop(css`
             width: 45vw;
           `)}

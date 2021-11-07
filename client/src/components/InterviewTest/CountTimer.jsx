@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 import media from '@/utils/media';
-const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
+const CountTimer = ({ currentQuestion, isPlay }) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-
+  const timerRef = useRef();
   const minuteAdd = () => {
     // 1분추가
     setMinutes(minutes + 1);
@@ -28,6 +28,10 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
     }
   }, [currentQuestion]);
 
+  useEffect(() => {
+    if (isPlay) {
+    }
+  }, [isPlay]);
   useEffect(() => {
     if (isPlay) {
       //버튼 누르면
@@ -52,14 +56,22 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
 
   return (
     <div
+      timerRef={timerRef}
       css={css`
-        /* border: solid; */
         width: 100vw;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         position: relative;
         top: ${spacing[4]};
+        ${media.tablet(css`
+          top: ${spacing[5]};
+          width: 75vw;
+        `)}
+        ${media.laptop(css`
+          top: ${spacing[6]};
+          width: 50vw;
+        `)}
         ${media.desktop(css`
           top: ${spacing[7]};
           width: 45vw;
@@ -71,6 +83,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           position: relative;
           bottom: 0.1em;
           font-size: ${fontSizes[900]};
+          ${media.tablet(css`
+            font-size: ${fontSizes[1100]};
+          `)}
+          ${media.laptop(css`
+            font-size: ${fontSizes[1100]};
+          `)}
           ${media.desktop(css`
             font-size: ${fontSizes[1000]};
           `)}
@@ -80,9 +98,22 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
       </div>
       <div>
         <Button
+          onClick={() => {
+            setMinutes(Number.parseInt(currentQuestion.limit_second / 60));
+            setSeconds(currentQuestion.limit_second - Number.parseInt(currentQuestion.limit_second));
+          }}
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
@@ -91,7 +122,7 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           primary
           sm
         >
-          시작하기
+          초기화버튼
         </Button>
         <Button
           onClick={() => {
@@ -99,8 +130,17 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
             setSeconds(0);
           }}
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
@@ -113,8 +153,17 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         </Button>
         <Button
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
@@ -127,8 +176,17 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         </Button>
         <Button
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              margin: auto ${spacing[2]};
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};

@@ -28,13 +28,12 @@ const InterviewTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questionNum, setQuestionNum] = useState(0);
   const [view, setView] = useState(false);
-
   useEffect(() => {
     if (getQuestionsDone) {
       setCurrentQuestion(questions[0]); // 처음 문제
     }
     setCurrentQuestion(questions[questionNum]);
-  }, [getQuestionsDone, questions, questionNum]);
+  }, [getQuestionsDone, questions, questionNum, isPlay]);
 
   const nextHandler = () => {
     if (questionNum < questions.length - 1) {
@@ -80,11 +79,14 @@ const InterviewTest = () => {
           align-items: center;
         `}
       >
-        <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} setIsPlay={setIsPlay} />
+        <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} />
         <Question currentQuestion={currentQuestion} />
       </div>
       <div
         css={css`
+          ${media.laptop(css`
+            display: flex;
+          `)}
           ${media.desktop(css`
             display: flex;
           `)}
