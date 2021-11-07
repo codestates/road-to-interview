@@ -84,6 +84,9 @@ const InterviewTest = () => {
       </div>
       <div
         css={css`
+          ${media.laptop(css`
+            display: flex;
+          `)}
           ${media.desktop(css`
             display: flex;
           `)}

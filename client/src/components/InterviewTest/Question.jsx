@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
-import { palette, fontSizes, spacing } from '@/styles';
+import { fontSizes, spacing } from '@/styles';
 import media from '@/utils/media';
 
 const Question = ({ currentQuestion }) => {
@@ -9,16 +9,23 @@ const Question = ({ currentQuestion }) => {
       css={css`
         font-size: ${fontSizes[500]};
         display: flex;
+        flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
         width: 90vw;
         height: 12vh;
         margin-top: ${spacing[4]};
         margin-bottom: ${spacing[4]};
+        ${media.tablet(css`
+          font-size: ${fontSizes[600]};
+        `)}
+        ${media.laptop(css`
+          font-size: ${fontSizes[700]};
+        `)}
         ${media.desktop(css`
           margin-top: ${spacing[5]};
           margin-bottom: ${spacing[2]};
-          font-size: ${fontSizes[600]};
+          font-size: ${fontSizes[800]};
           text-align: center;
         `)}
       `}

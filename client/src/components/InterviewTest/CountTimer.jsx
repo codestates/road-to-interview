@@ -58,13 +58,20 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
     <div
       timerRef={timerRef}
       css={css`
-        /* border: solid; */
         width: 100vw;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         position: relative;
         top: ${spacing[4]};
+        ${media.tablet(css`
+          top: ${spacing[5]};
+          width: 75vw;
+        `)}
+        ${media.laptop(css`
+          top: ${spacing[6]};
+          width: 50vw;
+        `)}
         ${media.desktop(css`
           top: ${spacing[7]};
           width: 45vw;
@@ -75,7 +82,13 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         css={css`
           position: relative;
           bottom: 0.1em;
-          font-size: ${fontSizes[900]};
+          font-size: ${fontSizes[1000]};
+          ${media.tablet(css`
+            font-size: ${fontSizes[1100]};
+          `)}
+          ${media.laptop(css`
+            font-size: ${fontSizes[1100]};
+          `)}
           ${media.desktop(css`
             font-size: ${fontSizes[1000]};
           `)}
@@ -92,6 +105,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
@@ -110,6 +129,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
@@ -124,6 +149,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
@@ -138,6 +169,12 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
           css={css`
             margin: auto ${spacing[1]};
             cursor: pointer;
+            ${media.tablet(css`
+              font-size: ${fontSizes[300]};
+            `)}
+            ${media.laptop(css`
+              font-size: ${fontSizes[300]};
+            `)}
             ${media.desktop(css`
               margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};

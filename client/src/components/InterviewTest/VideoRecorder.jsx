@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
-import { spacing, fontSizes, palette } from '@/styles';
+import { spacing, fontSizes } from '@/styles';
 import media from '@/utils/media';
 import Loading from '../elements/Loading';
 import GetHint from './GetHint';
@@ -95,6 +95,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
           css={css`
             width: 90vw;
             height: 38vh;
+            ${media.tablet(css`
+              width: 75vw;
+              height: 52vh;
+            `)}
+            ${media.laptop(css`
+              width: 50vw;
+              height: 60vh;
+            `)}
             ${media.desktop(css`
               width: 45vw;
               height: 61.5vh;
@@ -116,6 +124,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             justify-content: center;
             align-items: center;
             font-size: ${fontSizes[700]};
+            ${media.tablet(css`
+              width: 75vw;
+              height: 52vh;
+            `)}
+            ${media.laptop(css`
+              width: 50vw;
+              height: 60vh;
+            `)}
             ${media.desktop(css`
               width: 45vw;
               height: 44vh;
@@ -176,6 +192,12 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             width: 90vw;
             margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
+            ${media.tablet(css`
+              width: 75vw;
+            `)}
+            ${media.laptop(css`
+              width: 50vw;
+            `)}
             ${media.desktop(css`
               margin-top: ${spacing[5]};
               width: 45vw;
@@ -192,6 +214,12 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             width: 90vw;
             margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
+            ${media.tablet(css`
+              width: 75vw;
+            `)}
+            ${media.laptop(css`
+              width: 50vw;
+            `)}
             ${media.desktop(css`
               width: 45vw;
               margin-top: ${spacing[5]};
@@ -208,8 +236,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         css={css`
           display: flex;
           justify-content: space-between;
-          margin-top: ${spacing[5]};
           width: 90vw;
+          margin-top: ${spacing[5]};
+          ${media.tablet(css`
+            width: 75vw;
+          `)}
+          ${media.laptop(css`
+            width: 50vw;
+          `)}
           ${media.desktop(css`
             width: 45vw;
           `)}
@@ -218,7 +252,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         <Button onClick={prevHandler} tertiary lg>
           이전문제
         </Button>
-
         <Button onClick={nextHandler} tertiary lg>
           다음문제
         </Button>
@@ -231,6 +264,12 @@ export default VideoRecorder;
 
 export const Video = styled.video`
   width: 90vw;
+  ${media.tablet(css`
+    width: 75vw;
+  `)}
+  ${media.laptop(css`
+    width: 50vw;
+  `)}
   ${media.desktop(css`
     width: 45vw;
   `)}
