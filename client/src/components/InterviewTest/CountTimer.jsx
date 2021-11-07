@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 import media from '@/utils/media';
-const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
+const CountTimer = ({ currentQuestion, isPlay }) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const timerRef = useRef();
@@ -82,7 +82,7 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         css={css`
           position: relative;
           bottom: 0.1em;
-          font-size: ${fontSizes[1000]};
+          font-size: ${fontSizes[900]};
           ${media.tablet(css`
             font-size: ${fontSizes[1100]};
           `)}
@@ -103,12 +103,15 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
             setSeconds(currentQuestion.limit_second - Number.parseInt(currentQuestion.limit_second));
           }}
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
             ${media.tablet(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.laptop(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.desktop(css`
@@ -127,12 +130,15 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
             setSeconds(0);
           }}
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
             ${media.tablet(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.laptop(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.desktop(css`
@@ -147,12 +153,15 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         </Button>
         <Button
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
             ${media.tablet(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.laptop(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.desktop(css`
@@ -167,12 +176,15 @@ const CountTimer = ({ currentQuestion, isPlay, setIsPlay }) => {
         </Button>
         <Button
           css={css`
+            border-radius: ${spacing[4]};
             margin: auto ${spacing[1]};
             cursor: pointer;
             ${media.tablet(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.laptop(css`
+              margin: auto ${spacing[2]};
               font-size: ${fontSizes[300]};
             `)}
             ${media.desktop(css`

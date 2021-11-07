@@ -79,7 +79,7 @@ const InterviewTest = () => {
           align-items: center;
         `}
       >
-        <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} setIsPlay={setIsPlay} />
+        <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} />
         <Question currentQuestion={currentQuestion} />
       </div>
       <div
