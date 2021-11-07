@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
 import { createInterview } from '@/store/creator/InterviewsCreator';
+import { getCategory } from '@/store/creator/categoryCreator';
 
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import QuestionForm from '@/components/Create/QuestionForm';
@@ -10,7 +11,6 @@ import HeaderForm from '@/components/Create/HeaderForm';
 import List from '@/components/Create/List';
 
 export default function Create() {
-  const dispatch = useDispatch();
   // 질문 데이터
   const [questions, setQuestions] = useState([]);
   // 카테고리
@@ -22,6 +22,13 @@ export default function Create() {
 
   const id = useRef(0);
   const submitted = useRef(false);
+
+  // * Data Fetch
+  const dispatch = useDispatch();
+  const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
+  useEffect(() => {
+    dispatch(getCategory);
+  }, [dispatch]);
 
   // * Validation Check
   const checkCategoryValidate = () => {
@@ -66,7 +73,7 @@ export default function Create() {
     }
   }, [questions]);
 
-  //
+  // * Create Request
   const uploadInterview = data => {
     submitted.current = true;
     if (checkValidate()) {
@@ -81,9 +88,11 @@ export default function Create() {
     }
   };
 
+  if (getCategoryLoading) return <span>로딩 중...</span>;
+
   return (
     <Container>
-      <HeaderForm {...{ uploadInterview, setSelectedItems, selectedItems, errorState }} />
+      <HeaderForm {...{ uploadInterview, categorys, setSelectedItems, selectedItems, errorState }} />
       <List {...{ questions, setQuestions }} />
       <ErrorMessage>{errorState.questions}</ErrorMessage>
       <QuestionForm idRef={id} setQuestions={setQuestions} />

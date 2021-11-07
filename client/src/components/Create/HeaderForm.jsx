@@ -12,7 +12,7 @@ import { getCategory } from '@/store/creator/categoryCreator';
 import { spacing } from '@/styles';
 import { ReactComponent as Upload } from 'assets/upload.svg';
 
-export default function HeaderForm({ uploadInterview, setSelectedItems, selectedItems, errorState }) {
+export default function HeaderForm({ uploadInterview, categorys, setSelectedItems, selectedItems, errorState }) {
   // * useForm
   const {
     register,
@@ -20,12 +20,6 @@ export default function HeaderForm({ uploadInterview, setSelectedItems, selected
     handleSubmit,
   } = useForm();
 
-  // * 카테고리 가져오기
-  const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getCategory);
-  }, [dispatch]);
   // * 카테고리 상태 관리
   const addItems = name => {
     setSelectedItems(prev => {
@@ -78,14 +72,14 @@ export default function HeaderForm({ uploadInterview, setSelectedItems, selected
           placeholder="description"
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        {!getCategoryLoading && getCategoryDone && (
+        {
           <Select
-            items={categorys.map(cte => cte.category)}
-            selectedItems={selectedItems.map(cte => cte.category)}
+            items={categorys?.map(cte => cte.category)}
+            selectedItems={selectedItems?.map(cte => cte.category)}
             addItems={addItems}
             removeItems={removeItems}
           />
-        )}
+        }
         <ErrorMessage>{errorState.category}</ErrorMessage>
       </div>
       <Button sm round primary icon={Upload}>
