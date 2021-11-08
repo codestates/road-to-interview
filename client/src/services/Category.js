@@ -6,6 +6,8 @@ export default class Category {
   // 카테고리 가져오기
   async getCategory() {
     const res = await this.client.get('/categorys');
+    // 로딩 컴포넌트 확인하기 위한 코드
+    await new Promise(resolve => setTimeout(() => resolve(), 3000));
     return res.data.category;
   }
 }
