@@ -6,7 +6,7 @@ const {
   sendAccessToken,
 } = require("../functions/tokenFunctions");
 module.exports = (req, res) => {
-  const { email, name, src, emailauth } = req.body.profileObj;
+  const { email, nickname, src, emailauth } = req.body;
 
   users
     .findOrCreate({
@@ -14,7 +14,7 @@ module.exports = (req, res) => {
         email,
       },
       defaults: {
-        nickname: name,
+        nickname,
         emailauth,
         src,
       },
@@ -24,17 +24,30 @@ module.exports = (req, res) => {
       if (!created) {
         //emailauth 카카오 2 구글 3
         let auth = result.dataValues.emailauth;
+
         if (emailauth === auth) {
           id = result.dataValues.id;
         } else {
-          if (auth === "1" || auth === "0") {
-            res.status(400).send({ message: "이메일로 로그인 해주세요" });
+          if (auth === 1 || auth === 0) {
+            res
+              .status(400)
+              .send({
+                message: "이미 가입된 회원입니다. 이메일로 로그인 해주세요",
+              });
             return;
-          } else if (auth === "2") {
-            res.status(400).send({ message: "카카오로 로그인 해주세요" });
+          } else if (auth === 2) {
+            res
+              .status(400)
+              .send({
+                message: "이미 가입된 회원입니다. 카카오로 로그인 해주세요",
+              });
             return;
           } else {
-            res.status(400).send({ message: "구글로 로그인 해주세요" });
+            res
+              .status(400)
+              .send({
+                message: "이미 가입된 회원입니다. 구글로 로그인 해주세요",
+              });
             return;
           }
         }
@@ -43,10 +56,10 @@ module.exports = (req, res) => {
         id = result.dataValues.id;
       }
 
-      const accessToken = generateAccessToken({ name, email, id, src });
-      const refreshToken = generateRefreshToken({ name, email, id, src });
-      sendRefreshToken(res, refreshToken, { name, email, id, src });
-      sendAccessToken(res, accessToken, { name, email, id, src });
+      const accessToken = generateAccessToken({ nickname, email, id, src });
+      const refreshToken = generateRefreshToken({ nickname, email, id, src });
+      sendRefreshToken(res, refreshToken, { nickname, email, id, src });
+      sendAccessToken(res, accessToken, { nickname, email, id, src });
     })
     .catch((error) => {
       console.log(error);

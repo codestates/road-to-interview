@@ -10,7 +10,9 @@ const controllers = require("./controllers");
 const models = require("./models/index");
 let server;
 const { Server } = require("socket.io");
-
+const cron = require("node-cron");
+const { insertNews } = require("./controllers/functions/crawlingFunctions");
+const { insertRankings } = require("./controllers/functions/rangkingFunctions");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -61,7 +63,8 @@ app.get("/collections", controllers.getCollections);
 //categorys
 app.post("/categorys", controllers.createCategory);
 app.get("/categorys", controllers.getCategorys);
-
+//news
+app.get("/news", controllers.getNews);
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행합니다.
@@ -78,6 +81,15 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
   server.listen(HTTPS_PORT, () => console.log("server runnning"));
 } else {
   server = app.listen(HTTPS_PORT);
+  //node cron 서비스 예약 실행
+  // insertRankings();
+
+  cron.schedule("1 0 * * *", () => {
+    // insertRankings();
+    insertNews();
+  });
+
+  //socket io
   const io = new Server(server, { cors: { origin: "*" } });
   io.on("connection", (socket) => {
     // join : 채팅 참여 이벤트
