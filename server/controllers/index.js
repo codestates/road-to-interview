@@ -24,6 +24,8 @@ module.exports = {
   //categorys
   createCategory: require("./categorys/createCategory"),
   getCategorys: require("./categorys/getCategorys"),
+  //news
+  getNews: require("./news/getNews"),
   //multer
   photos: require("./functions/multerFunctions/photos"),
 };

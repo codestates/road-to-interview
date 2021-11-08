@@ -63,7 +63,8 @@ app.get("/collections", controllers.getCollections);
 //categorys
 app.post("/categorys", controllers.createCategory);
 app.get("/categorys", controllers.getCategorys);
-
+//news
+app.get("/news", controllers.getNews);
 const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 // 인증서 파일들이 존재하는 경우에만 https 프로토콜을 사용하는 서버를 실행합니다.
@@ -82,7 +83,8 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
   server = app.listen(HTTPS_PORT);
   //node cron 서비스 예약 실행
   // insertRankings();
-  cron.schedule("0 0 * * *", () => {
+
+  cron.schedule("1 0 * * *", () => {
     // insertRankings();
     insertNews();
   });
