@@ -11,7 +11,7 @@ const models = require("./models/index");
 let server;
 const { Server } = require("socket.io");
 const cron = require("node-cron");
-const { insertNews } = require("./controllers/functions/crawlingFunctions");
+const { insertNews } = require(__dirname + " /crawl");
 const { insertRankings } = require("./controllers/functions/rangkingFunctions");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
