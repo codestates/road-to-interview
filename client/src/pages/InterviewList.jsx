@@ -11,6 +11,7 @@ import PostCard from '@/components/InterviewList/PostCard';
 import CategoryMenu from '@/components/InterviewList/CategoryMenu';
 import PostModal from '@/components/InterviewList/PostModal';
 import SkeletonPostCard from '@/components/InterviewList/Skeleton/SkeletonPostCard';
+import SkeletonCategoryMenu from '@/components/InterviewList/Skeleton/SkeletonCategoryMenu';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function InterviewList() {
   const { interviews, totalPage, getInterviewsLoading, getInterviewsDone, getInterviewsError } = useSelector(
     state => state.interviews,
   );
-  const { categorys, getCategoryLoading, getCategoryError } = useSelector(state => state.categorys);
+  const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
 
   const dispatch = useDispatch();
 
@@ -41,22 +42,21 @@ export default function InterviewList() {
     setOpen(false);
   };
 
-  const isPageLoadingDone = getInterviewsLoading || getCategoryLoading;
+  const isInterviews = !getInterviewsLoading && getInterviewsDone;
+  const isCategories = !getCategoryLoading && getCategoryDone;
+
   const isPageError = getInterviewsError || getCategoryError;
-  // if (getInterviewsLoading || getCategoryDone) return <span>로딩 중</span>;
-  if (getCategoryLoading) return <span>로딩 중!</span>;
   if (isPageError) return <span>에러 발생!</span>;
 
   return (
     <Layout>
-      <CategoryMenu categorys={categorys} />
+      {isCategories ? <CategoryMenu categorys={categorys} /> : <SkeletonCategoryMenu categorys={categorys} />}
       <Main>
-        {!getInterviewsLoading &&
-          getInterviewsDone &&
-          interviews?.map(interview => (
-            <PostCard key={interview.interviews_id} interview={interview} onOpen={onOpen} />
-          ))}
-        {getInterviewsLoading && new Array(4).fill(0).map((_, index) => <SkeletonPostCard key={index} />)}
+        {isInterviews
+          ? interviews?.map(interview => (
+              <PostCard key={interview.interviews_id} interview={interview} onOpen={onOpen} />
+            ))
+          : new Array(4).fill(0).map((_, index) => <SkeletonPostCard key={index} />)}
         <Pagination totalPage={parseInt(totalPage, 10)} page={page} setPage={setPage} />
       </Main>
       <PostModal open={open} onClose={onClose} selected={selected} />
