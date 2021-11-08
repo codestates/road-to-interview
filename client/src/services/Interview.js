@@ -21,6 +21,8 @@ export default class Interview {
         categorys_id: categorys_id,
       },
     });
+    // 로딩 컴포넌트 확인하기 위한 코드
+    await new Promise(resolve => setTimeout(() => resolve(), 3000));
     return response.data;
   }
 }
