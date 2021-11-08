@@ -56,6 +56,7 @@ export default function Nav() {
     case INTETVIEW_RESULT:
     case MYPAGE:
     case CREATE:
+    case LANDING:
       return (
         <Layout>
           <Logo onClick={() => push('/')}>
@@ -141,42 +142,6 @@ export default function Nav() {
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
           <ToggleButton />
-        </Layout>
-      );
-    case LANDING:
-      return (
-        <Layout>
-          <Logo
-            css={css`
-              /* margin: 0 auto; */
-              cursor: pointer;
-            `}
-            onClick={() => push('/')}
-          >
-            {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
-          </Logo>
-
-          {userInfo ? (
-            <Flex>
-              <Button text secondary sm onClick={() => push('/mypage')}>
-                마이페이지
-              </Button>
-            </Flex>
-          ) : (
-            <Flex rowGap="1em">
-              <Button text tertiary sm onClick={() => push('/login')}>
-                로그인
-              </Button>
-              <Button text tertiary sm onClick={() => push('/signup')}>
-                회원가입
-              </Button>
-            </Flex>
-          )}
-          <ToggleButton
-            css={css`
-              margin-left: 1em;
-            `}
-          />
         </Layout>
       );
     case INTETVIEW_TEST:

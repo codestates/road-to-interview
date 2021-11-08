@@ -44,7 +44,7 @@ const Tab = ({ id, title, desc }) => {
 };
 
 const Wrapper = styled.div`
-  border-top: 2px solid ${({ theme }) => theme.colors.borderColor.outer};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.borderColor.outer};
 `;
 const Header = styled.div`
   padding: ${spacing[7]} 0;

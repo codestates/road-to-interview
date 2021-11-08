@@ -79,30 +79,30 @@ const colors = {
 const typography = {
   header: {
     1: css`
-      font-size: ${fontSizes[1200]};
-      font-weight: 600;
+      font-size: ${fontSizes[1300]};
+      font-weight: 400;
     `,
     2: css`
-      font-size: ${fontSizes[1000]};
-      font-weight: 600;
+      font-size: ${fontSizes[1100]};
+      font-weight: 400;
     `,
   },
   subtitle: {
     1: css`
       font-size: ${fontSizes[800]};
-      font-weight: 600;
+      font-weight: 400;
     `,
     2: css`
       font-size: ${fontSizes[700]};
-      font-weight: 600;
+      font-weight: 400;
     `,
     3: css`
       font-size: ${fontSizes[600]};
-      font-weight: 600;
+      font-weight: 400;
     `,
     4: css`
       font-size: ${fontSizes[500]};
-      font-weight: 600;
+      font-weight: 400;
     `,
   },
   body: {
@@ -110,16 +110,17 @@ const typography = {
       font-size: ${fontSizes[400]};
     `,
     2: css`
-      font-size: ${fontSizes[300]};
+      font-size: ${fontSizes[400]};
     `,
   },
   caption: {
     1: css`
       font-size: ${fontSizes[200]};
+      font-weight: 500;
     `,
     2: css`
       font-size: ${fontSizes[100]};
-      font-weight: 600;
+      font-weight: 700;
     `,
   },
 };
