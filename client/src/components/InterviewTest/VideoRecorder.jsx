@@ -14,6 +14,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const [recordState, setRecordState] = useState(null);
   const videoRef = useRef(null);
   let constraints = {};
+
   if (search === `?isVoice=true`) {
     //음성조건
     constraints = {
