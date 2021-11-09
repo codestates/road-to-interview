@@ -73,6 +73,7 @@ export default function Nav() {
                 <>
                   <LinkItem to="/mypage">마이페이지</LinkItem>
                   <LinkItem to="/create">인터뷰 생성하기</LinkItem>
+                  <LinkItem to="/recruit">개발자 구직공고</LinkItem>
                   <Item onClick={onLogout}>로그아웃</Item>
                 </>
               ) : (
@@ -104,6 +105,7 @@ export default function Nav() {
                       <>
                         <LinkItem to="/mypage">마이페이지</LinkItem>
                         <LinkItem to="/create">인터뷰 목록 생성하기</LinkItem>
+                        <LinkItem to="/recruit">개발자 구직공고</LinkItem>
                         <Item onClick={onLogout}>로그아웃</Item>
                       </>
                     ) : (
