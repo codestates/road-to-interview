@@ -1,4 +1,5 @@
 import Slider from 'react-slick';
+import { AnimatePresence, motion } from 'framer-motion';
 import Portal from '@/hoc/Portal';
 import Flex from '../layouts/Flex';
 import Modal from '@/components/shared/Modal';
@@ -11,38 +12,63 @@ import { Link } from 'react-router-dom';
 import { useMode } from '@/contexts/ModeContext';
 import { spacing } from '@/styles';
 
+const dropIn = {
+  hidden: {
+    y: '-100vh',
+    opacity: 0,
+  },
+  visible: {
+    y: '0',
+    opacity: 1,
+    transition: {
+      duration: 0.1,
+      type: 'spring',
+      damping: 25,
+      stiffness: 500,
+    },
+  },
+  exit: {
+    opacity: 0,
+  },
+};
+
 export default function PostModal({ open, onClose, selected }) {
   const [mode] = useMode();
+
   return (
     <Portal selector="#modal">
-      <Modal open={open} onClose={onClose}>
-        <DrawerBody>
-          <Modaltitle>{selected?.title}</Modaltitle>
-          <StyledSlick {...modalSettings}>
-            <SliderInner></SliderInner>
-            <SliderInner></SliderInner>
-            <SliderInner></SliderInner>
-            <SliderInner></SliderInner>
-          </StyledSlick>
-          <Flex rowGap="4em">
-            <RecordBtn to={`/test/${selected?.interviews_id}?isVoice=true`} mode={mode}>
-              <i>
-                <Mic width="2.2rem" height="2.2rem" />
-              </i>
-            </RecordBtn>
-            <RecordBtn to={`/test/${selected?.interviews_id}?isVideo=true`} mode={mode}>
-              <i>
-                <Video width="2.2rem" height="2.2rem" />
-              </i>
-            </RecordBtn>
-          </Flex>
-        </DrawerBody>
-      </Modal>
+      <AnimatePresence>
+        {open && (
+          <Modal onClose={onClose}>
+            <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
+              <Modaltitle>{selected?.title}</Modaltitle>
+              <StyledSlick {...modalSettings}>
+                <SliderInner></SliderInner>
+                <SliderInner></SliderInner>
+                <SliderInner></SliderInner>
+                <SliderInner></SliderInner>
+              </StyledSlick>
+              <Flex rowGap="4em">
+                <RecordBtn to={`/test/${selected?.interviews_id}?isVoice=true`} mode={mode}>
+                  <i>
+                    <Mic width="2.2rem" height="2.2rem" />
+                  </i>
+                </RecordBtn>
+                <RecordBtn to={`/test/${selected?.interviews_id}?isVideo=true`} mode={mode}>
+                  <i>
+                    <Video width="2.2rem" height="2.2rem" />
+                  </i>
+                </RecordBtn>
+              </Flex>
+            </DrawerBody>
+          </Modal>
+        )}
+      </AnimatePresence>
     </Portal>
   );
 }
 
-const DrawerBody = styled.div`
+const DrawerBody = styled(motion.div)`
   position: relative;
   width: 90vw;
   max-width: 768px;
