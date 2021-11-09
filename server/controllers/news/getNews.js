@@ -4,7 +4,11 @@ module.exports = (req, res) => {
     .query(
       `select a.position, a.company,a.url,a.img
       from (select position, company, url,img, date(createdAt) created from news) a
-      where created = ?;`,
+      where created = ? limit ` +
+        page +
+        `,` +
+        size +
+        `;`,
       {
         replacements: [
           new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0],
