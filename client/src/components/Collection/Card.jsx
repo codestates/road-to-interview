@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { css } from '@emotion/react';
 import Portal from '@/hoc/Portal';
 import Modal from '@/components/shared/Modal';
@@ -9,9 +10,17 @@ import { useHistory } from 'react-router-dom';
 import UserInfo from '../shared/UserInfo';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 
-export default function Card({ title, description }) {
+import { deleteCollections } from '@/store/creator/collectionsCreator';
+
+export default function Card({ title, description, collection }) {
   // TODO: 선택한 인터뷰 상태 값 필요 -> 모달창에 전달할..
   const [open, setOpen] = useState(false);
+  const { push } = useHistory();
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector(state => state.users);
+  const { deleteCollectionsLoading, deleteCollectionsDone } = useSelector(state => state.collections);
+
+  // 컬렉션 삭제가 되면 다시 받아온 컬렉션으로 화면 리렌더링을 위한 사이드이펙트 및 알람
 
   const onOpen = () => {
     setOpen(true);
@@ -21,9 +30,8 @@ export default function Card({ title, description }) {
   };
   const onDelete = () => {
     // 컬렉션 삭제
+    dispatch(deleteCollections({ accessToken, interviews_id: collection.interviews_id }));
   };
-
-  const { push } = useHistory();
 
   return (
     <Layout>
@@ -66,7 +74,9 @@ export default function Card({ title, description }) {
               opacity: 0.9;
             `
           }
-        ></Content>
+        >
+          <UserInfo author />
+        </Content>
       </Author>
       <ButtonBox>
         <Button sm secondary onClick={onOpen}>

@@ -26,4 +26,14 @@ export default class Collections {
     });
     return res.data;
   }
+
+  // 컬렉션 삭제
+  async deleteCollections(accessToken, interviews_id) {
+    const res = await this.client.delete(`/collections/${interviews_id}`, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    });
+    return res.data;
+  }
 }

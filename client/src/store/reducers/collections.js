@@ -5,6 +5,9 @@ import {
   getCollectionsRequest,
   getCollectionsSuccess,
   getCollectionsFailure,
+  deleteCollectionsRequest,
+  deleteCollectionsSuccess,
+  deleteCollectionsFailure,
 } from '../actions/collectionsAction';
 
 const initialState = {
@@ -15,6 +18,9 @@ const initialState = {
   getCollectionsLoading: false,
   getCollectionsDone: false,
   getCollectionsError: null,
+  deleteCollectionsLoading: false,
+  deleteCollectionsDone: false,
+  deleteCollectionsError: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -62,6 +68,28 @@ export default function reducer(state = initialState, action) {
         getCollectionsLoading: false,
         getCollectionsDone: false,
         getCollectionsError: action.payload,
+      };
+    case deleteCollectionsRequest:
+      return {
+        ...state,
+        deleteCollectionsLoading: true,
+        deleteCollectionsDone: false,
+        deleteCollectionsError: null,
+      };
+    case deleteCollectionsSuccess:
+      return {
+        ...state,
+        collections: action.payload.collections,
+        deleteCollectionsLoading: false,
+        deleteCollectionsDone: true,
+        deleteCollectionsError: null,
+      };
+    case deleteCollectionsFailure:
+      return {
+        ...state,
+        deleteCollectionsLoading: false,
+        deleteCollectionsDone: false,
+        deleteCollectionsError: action.payload,
       };
     default:
       return state;
