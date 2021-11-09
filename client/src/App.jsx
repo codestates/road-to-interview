@@ -24,21 +24,21 @@ import Create from './pages/Create';
 import Collection from './pages/Collection';
 import Recruit from './pages/Recruit';
 
-export default function App() {
+const App = () => {
   const [mode] = useMode();
 
   const { accessToken } = useSelector(state => state.users);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(auth(accessToken));
+    dispatch(auth(accessToken));
   }, [dispatch, accessToken]);
 
   return (
     <ThemeProvider theme={THEME[mode]}>
       <Global theme={THEME[mode]} />
       <Switch>
-        <RouteWithLayout path="/" component={Landing} layout={LandingLayout} />
+        <RouteWithLayout exact path="/" component={Landing} layout={LandingLayout} />
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
@@ -51,4 +51,6 @@ export default function App() {
       </Switch>
     </ThemeProvider>
   );
-}
+};
+
+export default App;
