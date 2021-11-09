@@ -14,6 +14,7 @@ import Button from '@/components/elements/Button';
 import { css } from '@emotion/react';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
+import Loading from '@/components/shared/Loading';
 
 export default function Create() {
   // * State
@@ -99,7 +100,7 @@ export default function Create() {
     }
   };
 
-  if (getCategoryLoading) return <span>로딩 중...</span>;
+  if (getCategoryLoading) return <Loading />;
 
   return (
     <Container>

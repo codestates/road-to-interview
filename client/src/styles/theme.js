@@ -37,6 +37,9 @@ const colors = {
       disable_placeholder: palette.light.gray[400],
       reverse: palette.dark.gray[700],
     },
+    skeleton: {
+      gradientColor: `linear-gradient(to right, ${palette.dark.gray[600]}, ${palette.dark.gray[800]}, transparent)`,
+    },
   },
   // dark theme
   dark: {
@@ -72,6 +75,9 @@ const colors = {
       secondary: palette.dark.gray[600],
       disable_placeholder: palette.dark.gray[400],
       reverse: palette.light.gray[600],
+    },
+    skeleton: {
+      gradientColor: `linear-gradient(to right, ${palette.dark.gray[400]}, ${palette.dark.gray[600]}, transparent)`,
     },
   },
 };
