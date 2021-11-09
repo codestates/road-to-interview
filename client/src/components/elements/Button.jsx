@@ -1,4 +1,5 @@
 import { fontSizes, palette, spacing } from '@/styles';
+import { motion } from 'framer-motion';
 import { css } from '@emotion/react';
 
 // * style
@@ -156,7 +157,12 @@ const variation = (props, theme) => {
 
 const Button = ({ children, className, onClick, type, icon: Icon, ...styles }) => {
   return (
-    <button {...{ className, onClick, type }} css={theme => variation({ ...styles, Icon }, theme)}>
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      transition={{ type: 'spring', stiffness: 300 }}
+      {...{ className, onClick, type }}
+      css={theme => variation({ ...styles, Icon }, theme)}
+    >
       {Icon && (
         <Icon
           css={css`
@@ -167,7 +173,7 @@ const Button = ({ children, className, onClick, type, icon: Icon, ...styles }) =
         />
       )}
       {children}
-    </button>
+    </motion.button>
   );
 };
 

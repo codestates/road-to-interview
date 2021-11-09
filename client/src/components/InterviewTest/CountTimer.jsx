@@ -70,7 +70,7 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
         `)}
         ${media.laptop(css`
           top: ${spacing[6]};
-          width: 50vw;
+          width: 60vw;
         `)}
         ${media.desktop(css`
           top: ${spacing[7]};

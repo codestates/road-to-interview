@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import { motion } from 'framer-motion';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestions } from '@/store/creator/questionsCreator';
-
 import CountTimer from '../components/InterviewTest/CountTimer';
 import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
@@ -59,8 +59,38 @@ const InterviewTest = () => {
   if (getQuestionsLoading) return <span>로딩중...</span>;
   if (getQuestionsError) return <span>{getQuestionsError}</span>;
 
+  const containerVariants = {
+    hidden: {
+      opacity: 0,
+      x: '100vw',
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: 'spring',
+        delay: 0.5,
+        when: 'beforeChildren',
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: {
+      opacity: 0,
+      x: '-100vw',
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: 'spring',
+        delay: 1,
+      },
+    },
+  };
   return (
-    <div
+    <motion.div
       css={css`
         display: flex;
         flex-direction: column;
@@ -71,19 +101,28 @@ const InterviewTest = () => {
           bottom: ${spacing[8]};
         `)}
       `}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.1, duration: 1 }}
     >
-      <div
+      <motion.div
         css={css`
           display: flex;
           flex-direction: column;
           align-items: center;
         `}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
         <CountTimer currentQuestion={currentQuestion} isPlay={isPlay} />
         <Question currentQuestion={currentQuestion} />
-      </div>
-      <div
+      </motion.div>
+      <motion.div
         css={css`
+          ${media.tablet(css`
+            display: flex;
+          `)}
           ${media.laptop(css`
             display: flex;
           `)}
@@ -91,6 +130,9 @@ const InterviewTest = () => {
             display: flex;
           `)}
         `}
+        variants={childVariants}
+        initial="hidden"
+        animate="visible"
       >
         <VideoRecorder
           search={search}
@@ -100,8 +142,8 @@ const InterviewTest = () => {
           countHandler={countHandler}
         />
         {view ? <HintViewer currentQuestion={currentQuestion} /> : null}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
