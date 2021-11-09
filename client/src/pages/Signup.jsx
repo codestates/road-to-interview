@@ -10,8 +10,6 @@ import Input from '@/components/elements/Input';
 import Label from '@/components/elements/Label';
 import Button from '@/components/elements/Button';
 import ErrorMessage from '@/components/shared/ErrorMessage';
-import Portal from '@/hoc/Portal';
-import Modal from '@/components/shared/Modal';
 import GoogleSocialLogin from '@/components/shared/Login/GoogleLogin';
 import KakaoLogin from '@/components/shared/Login/KakaoLogin';
 
@@ -24,7 +22,6 @@ export default function Signup() {
     formState: { errors },
   } = useForm();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const password = useRef();
@@ -33,17 +30,6 @@ export default function Signup() {
   // 회원가입 완료 후 응답에 따른 라우팅 처리
   const { userInfo, signupDone, signupError, kakaoLoginDone, googleLoginDone, kakaoLoginError, googleLoginError } =
     useSelector(state => state.users);
-  // TODO: 회원가입 이후 새로고침 하지 않고 회원가입 창에 갔을 때 모달이 다시 뜨는 버그 수정...
-  useEffect(() => {
-    if (signupDone) {
-      setIsModalOpen(true);
-    }
-  }, [signupDone]);
-
-  const onClose = () => {
-    setIsModalOpen(false);
-    history.replace('/login');
-  };
 
   // 유저정보 불러와지면 로그인 상태로 메인으로
   useEffect(() => {
@@ -194,11 +180,6 @@ export default function Signup() {
             로그인
           </Label>
         </Field>
-        <Portal selector="#modal">
-          <Modal open={isModalOpen} onClose={onClose}>
-            <ModalBody>축하합니다! 회원가입이 완료되었습니다. 로그인을 해주세요!</ModalBody>
-          </Modal>
-        </Portal>
       </Form>
     </Container>
   );
