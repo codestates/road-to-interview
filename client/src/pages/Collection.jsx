@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCollections } from '@/store/creator/collectionsCreator';
 
 import styled from '@emotion/styled';
-import { COLLECTIONS } from '@/constants/mock';
+import NoCollections from '@/components/Collection/NoCollections';
 
 import Card from '@/components/Collection/Card';
 
@@ -20,15 +20,21 @@ export default function Collection() {
   // ! 컬렉션 가져오기 (현재 컬렉션 추가기능 미적용)
   useEffect(() => {
     dispatch(getCollections(accessToken));
-  }, []);
+  }, [dispatch]);
+
+  const isCollections = !getCollectionsLoading && getCollectionsDone;
 
   return (
     <Layout>
-      {COLLECTIONS.map(c => (
-        <Box key={c?.id}>
-          <Card title={c?.title} description={c?.description} author={c?.author?.nickname} />
-        </Box>
-      ))}
+      {isCollections ? (
+        collections?.map(c => (
+          <Box key={c?.interviews_id}>
+            <Card title={c?.title} description={c?.description} />
+          </Box>
+        ))
+      ) : (
+        <NoCollections />
+      )}
     </Layout>
   );
 }

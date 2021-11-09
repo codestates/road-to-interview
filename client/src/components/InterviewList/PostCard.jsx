@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -12,9 +13,17 @@ import Table from '../shared/Table';
 import UserInfo from '../shared/UserInfo';
 
 import { ReactComponent as TagIcon } from 'assets/tag.svg';
+import { addCollections } from '@/store/creator/collectionsCreator';
 
 export default function PostCard({ interview, onOpen }) {
   const [mode] = useMode();
+  const dispatch = useDispatch();
+
+  const { accessToken } = useSelector(state => state.users);
+
+  const onAdd = interview => {
+    dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
+  };
 
   return (
     <>
@@ -67,6 +76,9 @@ export default function PostCard({ interview, onOpen }) {
           ))}
         </Table.FooterStart>
         <Table.FooterEnd>
+          <Button sm tertiary onClick={() => onAdd(interview)}>
+            +
+          </Button>
           <Button sm secondary onClick={() => onOpen(interview)}>
             도전하기
           </Button>

@@ -1,6 +1,25 @@
 import { COLLECTIONS_API } from '@/services';
 
-import { getCollectionsRequest, getCollectionsSuccess, getCollectionsFailure } from '../actions/collectionsAction';
+import {
+  addCollectionRequest,
+  addCollectionSuccess,
+  addCollectionFailure,
+  getCollectionsRequest,
+  getCollectionsSuccess,
+  getCollectionsFailure,
+} from '../actions/collectionsAction';
+
+// 컬렉션 추가하기
+export const addCollections = data => async dispatch => {
+  const { accessToken, interviews_id } = data;
+  try {
+    dispatch({ type: addCollectionRequest });
+    const data = COLLECTIONS_API.addCollections(accessToken, interviews_id);
+    dispatch({ type: addCollectionSuccess, payload: data });
+  } catch (e) {
+    dispatch({ type: addCollectionFailure, payload: e.message });
+  }
+};
 
 // 내 컬렉션 가져오기
 export const getCollections = accessToken => async dispatch => {

@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import UserInfo from '../shared/UserInfo';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 
-export default function Card({ title, description, author }) {
+export default function Card({ title, description }) {
   // TODO: 선택한 인터뷰 상태 값 필요 -> 모달창에 전달할..
   const [open, setOpen] = useState(false);
 
@@ -66,9 +66,7 @@ export default function Card({ title, description, author }) {
               opacity: 0.9;
             `
           }
-        >
-          <UserInfo nickname={author} />
-        </Content>
+        ></Content>
       </Author>
       <ButtonBox>
         <Button sm secondary onClick={onOpen}>
