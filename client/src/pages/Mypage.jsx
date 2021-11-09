@@ -30,16 +30,6 @@ export default function Mypage() {
 
   const { userInfo, accessToken, editDone, editError } = useSelector(state => state.users);
   const dispatch = useDispatch();
-  // console.log(userInfo);
-
-  useEffect(() => {
-    if (editDone) {
-      alert('정보가 수정되었습니다.');
-    }
-    if (editError) {
-      alert(editError);
-    }
-  }, [editDone, editError]);
 
   const onSubmit = data => {
     const newData = {
