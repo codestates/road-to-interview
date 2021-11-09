@@ -41,6 +41,11 @@ module.exports = {
 
       list.each(function (i, elem) {
         ulList[i] = {
+          img: $(this)
+            .find("header")
+            .attr("style")
+            .split('url("')[1]
+            .split('");')[0],
           position: $(this).find("div.job-card-position").text(),
           company: $(this).find("div.job-card-company-name").text(),
           url: url + $(this).find("div._3D4OeuZHyGXN7wwibRM5BJ a").attr("href"),
@@ -53,6 +58,7 @@ module.exports = {
           el.position,
           el.company,
           el.url,
+          el.img,
           new Date(),
           new Date(),
         ];
@@ -60,7 +66,7 @@ module.exports = {
 
       console.log(nowList);
       const sql =
-        "insert into news(id,position,company,url,createdAt,updatedAt) values ?";
+        "insert into news(id,position,company,url,img,createdAt,updatedAt) values ?";
 
       con.connect(function (err) {
         if (err) throw err;
