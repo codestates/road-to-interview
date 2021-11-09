@@ -9,6 +9,8 @@ import {
   createInterviewFailure,
 } from '../actions/interviewsAction';
 
+import { showNotification } from '../creator/notificationsCreator';
+
 // 인터뷰 리스트 가져오기
 export const getInterviews =
   ({ page, size, category }) =>
@@ -25,11 +27,12 @@ export const getInterviews =
 // 인터뷰 생성하기
 export const createInterview =
   ({ payload, accessToken }) =>
-  async dispatch => {
+  async (dispatch, getState) => {
     try {
       dispatch({ type: createInterviewRequest });
-      await INTERVIEW_API.createInterview(payload, accessToken);
+      const res = await INTERVIEW_API.createInterview(payload, accessToken);
       dispatch({ type: createInterviewSuccess });
+      dispatch(showNotification(`${res.title} 가 생성 완료되었습니다! 🔖`));
     } catch (e) {
       dispatch({ type: createInterviewFailure, payload: e.response?.data?.message });
     }
