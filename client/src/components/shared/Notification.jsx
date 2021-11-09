@@ -1,6 +1,7 @@
 import { palette } from '@/styles';
 import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 const notificationVariants = {
   initial: {
@@ -30,6 +31,7 @@ export default function Notification({ text, type }) {
       initial="initial" // Starting animation
       animate="animate" // Values to animate to
       exit="exit" // Target to animate to when removed from the tree
+      type={type}
     >
       <IconWrapper></IconWrapper>
       <Text>{text}</Text>
@@ -37,12 +39,29 @@ export default function Notification({ text, type }) {
   );
 }
 
+const colorVariants = props => {
+  switch (props.type) {
+    case 'error':
+      return css`
+        background: ${({ theme }) => theme.colors.tint.red[500]};
+      `;
+    case 'warning':
+      return css`
+        background: ${({ theme }) => theme.colors.tint.coral[600]};
+      `;
+    default:
+      return css`
+        background: ${({ theme }) => theme.colors.tint.green[600]};
+      `;
+  }
+};
+
 const Wrapper = styled(motion.li)`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 2.5rem;
-  background: ${({ theme }) => theme.colors.tint.green[600]};
+  ${colorVariants}
   color: ${palette.dark.gray[700]};
   border-radius: 0.3em;
 `;

@@ -35,5 +35,6 @@ export const createInterview =
       dispatch(showNotification(`${res.title} 가 생성 완료되었습니다! 🔖`));
     } catch (e) {
       dispatch({ type: createInterviewFailure, payload: e.response?.data?.message });
+      dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
     }
   };

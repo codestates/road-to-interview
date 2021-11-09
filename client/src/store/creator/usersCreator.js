@@ -36,6 +36,7 @@ export const login = data => async (dispatch, getState) => {
     dispatch(showNotification(`${getState().users.userInfo.nickname} 님 환영합니다! 😁`));
   } catch (e) {
     dispatch({ type: loginFailure, payload: e.response?.data?.message });
+    dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
   }
 };
 // 구글 로그인 요청
@@ -47,6 +48,7 @@ export const googleLogin = data => async (dispatch, getState) => {
     dispatch(showNotification(`${getState().users.userInfo.nickname} 님 환영합니다! 😁`));
   } catch (e) {
     dispatch({ type: googleLoginFailure, payload: e.response });
+    dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
   }
 };
 // 카카오 로그인 요청
@@ -58,6 +60,7 @@ export const kakaoLogin = data => async (dispatch, getState) => {
     dispatch(showNotification(`${getState().users.userInfo.nickname} 님 환영합니다! 😁`));
   } catch (e) {
     dispatch({ type: kakaoLoginFailure, payload: e.response });
+    dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
   }
 };
 // 로그아웃 요청
@@ -81,6 +84,7 @@ export const signup = data => async dispatch => {
     dispatch(showNotification(`가입을 축하드립니다! 🎉 `));
   } catch (e) {
     dispatch({ type: signupFailure, payload: e.response });
+    dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
   }
 };
 // 권한인증 요청
@@ -103,5 +107,6 @@ export const edit = data => async (dispatch, getState) => {
     dispatch(showNotification(`유저 정보가 수정되었습니다. 🖌`));
   } catch (e) {
     dispatch({ type: editFailure, payload: e.response?.data?.message });
+    dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
   }
 };
