@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
+import { AnimatePresence, motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 
 import { createInterview } from '@/store/creator/InterviewsCreator';
 import { getCategory } from '@/store/creator/categoryCreator';
@@ -15,7 +17,27 @@ import { css } from '@emotion/react';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
 import Loading from '@/components/shared/Loading';
-import { AnimatePresence } from 'framer-motion';
+
+const dropIn = {
+  hidden: {
+    y: '-100vh',
+    opacity: 0,
+  },
+  visible: {
+    y: '0',
+    opacity: 1,
+    transition: {
+      duration: 0.1,
+      type: 'spring',
+      damping: 25,
+      stiffness: 500,
+    },
+  },
+  exit: {
+    y: '-100vh',
+    opacity: 0,
+  },
+};
 
 export default function Create() {
   // * State
@@ -60,8 +82,8 @@ export default function Create() {
     if (questions.length === 0) {
       setErrorState(prev => ({ ...prev, questions: '질문을 입력하여주세요!' }));
       return false;
-    } else if (questions.length > 20) {
-      setErrorState(prev => ({ ...prev, questions: '질문은 20개 까지만 입력이 가능합니다!' }));
+    } else if (questions.length > 10) {
+      setErrorState(prev => ({ ...prev, questions: '질문은 10개 까지만 입력이 가능합니다!' }));
       return false;
     }
     setErrorState(prev => ({ ...prev, questions: '' }));
@@ -116,7 +138,7 @@ export default function Create() {
         {open && (
           <Modal onClose={onClose} fullScreen CustomBtn={renderBtn}>
             <ModalBody>
-              <ModalInner>
+              <ModalInner variants={dropIn} initial="hidden" animate="visible" exit="exit">
                 <QuestionForm idRef={id} setQuestions={setQuestions} />
                 <ModalSide>
                   <List {...{ questions, setQuestions }} />
@@ -135,7 +157,7 @@ const ModalBody = styled.div`
   background: ${({ theme }) => theme.colors.background};
   height: 100%;
 `;
-const ModalInner = styled.div`
+const ModalInner = styled(motion.div)`
   display: flex;
   flex-direction: column;
   padding: ${spacing[5]};
@@ -176,6 +198,7 @@ const renderBtn = props => {
         position: absolute;
         top: 1em;
         right: 1em;
+        z-index: 10;
       `}
     >
       나가기

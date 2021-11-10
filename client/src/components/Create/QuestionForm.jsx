@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from '@emotion/styled';
+import ReactMarkdown from 'react-markdown';
 import { css } from '@emotion/react';
 
 import { fontSizes, spacing } from '@/styles';
@@ -20,13 +21,20 @@ export default function QuestionForm({ idRef, setQuestions }) {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
     reset,
   } = useForm();
+
+  const questionContent = watch('questions__content');
 
   const [time, setTime] = useState(120);
   const onChangeTime = e => {
     setTime(e.target.value);
   };
+
+  const [preview, setPreview] = useState(false);
+  const onTogglePreview = () => setPreview(prev => !prev);
+  const previewOff = () => setPreview(false);
 
   const onQuestionSubmit = data => {
     const question = {
@@ -45,7 +53,7 @@ export default function QuestionForm({ idRef, setQuestions }) {
         name="questions__title"
         {...register('questions__title', {
           required: { value: true, message: '질문 타이틀을 입력해주세요!' },
-          minLength: { value: 4, message: '4자 이상 입력해주세요!' },
+          minLength: { value: 2, message: '2자 이상 입력해주세요!' },
           maxLength: { value: 80, message: '80자 이하로 입력해주세요!' },
         })}
         css={theme => css`
@@ -90,10 +98,10 @@ export default function QuestionForm({ idRef, setQuestions }) {
       </div>
       <ErrorMessage>{errors.questions__title?.message}</ErrorMessage>
       <Bar>
-        <Button type="button" sm text tertiary icon={Pen}>
+        <Button type="button" sm text tertiary icon={Pen} onClick={previewOff}>
           Write
         </Button>
-        <Button type="button" sm text tertiary icon={Eye}>
+        <Button type="button" sm text tertiary icon={Eye} onClick={onTogglePreview}>
           Preview
         </Button>
         <Button type="submit" sm text primary icon={Archive}>
@@ -104,15 +112,23 @@ export default function QuestionForm({ idRef, setQuestions }) {
         </Button>
       </Bar>
       <ErrorMessage>{errors.questions__content?.message}</ErrorMessage>
-      <Textarea
-        name="questions__content"
-        {...register('questions__content', {
-          required: { value: true, message: '내용을 입력해주세요!' },
-          minLength: { value: 4, message: '4자 이상 입력해주세요!' },
-          maxLength: { value: 500, message: '500자 이하로 입력해주세요!' },
-        })}
-        placeholder="모범답안을 입력하세요."
-      />
+      <Content>
+        <Textarea
+          name="questions__content"
+          {...register('questions__content', {
+            required: { value: true, message: '내용을 입력해주세요!' },
+            minLength: { value: 4, message: '4자 이상 입력해주세요!' },
+            maxLength: { value: 500, message: '500자 이하로 입력해주세요!' },
+          })}
+          placeholder="모범답안을 입력하세요."
+          preview={preview}
+        />
+        {preview && (
+          <PreviewContent>
+            <ReactMarkdown>{questionContent}</ReactMarkdown>
+          </PreviewContent>
+        )}
+      </Content>
     </Form>
   );
 }
@@ -136,9 +152,47 @@ const Bar = styled.div`
   background-color: ${({ theme }) => theme.colors.background_elevated};
 `;
 
-const Textarea = styled.textarea`
+const Content = styled.div`
   height: 100%;
   padding: ${spacing[4]} 0;
+`;
+
+const PreviewContent = styled.div`
+  position: relative;
+  padding: ${spacing[4]} 0;
+  max-height: 50%;
+  overflow-y: auto;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background-color: ${({ theme }) => theme.colors.text.primary};
+  }
+
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.background_elevated};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
+  }
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  height: 100%;
+  ${({ preview }) =>
+    preview &&
+    css`
+      height: 50%;
+    `}
   color: ${({ theme }) => theme.colors.text.primary};
   background-color: transparent;
   ${({ theme }) => theme.typography.body[2]}
@@ -152,5 +206,15 @@ const Textarea = styled.textarea`
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.text.disable_placeholder};
+  }
+
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.background_elevated};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
   }
 `;
