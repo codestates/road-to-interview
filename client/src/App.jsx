@@ -29,7 +29,7 @@ import '@/styles/fonts.css';
 import Notification from './components/shared/Notification';
 import Recruit from './pages/Recruit';
 
-export default function App() {
+const App = () => {
   const [mode] = useMode();
 
   const { accessToken } = useSelector(state => state.users);
@@ -44,7 +44,7 @@ export default function App() {
     <ThemeProvider theme={THEME[mode]}>
       <Global theme={THEME[mode]} />
       <Switch>
-        <RouteWithLayout path="/" component={Landing} layout={LandingLayout} />
+        <RouteWithLayout exact path="/" component={Landing} layout={LandingLayout} />
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
@@ -64,4 +64,6 @@ export default function App() {
       </Portal>
     </ThemeProvider>
   );
-}
+};
+
+export default App;
