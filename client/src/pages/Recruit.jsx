@@ -5,6 +5,8 @@ import { getRecruit } from '@/store/creator/recruitCreator';
 import media from '@/utils/media';
 import { fontSizes, palette, spacing } from '@/styles';
 import Button from '../components/elements/Button';
+import Loading from '@/components/shared/Loading';
+import NotFound from './NotFound';
 
 export default function Recruit() {
   const dispatch = useDispatch();
@@ -18,8 +20,8 @@ export default function Recruit() {
       setItems(recruit);
     }
   }, [recruit, getRecruitDone]);
-  if (getRecruitLoading) return <span>로딩중...</span>;
-  if (getRecruitError) return <span>에러페이지</span>;
+  if (getRecruitLoading) return <Loading />;
+  if (getRecruitError) return <NotFound />;
   return (
     <div>
       <div

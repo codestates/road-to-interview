@@ -10,6 +10,8 @@ import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
 import HintViewer from '@/components/InterviewTest/HintViewer';
+import Loading from '@/components/shared/Loading';
+import NotFound from './NotFound';
 
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
@@ -56,8 +58,8 @@ const InterviewTest = () => {
     setIsPlay(playing);
   };
 
-  if (getQuestionsLoading) return <span>로딩중...</span>;
-  if (getQuestionsError) return <span>{getQuestionsError}</span>;
+  if (getQuestionsLoading) return <Loading />;
+  if (getQuestionsError) return <NotFound />;
 
   const containerVariants = {
     hidden: {
