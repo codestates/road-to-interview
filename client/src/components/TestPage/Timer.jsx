@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 const format = ms => {
@@ -34,13 +35,15 @@ export default function Timer({ initial, running, pause }) {
     }
   }, [initial, running, pause]);
 
-  const time = format(milliSeconds);
-
   return (
     <Wrapper>
-      <span>{time}</span>
+      <span>{format(milliSeconds)}</span>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled(motion.div)`
+  letter-spacing: 1px;
+  & > span {
+  }
+`;

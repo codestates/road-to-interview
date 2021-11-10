@@ -28,6 +28,7 @@ const recordStart = keyframes`
 const Wrapper = styled.div`
   width: 7.2rem;
   height: 7.2rem;
+  margin: 1em 0px;
   display: flex;
   align-items: center;
   justify-content: center;
