@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRecruit } from '@/store/creator/recruitCreator';
 import media from '@/utils/media';
 import { fontSizes, palette, spacing } from '@/styles';
 import Button from '../components/elements/Button';
-const Recruit = () => {
-  const [items, setItems] = useState([]);
 
+export default function Recruit() {
+  const dispatch = useDispatch();
   useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get(`https://sjitygfree.ga/news`);
-      setItems(res.data.news);
-    };
-    getData();
-  }, []);
-
+    dispatch(getRecruit());
+  }, [dispatch]);
+  const { recruit, getRecruitLoading, getRecruitDone, getRecruitError } = useSelector(state => state.recruit);
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    if (getRecruitDone) {
+      setItems(recruit);
+    }
+  }, [recruit, getRecruitDone]);
+  if (getRecruitLoading) return <span>로딩중...</span>;
+  if (getRecruitError) return <span>에러페이지</span>;
   return (
     <div>
       <div
@@ -143,6 +148,4 @@ const Recruit = () => {
       </div>
     </div>
   );
-};
-
-export default Recruit;
+}
