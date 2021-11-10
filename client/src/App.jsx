@@ -24,6 +24,7 @@ import InterviewResult from './pages/InterviewResult';
 import MyPage from './pages/Mypage';
 import Create from './pages/Create';
 import Collection from './pages/Collection';
+import NotFound from './pages/NotFound';
 
 import '@/styles/fonts.css';
 import Notification from './components/shared/Notification';
@@ -53,6 +54,7 @@ const App = () => {
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
         <RouteWithLayout path="/collection" component={Auth(Collection)} layout={MainLayout} />
         <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
+        <RouteWithLayout component={NotFound} />
         <RouteWithLayout path="/recruit" component={Recruit} layout={MainLayout} />
       </Switch>
       <Portal selector="#notification">
