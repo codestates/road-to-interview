@@ -38,6 +38,9 @@ const light = {
     red: {
       500: '#FF2C51',
     },
+    green: {
+      600: '#39b990',
+    },
     yellow: {
       500: '#FFF028',
       600: '#FFD324',
@@ -84,6 +87,9 @@ const dark = {
     },
     red: {
       500: '#F26175',
+    },
+    green: {
+      600: '#39b990',
     },
     yellow: {
       500: '#FFD324',

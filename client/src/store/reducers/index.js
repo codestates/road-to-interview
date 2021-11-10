@@ -5,6 +5,8 @@ import categorys from './categorys';
 import questions from './questions';
 import collections from './collections';
 import recruit from './recruit';
+import notifications from './notifications';
+
 const rootReducer = combineReducers({
   users,
   interviews,
@@ -12,6 +14,7 @@ const rootReducer = combineReducers({
   questions,
   collections,
   recruit,
+  notifications,
 });
 
 export default rootReducer;

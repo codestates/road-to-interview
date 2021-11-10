@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import { Switch } from 'react-router';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import Global from '@/styles/Global';
 import { theme as THEME } from '@/styles';
@@ -11,6 +12,7 @@ import { auth } from '@/store/creator/usersCreator';
 import RouteWithLayout from '@/hoc/RouteWithLayout';
 import MainLayout from '@/components/layouts/MainLayout';
 import LandingLayout from '@/components/layouts/LandingLayout';
+import Portal from './hoc/Portal';
 import Auth from './hoc/Auth';
 
 import Landing from './pages/Landing';
@@ -22,12 +24,16 @@ import InterviewResult from './pages/InterviewResult';
 import MyPage from './pages/Mypage';
 import Create from './pages/Create';
 import Collection from './pages/Collection';
+
+import '@/styles/fonts.css';
+import Notification from './components/shared/Notification';
 import Recruit from './pages/Recruit';
 
 export default function App() {
   const [mode] = useMode();
 
   const { accessToken } = useSelector(state => state.users);
+  const { notifications } = useSelector(state => state.notifications);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,6 +55,13 @@ export default function App() {
         <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
         <RouteWithLayout path="/recruit" component={Recruit} layout={MainLayout} />
       </Switch>
+      <Portal selector="#notification">
+        <AnimatePresence>
+          {notifications.map(n => (
+            <Notification key={n.id} text={n.text} type={n.type} />
+          ))}
+        </AnimatePresence>
+      </Portal>
     </ThemeProvider>
   );
 }
