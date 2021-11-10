@@ -15,6 +15,7 @@ import { css } from '@emotion/react';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
 import Loading from '@/components/shared/Loading';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Create() {
   // * State
@@ -108,24 +109,23 @@ export default function Create() {
       <ErrorMessage>{errorState.questions}</ErrorMessage>
       <ErrorMessage>{errorState.category}</ErrorMessage>
       <List {...{ questions, setQuestions }} />
-      <Button tertiary lg onClick={onOpen}>
-        질문등록
+      <Button tertiary onClick={onOpen}>
+        질문 등록
       </Button>
-      <Modal open={open} onClose={onClose} fullScreen CustomBtn={renderBtn}>
-        <ModalBody>
-          <ModalInner>
-            <QuestionForm idRef={id} setQuestions={setQuestions} />
-            <ModalSide>
-              <List
-                {...{ questions, setQuestions }}
-                css={css`
-                  padding-bottom: ${spacing[10]};
-                `}
-              />
-            </ModalSide>
-          </ModalInner>
-        </ModalBody>
-      </Modal>
+      <AnimatePresence>
+        {open && (
+          <Modal onClose={onClose} fullScreen CustomBtn={renderBtn}>
+            <ModalBody>
+              <ModalInner>
+                <QuestionForm idRef={id} setQuestions={setQuestions} />
+                <ModalSide>
+                  <List {...{ questions, setQuestions }} />
+                </ModalSide>
+              </ModalInner>
+            </ModalBody>
+          </Modal>
+        )}
+      </AnimatePresence>
     </Container>
   );
 }
@@ -174,7 +174,7 @@ const renderBtn = props => {
       {...props}
       css={css`
         position: absolute;
-        bottom: 1em;
+        top: 1em;
         right: 1em;
       `}
     >

@@ -44,7 +44,7 @@ const Dim = styled(motion.div)`
   right: 0;
   background-color: ${({ theme }) => theme.colors.dim.basic};
 `;
-const Content = styled(motion.div)`
+const Content = styled.div`
   position: relative;
   ${({ fullScreen }) =>
     fullScreen &&

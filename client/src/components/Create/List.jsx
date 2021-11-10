@@ -5,6 +5,8 @@ import { spacing } from '@/styles';
 import { ReactComponent as Pen } from 'assets/pencli-alt.svg';
 import { ReactComponent as Minus } from 'assets/minus.svg';
 import { ReactComponent as Empty } from 'assets/empty-ill.svg';
+import media from '@/utils/media';
+import { css } from '@emotion/react';
 
 export default function List({ className, questions, setQuestions }) {
   const removeQuestion = id => {
@@ -30,7 +32,6 @@ export default function List({ className, questions, setQuestions }) {
       ) : (
         <Alert>
           <span>추가된 질문이 없습니다!</span>
-          <Empty />
         </Alert>
       )}
     </Container>
@@ -38,7 +39,13 @@ export default function List({ className, questions, setQuestions }) {
 }
 
 // * List
-const Container = styled.ul``;
+const Container = styled.ul`
+  max-height: 50vh;
+  ${media.tablet(css`
+    max-height: unset;
+    padding-top: ${spacing[10]};
+  `)}
+`;
 const Item = styled.li`
   display: flex;
   flex-direction: column;
@@ -60,7 +67,9 @@ const Controller = styled.div`
   }
 `;
 const Alert = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 1em;
+  & > span {
+    ${({ theme }) => theme.typography.caption[1]};
+    color: ${({ theme }) => theme.colors.tint.red[500]};
+  }
 `;

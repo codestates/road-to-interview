@@ -13,6 +13,7 @@ import { ReactComponent as Eye } from 'assets/eye.svg';
 import { ReactComponent as Trash } from 'assets/trash.svg';
 import { ReactComponent as Archive } from 'assets/archive.svg';
 import { ReactComponent as Pen } from 'assets/pencli-alt.svg';
+import media from '@/utils/media';
 
 export default function QuestionForm({ idRef, setQuestions }) {
   const {
@@ -118,8 +119,14 @@ export default function QuestionForm({ idRef, setQuestions }) {
 
 const Form = styled.form`
   display: flex;
+  height: 100%;
   flex-direction: column;
   padding: ${spacing[4]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor.outer};
+  ${({ theme }) =>
+    media.tablet(css`
+      border: 1px solid ${theme.colors.borderColor.outer};
+    `)}
 `;
 
 const Bar = styled.div`
