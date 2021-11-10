@@ -2,10 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
+import { motion } from 'framer-motion';
 import { useMode } from '@/contexts/ModeContext';
 
-import { spacing } from '@/styles';
+import { spacing, fontSizes, palette } from '@/styles';
 import Flex from '../layouts/Flex';
 import Button from '../elements/Button';
 import Tag from '../elements/Tag';
@@ -14,6 +14,8 @@ import UserInfo from '../shared/UserInfo';
 
 import { ReactComponent as TagIcon } from 'assets/tag.svg';
 import { addCollections } from '@/store/creator/collectionsCreator';
+import { showNotification } from '../../store/creator/notificationsCreator';
+import media from '@/utils/media';
 
 export default function PostCard({ interview, onOpen }) {
   const [mode] = useMode();
@@ -23,8 +25,18 @@ export default function PostCard({ interview, onOpen }) {
 
   const onAdd = interview => {
     dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
+    dispatch(showNotification(`컬렉션에 문제집을 추가했습니다 🎖`));
   };
 
+  const buttonVariants = {
+    visible: {
+      x: [0, -20, 20, -20, 20, 0],
+      transition: { delay: 0.1 },
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
   return (
     <>
       <Table
@@ -75,13 +87,47 @@ export default function PostCard({ interview, onOpen }) {
             </Tag>
           ))}
         </Table.FooterStart>
-        <Table.FooterEnd>
-          <Button sm tertiary onClick={() => onAdd(interview)}>
+        <Table.FooterEnd
+          css={css`
+            display: flex;
+          `}
+        >
+          <Button
+            css={css`
+              width: ${spacing[7]};
+            `}
+            sm
+            tertiary
+            onClick={() => onAdd(interview)}
+          >
             +
           </Button>
-          <Button sm secondary onClick={() => onOpen(interview)}>
+          <motion.button
+            variants={buttonVariants}
+            animate="visible"
+            whileHover="hover"
+            css={css`
+              width: 100%;
+              font-size: ${fontSizes[200]};
+              padding: ${spacing[3]} ${spacing[4]};
+              color: #fff;
+              border: thin;
+              border-radius: 3px;
+              font-weight: 600;
+              background: ${palette.light.tint.coral[700]};
+              cursor: pointer;
+              &:hover {
+                background: ${palette.light.tint.coral[500]};
+              }
+              ${media.tablet(css`
+                font-size: ${fontSizes[400]};
+                padding: ${spacing[4]} ${spacing[6]};
+              `)}
+            `}
+            onClick={() => onOpen(interview)}
+          >
             도전하기
-          </Button>
+          </motion.button>
         </Table.FooterEnd>
       </Table>
     </>

@@ -9,6 +9,8 @@ import Button from '../components/elements/Button';
 import Loading from '@/components/shared/Loading';
 import NotFound from './NotFound';
 import { useMode } from '@/contexts/ModeContext';
+import { showNotification } from '@/store/creator/notificationsCreator';
+
 export default function Recruit() {
   const dispatch = useDispatch();
   const mode = useMode();
@@ -23,6 +25,7 @@ export default function Recruit() {
       setItems(recruit);
     }
   }, [recruit, getRecruitDone]);
+  const handleButton = () => {};
   if (getRecruitLoading) return <Loading />;
   if (getRecruitError) return <NotFound />;
   return (
@@ -113,11 +116,17 @@ export default function Recruit() {
                       {item.company}
                     </div>
                   </div>
-                  <a href={item.url}>
+                  <div
+                    onClick={() => {
+                      dispatch(showNotification(`모두 합격하시길 기원합니다 💪`));
+                      setTimeout(() => {
+                        window.location.href = `${item.url}`;
+                      }, 1500);
+                    }}
+                  >
                     <Button
                       css={css`
                         font-size: ${fontSizes[500]};
-                        /* margin-top: ${spacing[3]}; */
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
                           margin-top: ${spacing[4]};
@@ -136,7 +145,7 @@ export default function Recruit() {
                     >
                       지원하기
                     </Button>
-                  </a>
+                  </div>
                 </Card>
               </div>
             </div>
