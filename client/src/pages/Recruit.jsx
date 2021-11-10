@@ -45,9 +45,9 @@ export default function Recruit() {
                   css={css`
                     // 카드 디자인
                     border-radius: ${spacing[3]};
-                    border: solid 1px ${palette.light.gray[400]};
+                    border: solid 1px ${palette.light.gray[200]};
                     background: #fff;
-                    height: 43vh;
+                    height: 42vh;
                   `}
                 >
                   <div
@@ -68,7 +68,7 @@ export default function Recruit() {
                   <div
                     css={css`
                       margin-top: ${spacing[1]};
-                      height: 14vh;
+                      height: 13vh;
                       ${media.tablet(css`
                         margin-top: ${spacing[4]};
                         height: 11vh;
@@ -85,7 +85,7 @@ export default function Recruit() {
                   >
                     <div
                       css={css`
-                        font-size: ${fontSizes[600]};
+                        font-size: ${fontSizes[500]};
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
                         `)}
@@ -119,7 +119,7 @@ export default function Recruit() {
                   <a href={item.url}>
                     <Button
                       css={css`
-                        font-size: ${fontSizes[600]};
+                        font-size: ${fontSizes[500]};
                         /* margin-top: ${spacing[3]}; */
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
