@@ -15,9 +15,7 @@ module.exports = (req, res) => {
       from (select i.id as interviews_id, i.title, i.description, i.users_id as users_id from interviews i join users u on i.users_id = u.id) a
       where a.interviews_id in (select interviews_id 
               from collections c
-              join users u
-              on c.users_id = u.id
-              where u.id = ` +
+              where c.users_id = ` +
         id +
         `);`,
       { type: sequelize.QueryTypes.SELECT }

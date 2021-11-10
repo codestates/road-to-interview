@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     return;
   }
 
-  const collections_id = req.params.id;
+  const interviews_id = req.params.id;
   const accessTokenData = isAuthorized(req);
   if (!accessTokenData) {
     res
@@ -23,7 +23,7 @@ module.exports = (req, res) => {
       if (result[0].users_id === id) {
         collections
           .destroy({
-            where: { id: collections_id },
+            where: { users_id: id, interviews_id },
           })
           .then((result_2) => {
             res.status(200).send({ message: "해당 평가가 삭제되었습니다." });
