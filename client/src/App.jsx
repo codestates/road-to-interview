@@ -54,8 +54,8 @@ const App = () => {
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
         <RouteWithLayout path="/collection" component={Auth(Collection)} layout={MainLayout} />
         <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
-        <RouteWithLayout component={NotFound} />
         <RouteWithLayout path="/recruit" component={Recruit} layout={MainLayout} />
+        <RouteWithLayout component={NotFound} />
       </Switch>
       <Portal selector="#notification">
         <AnimatePresence>
