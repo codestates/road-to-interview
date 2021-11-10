@@ -70,7 +70,7 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
         `)}
         ${media.laptop(css`
           top: ${spacing[6]};
-          width: 50vw;
+          width: 60vw;
         `)}
         ${media.desktop(css`
           top: ${spacing[7]};
@@ -80,8 +80,6 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
     >
       <div
         css={css`
-          position: relative;
-          bottom: 0.1em;
           font-size: ${fontSizes[900]};
           ${media.tablet(css`
             font-size: ${fontSizes[1100]};
@@ -122,7 +120,7 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
           primary
           sm
         >
-          초기화버튼
+          시작버튼
         </Button>
         <Button
           onClick={() => {

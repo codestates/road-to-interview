@@ -24,6 +24,15 @@ const globalStyles = theme => css`
     height: 100%;
   }
 
+  #notification {
+    position: absolute;
+    width: 15rem;
+    height: auto;
+    top: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   *,
   *::after,
   *::before {

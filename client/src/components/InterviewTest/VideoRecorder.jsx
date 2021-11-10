@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
-import { spacing, fontSizes } from '@/styles';
+import { spacing, fontSizes, palette } from '@/styles';
 import media from '@/utils/media';
 import Loading from '../elements/Loading';
 import GetHint from './GetHint';
@@ -14,6 +15,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   const [recordState, setRecordState] = useState(null);
   const videoRef = useRef(null);
   let constraints = {};
+
   if (search === `?isVoice=true`) {
     //음성조건
     constraints = {
@@ -81,6 +83,16 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
     }
     setPlaying(!playing);
   };
+
+  const buttonVariants = {
+    visible: {
+      x: [0, -20, 20, -20, 20, 0],
+      transition: { delay: 2 },
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
   return (
     <div
       css={css`
@@ -96,16 +108,16 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             width: 90vw;
             height: 38vh;
             ${media.tablet(css`
-              width: 75vw;
-              height: 52vh;
+              width: 50vw;
+              height: 42vh;
             `)}
             ${media.laptop(css`
-              width: 50vw;
-              height: 60vh;
+              width: 40vw;
+              height: 42vh;
             `)}
             ${media.desktop(css`
-              width: 45vw;
-              height: 61.5vh;
+              width: 35vw;
+              height: 40vh;
             `)}
           `}
         >
@@ -125,16 +137,16 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             align-items: center;
             font-size: ${fontSizes[700]};
             ${media.tablet(css`
-              width: 75vw;
-              height: 52vh;
+              width: 50vw;
+              height: 42vh;
             `)}
             ${media.laptop(css`
-              width: 50vw;
-              height: 60vh;
+              width: 40vw;
+              height: 42vh;
             `)}
             ${media.desktop(css`
-              width: 45vw;
-              height: 44vh;
+              width: 35vw;
+              height: 40vh;
               transform: translateY(-43%);
               font-size: ${fontSizes[900]};
             `)};
@@ -185,7 +197,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
       {playing && search === `?isVideo=true` ? (
         <Video ref={videoRef} autoPlay muted playsInline poster="/images/loading.gif" />
       ) : null}
-      {!playing && src ? <Video src={src} autoPlay controls playsInline /> : null}
+      {!playing && src ? <Video src={src} controls playsInline /> : null}
       {playing ? (
         <div
           css={css`
@@ -193,14 +205,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.tablet(css`
-              width: 75vw;
+              width: 50vw;
             `)}
             ${media.laptop(css`
-              width: 50vw;
+              width: 40vw;
             `)}
             ${media.desktop(css`
               margin-top: ${spacing[5]};
-              width: 45vw;
+              width: 35vw;
             `)}
           `}
         >
@@ -215,20 +227,39 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.tablet(css`
-              width: 75vw;
-            `)}
-            ${media.laptop(css`
               width: 50vw;
             `)}
+            ${media.laptop(css`
+              width: 40vw;
+            `)}
             ${media.desktop(css`
-              width: 45vw;
+              width: 35vw;
               margin-top: ${spacing[5]};
             `)}
           `}
         >
-          <Button onClick={() => startOrStop()} primary lg>
+          <motion.button
+            variants={buttonVariants}
+            animate="visible"
+            whileHover="hover"
+            onClick={() => startOrStop()}
+            css={css`
+              width: 100%;
+              font-size: ${fontSizes[400]};
+              font-weight: 600;
+              padding: ${spacing[4]} ${spacing[6]};
+              color: #fff;
+              border: thin;
+              border-radius: 3px;
+              cursor: pointer;
+              background: ${palette.light.tint.blue[500]};
+              &:hover {
+                background: ${palette.light.tint.blue[700]};
+              }
+            `}
+          >
             시작하기
-          </Button>
+          </motion.button>
         </div>
       )}
       <GetHint hintHandler={hintHandler} />
@@ -239,13 +270,13 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
           width: 90vw;
           margin-top: ${spacing[5]};
           ${media.tablet(css`
-            width: 75vw;
-          `)}
-          ${media.laptop(css`
             width: 50vw;
           `)}
+          ${media.laptop(css`
+            width: 40vw;
+          `)}
           ${media.desktop(css`
-            width: 45vw;
+            width: 35vw;
           `)}
         `}
       >
@@ -265,12 +296,12 @@ export default VideoRecorder;
 export const Video = styled.video`
   width: 90vw;
   ${media.tablet(css`
-    width: 75vw;
-  `)}
-  ${media.laptop(css`
     width: 50vw;
   `)}
+  ${media.laptop(css`
+    width: 40vw;
+  `)}
   ${media.desktop(css`
-    width: 45vw;
+    width: 35vw;
   `)}
 `;
