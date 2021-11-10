@@ -16,9 +16,14 @@ module.exports = (req, res) => {
   }
   const { id } = accessTokenData;
   sequelize
-    .query(`select users_id from collections where users_id = ` + id + `;`, {
-      type: sequelize.QueryTypes.SELECT,
-    })
+    .query(
+      `select users_id from collections where interviews_id = ` +
+        interviews_id +
+        `;`,
+      {
+        type: sequelize.QueryTypes.SELECT,
+      }
+    )
     .then((result) => {
       if (result[0].users_id === id) {
         collections
