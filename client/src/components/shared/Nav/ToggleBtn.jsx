@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useMode } from '@/contexts/ModeContext';
 import { ReactComponent as Moon } from 'assets/moon.svg';
 import { ReactComponent as Sun } from 'assets/sun.svg';
+import { spacing } from '@/styles';
 
 export default function ToggleBtn({ className }) {
   const [mode, toggleMode] = useMode();
@@ -13,6 +14,7 @@ export default function ToggleBtn({ className }) {
 }
 
 const Button = styled.button`
+  height: 100%;
   display: flex;
   align-items: center;
   border: none;
