@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecruit } from '@/store/creator/recruitCreator';
 import media from '@/utils/media';
@@ -7,9 +8,11 @@ import { fontSizes, palette, spacing } from '@/styles';
 import Button from '../components/elements/Button';
 import Loading from '@/components/shared/Loading';
 import NotFound from './NotFound';
-
+import { useMode } from '@/contexts/ModeContext';
 export default function Recruit() {
   const dispatch = useDispatch();
+  const mode = useMode();
+
   useEffect(() => {
     dispatch(getRecruit());
   }, [dispatch]);
@@ -43,15 +46,7 @@ export default function Recruit() {
           return (
             <div>
               <div>
-                <div
-                  css={css`
-                    // 카드 디자인
-                    border-radius: ${spacing[3]};
-                    border: solid 1px ${palette.light.gray[200]};
-                    background: #fff;
-                    height: 42vh;
-                  `}
-                >
+                <Card mode={mode}>
                   <div
                     css={css`
                       height: 22vh;
@@ -142,7 +137,7 @@ export default function Recruit() {
                       지원하기
                     </Button>
                   </a>
-                </div>
+                </Card>
               </div>
             </div>
           );
@@ -151,3 +146,12 @@ export default function Recruit() {
     </div>
   );
 }
+
+const Card = styled.div`
+  background: ${props => (props.mode[0] === 'dark' ? `${palette.dark.gray[100]}` : '#fff')};
+
+  border-radius: ${spacing[3]};
+  border: solid 1px;
+  border-color: ${props => (props.mode[0] === 'dark' ? `${palette.dark.gray[300]}` : `${palette.light.gray[200]}`)};
+  height: 42vh;
+`;
