@@ -1,20 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRecruit } from '@/store/creator/recruitCreator';
 import media from '@/utils/media';
 import { fontSizes, palette, spacing } from '@/styles';
 import Button from '../components/elements/Button';
-const Recruit = () => {
-  const [items, setItems] = useState([]);
+import Loading from '@/components/shared/Loading';
+import NotFound from './NotFound';
 
+export default function Recruit() {
+  const dispatch = useDispatch();
   useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get(`https://sjitygfree.ga/news`);
-      setItems(res.data.news);
-    };
-    getData();
-  }, []);
-
+    dispatch(getRecruit());
+  }, [dispatch]);
+  const { recruit, getRecruitLoading, getRecruitDone, getRecruitError } = useSelector(state => state.recruit);
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    if (getRecruitDone) {
+      setItems(recruit);
+    }
+  }, [recruit, getRecruitDone]);
+  if (getRecruitLoading) return <Loading />;
+  if (getRecruitError) return <NotFound />;
   return (
     <div>
       <div
@@ -40,9 +47,9 @@ const Recruit = () => {
                   css={css`
                     // 카드 디자인
                     border-radius: ${spacing[3]};
-                    border: solid 1px ${palette.light.gray[400]};
+                    border: solid 1px ${palette.light.gray[200]};
                     background: #fff;
-                    height: 43vh;
+                    height: 42vh;
                   `}
                 >
                   <div
@@ -63,7 +70,7 @@ const Recruit = () => {
                   <div
                     css={css`
                       margin-top: ${spacing[1]};
-                      height: 14vh;
+                      height: 13vh;
                       ${media.tablet(css`
                         margin-top: ${spacing[4]};
                         height: 11vh;
@@ -80,7 +87,7 @@ const Recruit = () => {
                   >
                     <div
                       css={css`
-                        font-size: ${fontSizes[600]};
+                        font-size: ${fontSizes[500]};
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
                         `)}
@@ -114,7 +121,7 @@ const Recruit = () => {
                   <a href={item.url}>
                     <Button
                       css={css`
-                        font-size: ${fontSizes[600]};
+                        font-size: ${fontSizes[500]};
                         /* margin-top: ${spacing[3]}; */
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
@@ -143,6 +150,4 @@ const Recruit = () => {
       </div>
     </div>
   );
-};
-
-export default Recruit;
+}

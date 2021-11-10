@@ -7,7 +7,7 @@ const Loading = () => {
   return (
     <Loader>
       <br />
-      <h2>인터뷰를 준비하고 있습니다</h2>
+      <h2>시작버튼을 눌러주세요</h2>
       <br />
       <motion.div
         animate={{

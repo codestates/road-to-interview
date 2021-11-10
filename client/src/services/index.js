@@ -7,6 +7,7 @@ import User from './User';
 import Category from './Category';
 import Questions from './Questions';
 import Collections from './Collections';
+import Recruit from './Recruit';
 
 const dispatch = store.dispatch;
 
@@ -50,3 +51,4 @@ export const INTERVIEW_API = new Interview(instance);
 export const CATEGORY_API = new Category(instance);
 export const QUESTIONS_API = new Questions(instance);
 export const COLLECTIONS_API = new Collections(instance);
+export const RECRUIT_API = new Recruit(instance);

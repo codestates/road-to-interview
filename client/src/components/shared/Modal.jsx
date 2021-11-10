@@ -1,15 +1,16 @@
 import { css } from '@emotion/react';
+import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
 
-export default function Modal({ children, open, onClose, fullScreen, CustomBtn }) {
+export default function Modal({ children, onClose, fullScreen, CustomBtn }) {
   const onMaskClose = e => {
     if (e.target !== e.currentTarget) return;
     onClose();
   };
   return (
-    <Overlay open={open}>
-      {!fullScreen && <Dim onClick={onClose} open={open} />}
+    <Overlay>
+      {!fullScreen && <Dim onClick={onClose} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} />}
       <Content fullScreen={fullScreen}>
         {CustomBtn ? (
           <CustomBtn onClick={onMaskClose} />
@@ -26,35 +27,22 @@ export default function Modal({ children, open, onClose, fullScreen, CustomBtn }
 
 const Overlay = styled.div`
   position: fixed;
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 10;
-  ${({ open }) =>
-    open &&
-    css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `}
 `;
-const Dim = styled.div`
+const Dim = styled(motion.div)`
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: ${({ theme }) => theme.colors.dim.basic};
-  opacity: 0;
-  ${({ open }) =>
-    open &&
-    css`
-      opacity: 1;
-    `}
-  // FIXME: 애니메이션 적용 안됨
-  transition: opacity 0.3s ease-in;
 `;
 const Content = styled.div`
   position: relative;
