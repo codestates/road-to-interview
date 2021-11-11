@@ -32,19 +32,23 @@ const dropIn = {
   },
 };
 
-const appendHTML = (root, child) => {
-  root.append(child);
+const appendAudio = (root, audio) => {
+  console.log('부모', root);
+  console.log('추가되는 오디오', audio);
+  audio.setAttribute('controls', true);
+  root.append(audio);
 };
 
 export default function ResultModal({ open, onClose, audioList }) {
   const [mode] = useMode();
   const containerRef = useRef(null);
   useEffect(() => {
-    audioList.forEach(({ audio }) => {
-      audio.setAttribute('controls', true);
-      appendHTML(containerRef.current, audio);
-    });
-  }, [audioList]);
+    if (containerRef.current) {
+      audioList.forEach(({ audio }) => {
+        appendAudio(containerRef.current, audio);
+      });
+    }
+  });
   return (
     <Portal selector="#modal">
       <AnimatePresence>
