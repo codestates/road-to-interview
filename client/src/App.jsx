@@ -19,7 +19,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import InterviewList from './pages/InterviewList';
-import InterviewTest from './pages/InterviewTest';
+// import InterviewTest from './pages/InterviewTest';
 import InterviewResult from './pages/InterviewResult';
 import MyPage from './pages/Mypage';
 import Create from './pages/Create';
@@ -29,6 +29,8 @@ import NotFound from './pages/NotFound';
 import '@/styles/fonts.css';
 import Notification from './components/shared/Notification';
 import Recruit from './pages/Recruit';
+import TestPage from './pages/TestPage';
+import InterviewTest from './pages/InterviewTest';
 
 const App = () => {
   const [mode] = useMode();
@@ -49,7 +51,8 @@ const App = () => {
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
-        <RouteWithLayout path="/test/:id" component={InterviewTest} layout={MainLayout} />
+        <RouteWithLayout path="/test/:id" component={TestPage} layout={MainLayout} />
+        <RouteWithLayout path="/testmedia/:id" component={InterviewTest} layout={MainLayout} />
         <RouteWithLayout path="/result/:id" component={InterviewResult} layout={MainLayout} />
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
         <RouteWithLayout path="/collection" component={Auth(Collection)} layout={MainLayout} />

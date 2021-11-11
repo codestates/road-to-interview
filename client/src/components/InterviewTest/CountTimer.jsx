@@ -4,13 +4,17 @@ import { spacing, fontSizes } from '@/styles';
 import Button from '../elements/Button';
 import media from '@/utils/media';
 const CountTimer = ({ currentQuestion, isPlay }) => {
+  // ! 시간 상태 -> Ref 객체 변수 활용하기 (렌더링 수 줄이기)
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+
   const timerRef = useRef();
+
   const minuteAdd = () => {
     // 1분추가
     setMinutes(minutes + 1);
   };
+
   const secondsAdd = () => {
     // 30초추가
     if (seconds < 30) {
@@ -20,7 +24,8 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
       setSeconds(seconds - 30);
     }
   };
-
+  // 새로운 문제가 시작될 떄, 시간 상태 값 초기화
+  // !
   useEffect(() => {
     if (currentQuestion !== undefined && currentQuestion !== null) {
       setMinutes(Number.parseInt(currentQuestion.limit_second / 60));
@@ -32,6 +37,7 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
     if (isPlay) {
     }
   }, [isPlay]);
+
   useEffect(() => {
     if (isPlay) {
       //버튼 누르면
