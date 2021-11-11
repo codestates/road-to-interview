@@ -1,7 +1,8 @@
-import { palette } from '@/styles';
+import { palette, spacing } from '@/styles';
 import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import media from '@/utils/media';
 
 const notificationVariants = {
   initial: {
@@ -57,13 +58,30 @@ const colorVariants = props => {
 };
 
 const Wrapper = styled(motion.li)`
+  position: relative;
+  right: ${spacing[4]};
+  top: ${spacing[6]};
   display: flex;
   justify-content: center;
   align-items: center;
   height: 2.5rem;
+  width: 75vw;
   ${colorVariants}
   color: ${palette.dark.gray[700]};
   border-radius: 0.3em;
+  ${media.tablet(css`
+    right: ${spacing[8]};
+    top: ${spacing[7]};
+    width: 45vw;
+  `)}
+  ${media.laptop(css`
+    right: ${spacing[10]};
+    width: 35vw;
+  `)}
+  ${media.desktop(css`
+    right: ${spacing[10]};
+    width: 35vw;
+  `)}
 `;
 const IconWrapper = styled.i``;
 const Text = styled.span``;

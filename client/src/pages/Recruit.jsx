@@ -19,15 +19,18 @@ export default function Recruit() {
     dispatch(getRecruit());
   }, [dispatch]);
   const { recruit, getRecruitLoading, getRecruitDone, getRecruitError } = useSelector(state => state.recruit);
+
   const [items, setItems] = useState([]);
+
   useEffect(() => {
     if (getRecruitDone) {
       setItems(recruit);
     }
   }, [recruit, getRecruitDone]);
-  const handleButton = () => {};
+
   if (getRecruitLoading) return <Loading />;
   if (getRecruitError) return <NotFound />;
+
   return (
     <div>
       <div

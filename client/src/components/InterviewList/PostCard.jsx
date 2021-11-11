@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -7,7 +7,6 @@ import { useMode } from '@/contexts/ModeContext';
 
 import { spacing, fontSizes, palette } from '@/styles';
 import Flex from '../layouts/Flex';
-import Button from '../elements/Button';
 import Tag from '../elements/Tag';
 import Table from '../shared/Table';
 import UserInfo from '../shared/UserInfo';
@@ -15,17 +14,21 @@ import UserInfo from '../shared/UserInfo';
 import { ReactComponent as TagIcon } from 'assets/tag.svg';
 import { addCollections } from '@/store/creator/collectionsCreator';
 import { showNotification } from '../../store/creator/notificationsCreator';
+
 import media from '@/utils/media';
 
 export default function PostCard({ interview, onOpen }) {
+  const [add, setAdd] = useState(false);
   const [mode] = useMode();
   const dispatch = useDispatch();
 
   const { accessToken } = useSelector(state => state.users);
 
   const onAdd = interview => {
+    console.log(interview);
     dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
-    dispatch(showNotification(`컬렉션에 문제집을 추가했습니다 🎖`));
+    setAdd(true); // !add로 상태 변경 (컬렉션 삭제 할 수 있게도 구현)
+    dispatch(showNotification(`컬렉션에 ${interview.interviews_id}번 문제를 추가했습니다 🎖`)); // 내 컬렉션의 상태를 미리 불러와서 저장된 문제는 표시가 되어있어야 함.
   };
 
   const buttonVariants = {
@@ -59,6 +62,30 @@ export default function PostCard({ interview, onOpen }) {
         <Table.Header>
           <InterviewTitle mode={mode}>{interview.title}</InterviewTitle>
         </Table.Header>
+        <Table.Header
+          css={css`
+            display: flex;
+            margin-left: 89%;
+            ${media.tablet(css`
+              margin-left: 94%;
+            `)}
+            ${media.laptop(css`
+              margin-left: 94%;
+            `)}
+            ${media.desktop(css`
+              margin-left: 93%;
+            `)}
+          `}
+        >
+          <AddCollectionBtn
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            add={add}
+            onClick={() => onAdd(interview)}
+          >
+            ⭐
+          </AddCollectionBtn>
+        </Table.Header>
         <Table.Body>
           <InterviewContent>{interview.description}</InterviewContent>
         </Table.Body>
@@ -87,29 +114,17 @@ export default function PostCard({ interview, onOpen }) {
             </Tag>
           ))}
         </Table.FooterStart>
-        <Table.FooterEnd
-          css={css`
-            display: flex;
-          `}
-        >
-          <Button
-            css={css`
-              width: ${spacing[7]};
-            `}
-            sm
-            tertiary
-            onClick={() => onAdd(interview)}
-          >
-            +
-          </Button>
+        <Table.FooterEnd>
           <motion.button
             variants={buttonVariants}
             animate="visible"
             whileHover="hover"
             css={css`
               width: 100%;
-              font-size: ${fontSizes[200]};
-              padding: ${spacing[3]} ${spacing[4]};
+              font-size: ${fontSizes[300]};
+              padding: ${spacing[3]} ${spacing[5]};
+              position: relative;
+              left: ${spacing[4]};
               color: #fff;
               border: thin;
               border-radius: 3px;
@@ -121,7 +136,8 @@ export default function PostCard({ interview, onOpen }) {
               }
               ${media.tablet(css`
                 font-size: ${fontSizes[400]};
-                padding: ${spacing[4]} ${spacing[6]};
+                padding: ${spacing[4]} ${spacing[8]};
+                left: 0;
               `)}
             `}
             onClick={() => onOpen(interview)}
@@ -160,4 +176,22 @@ const InterviewTitle = styled.h3`
 const InterviewContent = styled.p`
   ${({ theme }) => theme.typography.caption[1]};
   color: ${({ theme }) => theme.colors.text.secondary};
+`;
+
+const AddCollectionBtn = styled(motion.button)`
+  width: 100%;
+  font-size: ${fontSizes[300]};
+  padding: ${spacing[1]} ${spacing[3]};
+  border: thin;
+  border-radius: 3px;
+  background: ${props => (props.add ? `${palette.light.tint.yellow[600]}` : `${palette.light.tint.yellow[500]}`)};
+  cursor: pointer;
+  ${media.tablet(css`
+    font-size: ${fontSizes[400]};
+    padding: ${spacing[2]} ${spacing[4]};
+  `)}
+  ${media.laptop(css`
+    font-size: ${fontSizes[500]};
+    padding: ${spacing[3]} ${spacing[5]};
+  `)}
 `;
