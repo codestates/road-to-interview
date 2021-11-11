@@ -14,7 +14,7 @@ import HeaderForm from '@/components/Create/HeaderForm';
 import List from '@/components/Create/List';
 import Button from '@/components/elements/Button';
 import { css } from '@emotion/react';
-import { spacing } from '@/styles';
+import { spacing, fontSizes, palette } from '@/styles';
 import media from '@/utils/media';
 import Loading from '@/components/shared/Loading';
 
@@ -122,6 +122,15 @@ export default function Create() {
       dispatch(createInterview({ payload: interview, accessToken }));
     }
   };
+  const buttonVariants = {
+    visible: {
+      x: [0, -20, 20, -20, 20, 0],
+      transition: { delay: 0.3 },
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
 
   if (getCategoryLoading) return <Loading />;
 
@@ -131,9 +140,29 @@ export default function Create() {
       <ErrorMessage>{errorState.questions}</ErrorMessage>
       <ErrorMessage>{errorState.category}</ErrorMessage>
       <List {...{ questions, setQuestions }} />
-      <Button tertiary onClick={onOpen}>
-        질문 등록
-      </Button>
+      <motion.button
+        variants={buttonVariants}
+        animate="visible"
+        whileHover="hover"
+        css={css`
+          width: 100%;
+          font-size: ${fontSizes[400]};
+          font-weight: 600;
+          padding: ${spacing[4]} ${spacing[6]};
+          color: #fff;
+          border: thin;
+          border-radius: 25px;
+          cursor: pointer;
+          background: ${palette.light.tint.coral[500]};
+          &:hover {
+            background: ${palette.light.tint.coral[700]};
+          }
+        `}
+        tertiary
+        onClick={onOpen}
+      >
+        질문 작성하기
+      </motion.button>
       <AnimatePresence>
         {open && (
           <Modal onClose={onClose} fullScreen CustomBtn={renderBtn}>

@@ -12,6 +12,7 @@ import CategoryMenu from '@/components/InterviewList/CategoryMenu';
 import PostModal from '@/components/InterviewList/PostModal';
 import SkeletonPostCard from '@/components/InterviewList/Skeleton/SkeletonPostCard';
 import SkeletonCategoryMenu from '@/components/InterviewList/Skeleton/SkeletonCategoryMenu';
+import NotFound from './NotFound';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function InterviewList() {
   const isCategories = !getCategoryLoading && getCategoryDone;
 
   const isPageError = getInterviewsError || getCategoryError;
-  if (isPageError) return <span>에러 발생!</span>;
+  if (isPageError) return <NotFound />;
 
   return (
     <Layout>

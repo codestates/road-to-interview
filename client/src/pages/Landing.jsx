@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import Flex from '@/components/layouts/Flex';
 import Button from '@/components/elements/Button';
 import media from '@/utils/media';
-import { spacing } from '@/styles';
+import { fontSizes, spacing } from '@/styles';
 import { ReactComponent as Chv } from 'assets/chv-right.svg';
 import { ReactComponent as Job } from 'assets/job-ill.svg';
 import { settings, sectionData, QnAData } from '@/constants/Landing';
@@ -36,7 +36,26 @@ export default function Landing() {
           <Caption>Rehearsal for Practicing for a Job Interview</Caption>
           <SubTitle>Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.</SubTitle>
           <Links>
-            <Button round primary onClick={() => history.push('/list')}>
+            <Button
+              css={css`
+                ${media.tablet(css`
+                  width: 20vw;
+                  height: 8vh;
+                  font-size: ${fontSizes[500]};
+                `)}
+                ${media.laptop(css`
+                  width: 17vw;
+                  height: 9vh;
+                  font-size: ${fontSizes[600]};
+                `)}
+                ${media.desktop(css`
+                  width: 16vw;
+                `)}
+              `}
+              round
+              primary
+              onClick={() => history.push('/list')}
+            >
               시작하기
             </Button>
             <Button text tertiary icon={Chv} onClick={() => scrollTo('section')}>
