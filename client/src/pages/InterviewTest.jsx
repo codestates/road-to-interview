@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
-import { motion } from 'framer-motion';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { css } from '@emotion/react';
+import { motion } from 'framer-motion';
+
 import { getQuestions } from '@/store/creator/questionsCreator';
+import { spacing } from '@/styles';
+import media from '@/utils/media';
+
+import NotFound from './NotFound';
 import CountTimer from '../components/InterviewTest/CountTimer';
 import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
-import Loading from '@/components/shared/Loading';
 import NotFound from './NotFound';
 import Modal from '@/components/InterviewTest/Modal';
+import Loading from '@/components/shared/Loading';
+
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
   const dispatch = useDispatch();
@@ -25,10 +31,11 @@ const InterviewTest = () => {
     dispatch(getQuestions(id));
   }, [id, dispatch]);
 
-  const [isPlay, setIsPlay] = useState(null);
-  const [currentQuestion, setCurrentQuestion] = useState(null);
-  const [questionNum, setQuestionNum] = useState(0);
-  const [view, setView] = useState(false);
+  const [isPlay, setIsPlay] = useState(null); // 카운트다운 시작 상태 값
+  const [currentQuestion, setCurrentQuestion] = useState(null); // 현재 문제 객체
+  const [questionNum, setQuestionNum] = useState(0); // 문제 배열에 접근할 때 쓰임
+  const [view, setView] = useState(false); // 힌트보기 상태 값
+
   useEffect(() => {
     if (getQuestionsDone) {
       setCurrentQuestion(questions[0]); // 처음 문제
@@ -41,6 +48,7 @@ const InterviewTest = () => {
       setQuestionNum(questionNum + 1);
     }
   };
+
   const prevHandler = () => {
     if (questionNum > 0) {
       setQuestionNum(questionNum - 1);
@@ -49,6 +57,7 @@ const InterviewTest = () => {
   const hintHandler = () => {
     setView(prev => !prev);
   };
+
   const countHandler = playing => {
     setIsPlay(playing);
   };
@@ -56,6 +65,7 @@ const InterviewTest = () => {
   if (getQuestionsLoading) return <Loading />;
   if (getQuestionsError) return <NotFound />;
 
+  // ! 애니메이션 정의 객체 함수 밖으로 분리하기
   const containerVariants = {
     hidden: {
       opacity: 0,

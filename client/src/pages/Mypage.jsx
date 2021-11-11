@@ -12,8 +12,8 @@ import Button from '@/components/elements/Button';
 import Input from '@/components/elements/Input';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import '../slick.css';
+import '../slick-theme.css';
 import { settings } from '@/constants/Landing';
 import { ads } from '@/constants/MyPage';
 

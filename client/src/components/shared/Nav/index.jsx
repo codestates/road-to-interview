@@ -153,7 +153,11 @@ export default function Nav() {
           <Logo onClick={() => push('/')}>
             {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
           </Logo>
-          <Flex>
+          <Flex
+            css={css`
+              height: 100%;
+            `}
+          >
             <ToggleButton
               css={css`
                 margin-right: 1em;
