@@ -9,10 +9,9 @@ import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
-import HintViewer from '@/components/InterviewTest/HintViewer';
 import Loading from '@/components/shared/Loading';
 import NotFound from './NotFound';
-
+import Modal from '@/components/InterviewTest/Modal';
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
   const dispatch = useDispatch();
@@ -47,12 +46,8 @@ const InterviewTest = () => {
       setQuestionNum(questionNum - 1);
     }
   };
-  const hintHandler = openHint => {
-    if (!openHint) {
-      setView(true);
-    } else {
-      setView(false);
-    }
+  const hintHandler = () => {
+    setView(prev => !prev);
   };
   const countHandler = playing => {
     setIsPlay(playing);
@@ -143,8 +138,8 @@ const InterviewTest = () => {
           hintHandler={hintHandler}
           countHandler={countHandler}
         />
-        {view ? <HintViewer currentQuestion={currentQuestion} /> : null}
       </motion.div>
+      <Modal view={view} setView={setView} currentQuestion={currentQuestion} />
     </motion.div>
   );
 };

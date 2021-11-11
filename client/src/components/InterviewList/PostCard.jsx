@@ -28,13 +28,15 @@ export default function PostCard({ interview, onOpen }) {
     console.log(interview);
     dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
     setAdd(true); // !add로 상태 변경 (컬렉션 삭제 할 수 있게도 구현)
-    dispatch(showNotification(`컬렉션에 ${interview.interviews_id}번 문제를 추가했습니다 🎖`)); // 내 컬렉션의 상태를 미리 불러와서 저장된 문제는 표시가 되어있어야 함.
+    dispatch(showNotification(`내컬렉션에 ${interview.interviews_id}번 문제를 추가했습니다 🎖`)); // 내 컬렉션의 상태를 미리 불러와서 저장된 문제는 표시가 되어있어야 함.
   };
 
   const buttonVariants = {
+    hidden: {
+      opacity: 0,
+    },
     visible: {
-      x: [0, -20, 20, -20, 20, 0],
-      transition: { delay: 0.1 },
+      opacity: 1,
     },
     hover: {
       scale: 1.1,
@@ -78,12 +80,24 @@ export default function PostCard({ interview, onOpen }) {
           `}
         >
           <AddCollectionBtn
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            variants={buttonVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
             add={add}
             onClick={() => onAdd(interview)}
           >
-            ⭐
+            <span
+              css={css`
+                position: relative;
+                left: 0.1em;
+                ${media.tablet(css`
+                  left: 0;
+                `)}
+              `}
+            >
+              ⭐
+            </span>
           </AddCollectionBtn>
         </Table.Header>
         <Table.Body>
@@ -117,6 +131,7 @@ export default function PostCard({ interview, onOpen }) {
         <Table.FooterEnd>
           <motion.button
             variants={buttonVariants}
+            initial="hidden"
             animate="visible"
             whileHover="hover"
             css={css`
@@ -194,4 +209,7 @@ const AddCollectionBtn = styled(motion.button)`
     font-size: ${fontSizes[500]};
     padding: ${spacing[3]} ${spacing[5]};
   `)}
+  &:hover {
+    background: ${palette.light.tint.yellow[600]};
+  }
 `;
