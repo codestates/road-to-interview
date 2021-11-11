@@ -40,18 +40,21 @@ module.exports = {
       const list = $("ul.clearfix > li");
 
       list.each(function (i, elem) {
-        ulList[i] = {
-          img: $(this)
-            .find("header")
-            .attr("style")
-            .split('url("')[1]
-            .split('");')[0],
-          position: $(this).find("div.job-card-position").text(),
-          company: $(this).find("div.job-card-company-name").text(),
-          url: url + $(this).find("div._3D4OeuZHyGXN7wwibRM5BJ a").attr("href"),
-        };
+        if ($(this).find("div.job-card-position").text() !== "") {
+          ulList[i] = {
+            img: $(this)
+              .find("header")
+              .attr("style")
+              .split('url("')[1]
+              .split('");')[0],
+            position: $(this).find("div.job-card-position").text(),
+            company: $(this).find("div.job-card-company-name").text(),
+            url:
+              url + $(this).find("div._3D4OeuZHyGXN7wwibRM5BJ a").attr("href"),
+          };
+        }
       });
-
+      // console.log(ulList);
       let nowList = ulList.map((el) => {
         return [
           "null",
@@ -65,6 +68,9 @@ module.exports = {
       });
 
       console.log(nowList);
+      if (nowList.length < 1) {
+        return true;
+      }
       const sql =
         "insert into news(id,position,company,url,img,createdAt,updatedAt) values ?";
 
@@ -74,7 +80,7 @@ module.exports = {
           if (err) throw err;
           console.log(result);
           con.end();
-          return;
+          return false;
         });
       });
     });

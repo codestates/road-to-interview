@@ -83,10 +83,14 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
   server = app.listen(HTTPS_PORT);
   //node cron 서비스 예약 실행
   // insertRankings();
-  // insertNews();
-  cron.schedule("1 0 * * *", () => {
+
+  cron.schedule("00 00 * * *", () => {
     // insertRankings();
-    insertNews();
+    console.log("들어옴");
+    let check = insertNews();
+    if (check) {
+      insertNews();
+    }
   });
 
   //socket io

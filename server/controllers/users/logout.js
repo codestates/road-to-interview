@@ -16,7 +16,10 @@ module.exports = (req, res) => {
     return;
   }
   try {
-    res.clearCookie("refreshToken");
+    res.clearCookie("refreshToken", {
+      secure: true,
+      sameSite: "none",
+    });
     // const { nickname, email, id } = { nickname: "", email: "", id: "" };
     // const refreshToken = generateRefreshToken({ nickname, email, id });
     // sendZeroRefreshToken(res, refreshToken, { nickname, email, id });
