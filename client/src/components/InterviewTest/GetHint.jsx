@@ -18,13 +18,13 @@ const GetHint = ({ hintHandler }) => {
         css={css`
           width: 90vw;
           ${media.tablet(css`
-            width: 75vw;
-          `)}
-          ${media.laptop(css`
             width: 50vw;
           `)}
+          ${media.laptop(css`
+            width: 40vw;
+          `)}
           ${media.desktop(css`
-            width: 45vw;
+            width: 35vw;
           `)}
         `}
       >

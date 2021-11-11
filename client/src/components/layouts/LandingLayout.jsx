@@ -3,7 +3,7 @@ import { spacing } from '@/styles';
 import Nav from '@/components/shared/Nav';
 import Footer from '../shared/Footer';
 
-export default function MainLayout({ children }) {
+export default function LandingLayout({ children }) {
   return (
     <Container>
       <Nav />

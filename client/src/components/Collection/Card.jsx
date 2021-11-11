@@ -1,24 +1,13 @@
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
-import { useState } from 'react';
 import { css } from '@emotion/react';
-import Portal from '@/hoc/Portal';
-import Modal from '@/components/shared/Modal';
+
 import { spacing } from '@/styles';
 import { useHistory } from 'react-router-dom';
 import UserInfo from '../shared/UserInfo';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 
-export default function Card({ title, description, author }) {
-  // TODO: 선택한 인터뷰 상태 값 필요 -> 모달창에 전달할..
-  const [open, setOpen] = useState(false);
-
-  const onOpen = () => {
-    setOpen(true);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
+export default function Card({ collection, onOpen }) {
   const onDelete = () => {
     // 컬렉션 삭제
   };
@@ -35,7 +24,7 @@ export default function Card({ title, description, author }) {
             `
           }
         >
-          {title}
+          {collection.title}
         </Content>
         <CloseIcon
           width="1.5rem"
@@ -55,7 +44,7 @@ export default function Card({ title, description, author }) {
             `
           }
         >
-          {description}
+          {collection.description}
         </Content>
       </Description>
       <Author>
@@ -67,35 +56,14 @@ export default function Card({ title, description, author }) {
             `
           }
         >
-          <UserInfo nickname={author} />
+          <UserInfo nickname={collection.author} />
         </Content>
       </Author>
       <ButtonBox>
-        <Button sm secondary onClick={onOpen}>
+        <Button sm secondary onClick={onOpen(collection)}>
           도전하기
         </Button>
       </ButtonBox>
-
-      <Portal selector="#modal">
-        <Modal open={open} onClose={onClose}>
-          <DrawerBody>
-            <Modaltitle>안내사항</Modaltitle>
-            <Button
-              onClick={() => push('/test/1')}
-              primary
-              lg
-              css={css`
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                border-radius: 0px;
-              `}
-            >
-              테스트하기
-            </Button>
-          </DrawerBody>
-        </Modal>
-      </Portal>
     </Layout>
   );
 }
@@ -138,20 +106,3 @@ const ButtonBox = styled.div`
   align-items: center;
 `;
 const Content = styled.div``;
-
-const DrawerBody = styled.div`
-  position: relative;
-  width: 80vw;
-  height: 70vh;
-  padding-top: ${spacing[10]};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: ${({ theme }) => theme.colors.background_elevated};
-  color: ${({ theme }) => theme.colors.text.primary};
-  overflow: hidden;
-`;
-
-const Modaltitle = styled.h3`
-  ${({ theme }) => theme.typography.subtitle[4]}
-`;

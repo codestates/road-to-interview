@@ -21,6 +21,7 @@ export const getInterviews =
       dispatch({ type: getInterviewsSuccess, payload: data });
     } catch (e) {
       dispatch({ type: getInterviewsFailure, payload: e.response?.data?.message });
+      dispatch(showNotification(`에러가 발생했습니다. 다시 시도해주세요!`, 'error'));
     }
   };
 

@@ -19,17 +19,20 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import InterviewList from './pages/InterviewList';
-import InterviewTest from './pages/InterviewTest';
+// import InterviewTest from './pages/InterviewTest';
 import InterviewResult from './pages/InterviewResult';
 import MyPage from './pages/Mypage';
 import Create from './pages/Create';
 import Collection from './pages/Collection';
+import NotFound from './pages/NotFound';
 
 import '@/styles/fonts.css';
 import Notification from './components/shared/Notification';
 import Recruit from './pages/Recruit';
+import TestPage from './pages/TestPage';
+import InterviewTest from './pages/InterviewTest';
 
-export default function App() {
+const App = () => {
   const [mode] = useMode();
 
   const { accessToken } = useSelector(state => state.users);
@@ -37,23 +40,25 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(auth(accessToken));
+    dispatch(auth(accessToken));
   }, [dispatch, accessToken]);
 
   return (
     <ThemeProvider theme={THEME[mode]}>
       <Global theme={THEME[mode]} />
       <Switch>
-        <RouteWithLayout path="/" component={Landing} layout={LandingLayout} />
+        <RouteWithLayout exact path="/" component={Landing} layout={LandingLayout} />
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
-        <RouteWithLayout path="/test/:id" component={InterviewTest} layout={MainLayout} />
+        <RouteWithLayout path="/test/:id" component={TestPage} layout={MainLayout} />
+        <RouteWithLayout path="/testmedia/:id" component={InterviewTest} layout={MainLayout} />
         <RouteWithLayout path="/result/:id" component={InterviewResult} layout={MainLayout} />
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
         <RouteWithLayout path="/collection" component={Auth(Collection)} layout={MainLayout} />
         <RouteWithLayout path="/create" component={Create} layout={MainLayout} />
         <RouteWithLayout path="/recruit" component={Recruit} layout={MainLayout} />
+        <RouteWithLayout component={NotFound} />
       </Switch>
       <Portal selector="#notification">
         <AnimatePresence>
@@ -64,4 +69,6 @@ export default function App() {
       </Portal>
     </ThemeProvider>
   );
-}
+};
+
+export default App;

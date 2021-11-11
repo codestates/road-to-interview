@@ -1,20 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import axios from 'axios';
+import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRecruit } from '@/store/creator/recruitCreator';
 import media from '@/utils/media';
 import { fontSizes, palette, spacing } from '@/styles';
 import Button from '../components/elements/Button';
-const Recruit = () => {
-  const [items, setItems] = useState([]);
+import Loading from '@/components/shared/Loading';
+import NotFound from './NotFound';
+import { useMode } from '@/contexts/ModeContext';
+import { showNotification } from '@/store/creator/notificationsCreator';
+
+export default function Recruit() {
+  const dispatch = useDispatch();
+  const mode = useMode();
 
   useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get(`https://sjitygfree.ga/news`);
-      setItems(res.data.news);
-    };
-    getData();
-  }, []);
-
+    dispatch(getRecruit());
+  }, [dispatch]);
+  const { recruit, getRecruitLoading, getRecruitDone, getRecruitError } = useSelector(state => state.recruit);
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    if (getRecruitDone) {
+      setItems(recruit);
+    }
+  }, [recruit, getRecruitDone]);
+  const handleButton = () => {};
+  if (getRecruitLoading) return <Loading />;
+  if (getRecruitError) return <NotFound />;
   return (
     <div>
       <div
@@ -36,15 +49,7 @@ const Recruit = () => {
           return (
             <div>
               <div>
-                <div
-                  css={css`
-                    // 카드 디자인
-                    border-radius: ${spacing[3]};
-                    border: solid 1px ${palette.light.gray[400]};
-                    background: #fff;
-                    height: 43vh;
-                  `}
-                >
+                <Card mode={mode}>
                   <div
                     css={css`
                       height: 22vh;
@@ -63,7 +68,7 @@ const Recruit = () => {
                   <div
                     css={css`
                       margin-top: ${spacing[1]};
-                      height: 14vh;
+                      height: 13vh;
                       ${media.tablet(css`
                         margin-top: ${spacing[4]};
                         height: 11vh;
@@ -80,7 +85,7 @@ const Recruit = () => {
                   >
                     <div
                       css={css`
-                        font-size: ${fontSizes[600]};
+                        font-size: ${fontSizes[500]};
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
                         `)}
@@ -111,11 +116,17 @@ const Recruit = () => {
                       {item.company}
                     </div>
                   </div>
-                  <a href={item.url}>
+                  <div
+                    onClick={() => {
+                      dispatch(showNotification(`모두 합격하시길 기원합니다 💪`));
+                      setTimeout(() => {
+                        window.location.href = `${item.url}`;
+                      }, 1500);
+                    }}
+                  >
                     <Button
                       css={css`
-                        font-size: ${fontSizes[600]};
-                        /* margin-top: ${spacing[3]}; */
+                        font-size: ${fontSizes[500]};
                         ${media.tablet(css`
                           font-size: ${fontSizes[500]};
                           margin-top: ${spacing[4]};
@@ -134,8 +145,8 @@ const Recruit = () => {
                     >
                       지원하기
                     </Button>
-                  </a>
-                </div>
+                  </div>
+                </Card>
               </div>
             </div>
           );
@@ -143,6 +154,13 @@ const Recruit = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Recruit;
+const Card = styled.div`
+  background: ${props => (props.mode[0] === 'dark' ? `${palette.dark.gray[100]}` : '#fff')};
+
+  border-radius: ${spacing[3]};
+  border: solid 1px;
+  border-color: ${props => (props.mode[0] === 'dark' ? `${palette.dark.gray[300]}` : `${palette.light.gray[200]}`)};
+  height: 42vh;
+`;

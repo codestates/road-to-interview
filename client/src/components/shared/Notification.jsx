@@ -43,15 +43,15 @@ const colorVariants = props => {
   switch (props.type) {
     case 'error':
       return css`
-        background: ${({ theme }) => theme.colors.tint.red[500]};
+        background: ${props.theme.colors.tint.red[500]};
       `;
     case 'warning':
       return css`
-        background: ${({ theme }) => theme.colors.tint.coral[600]};
+        background: ${props.theme.colors.tint.coral[600]};
       `;
     default:
       return css`
-        background: ${({ theme }) => theme.colors.tint.green[600]};
+        background: ${props.theme.colors.tint.green[600]};
       `;
   }
 };

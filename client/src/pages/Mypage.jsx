@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { edit } from '@/store/creator/usersCreator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -11,11 +11,18 @@ import Label from '@/components/elements/Label';
 import Button from '@/components/elements/Button';
 import Input from '@/components/elements/Input';
 import ErrorMessage from '@/components/shared/ErrorMessage';
+import Slider from 'react-slick';
+import '../slick.css';
+import '../slick-theme.css';
+import { settings } from '@/constants/Landing';
+import { ads } from '@/constants/MyPage';
 
 import { ReactComponent as CollectionIcon } from 'assets/collection.svg';
 import { ReactComponent as QuestionIcon } from 'assets/question.svg';
 
 export default function Mypage() {
+  const history = useHistory();
+  const dispatch = useDispatch();
   // * react-hook-form
   const {
     register,
@@ -26,10 +33,7 @@ export default function Mypage() {
   const password = useRef();
   password.current = watch('password');
 
-  const history = useHistory();
-
   const { userInfo, accessToken, editDone, editError } = useSelector(state => state.users);
-  const dispatch = useDispatch();
 
   const onSubmit = data => {
     const newData = {
@@ -43,6 +47,15 @@ export default function Mypage() {
   return (
     <Layout>
       <Title>마이페이지</Title>
+      <Field>
+        <Slider {...settings}>
+          {ads.map(ad => (
+            <AdBox key={ad.id}>
+              <AdImg src={ad.src} alt="saleImage" />
+            </AdBox>
+          ))}
+        </Slider>
+      </Field>
       <Container>
         <div
           css={css`
@@ -170,6 +183,7 @@ const Title = styled.p`
 const Container = styled.div``;
 const Field = styled.div`
   margin-bottom: 1.5rem;
+  overflow: hidden;
 `;
 const Text = styled.p``;
 const ButtonBox = styled.div`
@@ -179,3 +193,15 @@ const ButtonBox = styled.div`
   cursor: pointer;
 `;
 const Form = styled.form``;
+const AdBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 8rem;
+  overflow: hidden;
+  border-radius: 5px;
+`;
+const AdImg = styled.img`
+  width: 100%;
+`;
