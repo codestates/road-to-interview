@@ -30,6 +30,7 @@ import '@/styles/fonts.css';
 import Notification from './components/shared/Notification';
 import Recruit from './pages/Recruit';
 import TestPage from './pages/TestPage';
+import InterviewTest from './pages/InterviewTest';
 
 const App = () => {
   const [mode] = useMode();
@@ -51,6 +52,7 @@ const App = () => {
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
         <RouteWithLayout path="/test/:id" component={TestPage} layout={MainLayout} />
+        <RouteWithLayout path="/testmedia/:id" component={InterviewTest} layout={MainLayout} />
         <RouteWithLayout path="/result/:id" component={InterviewResult} layout={MainLayout} />
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
         <RouteWithLayout path="/collection" component={Auth(Collection)} layout={MainLayout} />

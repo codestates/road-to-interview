@@ -6,7 +6,7 @@ import Button from '../elements/Button';
 export default function Controller({ prev, reset, next }) {
   return (
     <Container>
-      <Button primary text>
+      <Button primary text onClick={prev}>
         이전 문제
       </Button>
       <Button
@@ -15,10 +15,11 @@ export default function Controller({ prev, reset, next }) {
         css={css`
           margin: 0 ${spacing[8]};
         `}
+        onClick={reset}
       >
         초기화
       </Button>
-      <Button primary text>
+      <Button primary text onClick={next}>
         다음 문제
       </Button>
     </Container>

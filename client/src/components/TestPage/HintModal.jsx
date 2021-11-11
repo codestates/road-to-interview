@@ -26,7 +26,7 @@ const BottomInOut = {
   },
 };
 
-export default function HintModal({ open, onClose }) {
+export default function HintModal({ open, onClose, text }) {
   const [mode] = useMode();
 
   return (
@@ -34,7 +34,7 @@ export default function HintModal({ open, onClose }) {
       {open && (
         <DrawerBody variants={BottomInOut} initial="hidden" animate="visible" exit="exit">
           <CloseBtn onClick={onClose}>숨기기</CloseBtn>
-          <p>힌트입니다!</p>
+          <p>{text}</p>
         </DrawerBody>
       )}
     </AnimatePresence>

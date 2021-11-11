@@ -21,6 +21,7 @@ const InterviewTest = () => {
   const {
     params: { id },
   } = useRouteMatch();
+
   const { search } = useLocation();
 
   useEffect(() => {

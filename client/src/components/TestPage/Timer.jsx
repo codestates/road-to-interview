@@ -22,14 +22,12 @@ export default function Timer({ initial, running, pause }) {
       timerId.current = setInterval(() => {
         setMilliSeconds(prev => prev + 10);
       }, 10);
-    }
-    if (initial) {
+    } else if (initial) {
       // setInterval 해제
       clearInterval(timerId.current);
       // milliSeconds 초기화
       setMilliSeconds(0);
-    }
-    if (pause) {
+    } else if (pause) {
       // setInterval 해제
       clearInterval(timerId.current);
     }
