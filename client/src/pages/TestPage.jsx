@@ -93,12 +93,11 @@ export default function TestPage() {
       setAuthError(e);
     }
   };
-
   const onComplete = () => {
     if (authError) return;
     currentAudio.current = completeRecord.current();
     const audioObj = {
-      id: audioId.current++,
+      id: questions[currentIndex].questions_id,
       audio: currentAudio.current,
     };
     audioList.current.push(audioObj);
@@ -124,7 +123,7 @@ export default function TestPage() {
   const onDelete = () => {
     if (authError) return;
     currentAudio.current = null;
-    audioList.current.pop();
+    audioList.current = audioList.current.filter(audio => audio.id !== questions[currentIndex].questions_id);
     onReset();
   };
 
