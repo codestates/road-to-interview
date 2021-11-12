@@ -12,7 +12,10 @@ import NotFound from './NotFound';
 import CountTimer from '../components/InterviewTest/CountTimer';
 import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
-import HintViewer from '@/components/InterviewTest/HintViewer';
+import { spacing } from '@/styles';
+import media from '@/utils/media';
+import NotFound from './NotFound';
+import Modal from '@/components/InterviewTest/Modal';
 import Loading from '@/components/shared/Loading';
 
 const InterviewTest = () => {
@@ -51,13 +54,8 @@ const InterviewTest = () => {
       setQuestionNum(questionNum - 1);
     }
   };
-  // ! 힌트보기 토글 기능 -> 리팩토링
-  const hintHandler = openHint => {
-    if (!openHint) {
-      setView(true);
-    } else {
-      setView(false);
-    }
+  const hintHandler = () => {
+    setView(prev => !prev);
   };
 
   const countHandler = playing => {
@@ -150,8 +148,8 @@ const InterviewTest = () => {
           hintHandler={hintHandler}
           countHandler={countHandler}
         />
-        {view ? <HintViewer currentQuestion={currentQuestion} /> : null}
       </motion.div>
+      <Modal view={view} setView={setView} currentQuestion={currentQuestion} />
     </motion.div>
   );
 };

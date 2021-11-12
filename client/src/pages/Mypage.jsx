@@ -46,7 +46,6 @@ export default function Mypage() {
 
   return (
     <Layout>
-      <Title>마이페이지</Title>
       <Field>
         <Slider {...settings}>
           {ads.map(ad => (

@@ -28,29 +28,16 @@ const GetHint = ({ hintHandler }) => {
           `)}
         `}
       >
-        {openHint ? (
-          <Button
-            onClick={e => {
-              setOpenHint(!openHint);
-              hintHandler(openHint);
-            }}
-            secondary
-            lg
-          >
-            힌트닫기
-          </Button>
-        ) : (
-          <Button
-            onClick={e => {
-              setOpenHint(!openHint);
-              hintHandler(openHint);
-            }}
-            secondary
-            lg
-          >
-            힌트보기
-          </Button>
-        )}
+        <Button
+          onClick={e => {
+            setOpenHint(!openHint);
+            hintHandler(openHint);
+          }}
+          secondary
+          lg
+        >
+          힌트보기
+        </Button>
       </div>
     </div>
   );
