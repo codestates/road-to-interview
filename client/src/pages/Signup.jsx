@@ -114,10 +114,10 @@ export default function Signup() {
         <Field>
           <Label>닉네임</Label>
           <Input
-            placeholder="닉네임은 4~12자 사이여야 합니다."
+            placeholder="닉네임은 2~12자 사이여야 합니다."
             {...register('nickname', {
               required: { value: true, message: '필수로 입력해야 합니다.' },
-              minLength: { value: 4, message: '닉네임은 4자 이상이여야 합니다.' },
+              minLength: { value: 2, message: '닉네임은 2자 이상이여야 합니다.' },
               maxLength: { value: 12, message: '닉네임은 12자 이하여야 합니다.' },
             })}
           />
