@@ -271,7 +271,7 @@ const Back = styled(CardInner)`
   & p {
     width: 100%;
     height: 100%;
-    transform: rotateX(360deg);
+    transform: rotateX(0);
     letter-spacing: 0.1em;
     line-height: 2em;
     word-break: keep-all;

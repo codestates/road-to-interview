@@ -32,20 +32,13 @@ const dropIn = {
   },
 };
 
-const appendAudio = (root, audio) => {
-  audio.setAttribute('controls', true);
-  root.append(audio);
-};
-
 export default function ResultModal({ open, onClose, audioList, questions }) {
-  const containerRef = useRef(null);
-  useEffect(() => {
-    if (containerRef.current) {
-      audioList.forEach(({ audio }) => {
-        appendAudio(containerRef.current, audio);
-      });
-    }
-  });
+  const containerRef = useRef([]);
+  console.log('audioList', audioList);
+  // console.log('Ref List', containerRef.current);
+
+  useEffect(() => {}, [audioList]);
+
   return (
     <Portal selector="#modal">
       <AnimatePresence>
@@ -53,17 +46,15 @@ export default function ResultModal({ open, onClose, audioList, questions }) {
           <Modal onClose={onClose}>
             <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
               <Modaltitle>테스트 결과</Modaltitle>
-              <div ref={containerRef}></div>
-              {/* <StyledSlick {...modalSettings}>
-                {audioList.map(({ id, audio }) => {
-                  console.log(audio);
+              <StyledSlick {...modalSettings}>
+                {audioList.map(({ id, audio: { preload, src } }) => {
                   return (
-                    <SliderInner key={id}>
-                      <Video src={audio.getAttribute('src')} autoPlay muted playsInline />
+                    <SliderInner key={id} ref={el => containerRef.current.push(el)}>
+                      <audio {...{ preload, src, controls: true }} />
                     </SliderInner>
                   );
                 })}
-              </StyledSlick> */}
+              </StyledSlick>
               <Flex rowGap="4em">
                 <Button>메인으로 가기</Button>
                 <Button>다시하기</Button>
@@ -109,30 +100,7 @@ const StyledSlick = styled(Slider)`
   .slick-slide {
   }
 
-  // arrow
-  .slick-arrow {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-100%);
-    z-index: 10;
-    border-radius: 50%;
-    color: ${({ theme }) => theme.colors.text.primary};
-    cursor: pointer;
-  }
-  .slick-arrow.slick-prev {
-    left: -3rem;
-  }
-  .slick-arrow.slick-next {
-    right: -3rem;
-  }
-
   // dot
-
   .slick-dots {
     display: flex;
     justify-content: center;
@@ -145,7 +113,6 @@ const StyledSlick = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
-        width: 2.8em;
         border-radius: 10px;
       }
     }
@@ -166,8 +133,4 @@ const SliderInner = styled.div`
   border-radius: 5px;
   // test
   background-color: ${({ theme }) => theme.colors.background};
-`;
-
-const Video = styled.video`
-  width: 100%;
 `;
