@@ -6,7 +6,7 @@ export const getRecruit = () => async dispatch => {
   try {
     // 로딩
     dispatch({ type: getRecruitRequest });
-    const data = await RECRUIT_API.getRecruit(); // 10초
+    const data = await RECRUIT_API.getRecruit();
     // 성공
     dispatch({ type: getRecruitSuccess, payload: data });
     dispatch(showNotification(`매일 20개의 기업에 도전하세요 🎊`));

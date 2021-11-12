@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
-import { Switch } from 'react-router';
+import { Switch, Route } from 'react-router';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Global from '@/styles/Global';

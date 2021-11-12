@@ -10,28 +10,19 @@ const HintViewer = ({ currentQuestion }) => {
       {content.map(el => (
         <li
           css={css`
-            margin-top: ${spacing[4]};
+            margin: ${spacing[1]} ${spacing[5]};
             width: 90vw;
             ${media.tablet(css`
-              list-style-type: disc;
-              margin-top: 0;
-              margin-bottom: ${spacing[2]};
-              margin-left: ${spacing[8]};
-              width: 40vw;
-            `)}
+              margin-left: ${spacing[5]};
+              width: 74vw;
+            `)};
             ${media.laptop(css`
-              list-style-type: disc;
-              margin-top: 0;
-              margin-bottom: ${spacing[2]};
-              margin-left: ${spacing[10]};
-              width: 40vw;
+              margin-left: ${spacing[5]};
+              width: 62vw;
             `)};
             ${media.desktop(css`
-              list-style-type: disc;
-              margin-top: 0;
-              margin-bottom: ${spacing[2]};
-              margin-left: ${spacing[10]};
-              width: 35vw;
+              margin-left: ${spacing[6]};
+              width: 50vw;
             `)};
           `}
         >

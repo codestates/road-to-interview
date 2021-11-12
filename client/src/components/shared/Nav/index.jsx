@@ -27,7 +27,7 @@ const INTETVIEW_RESULT = 'result'; // 로고 - nav item
 const MYPAGE = 'mypage'; // 로고 - nav item
 const CREATE = 'create'; // 로고 - nav item
 const COLLECTION = 'collection'; // 로고 - nav item
-
+const RECRUIT = 'recruit';
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [mode] = useMode();
@@ -57,6 +57,7 @@ export default function Nav() {
     case MYPAGE:
     case CREATE:
     case LANDING:
+    case RECRUIT:
       return (
         <Layout>
           <Logo onClick={() => push('/')}>
