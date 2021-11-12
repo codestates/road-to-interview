@@ -12,6 +12,7 @@ import media from '@/utils/media';
 import Loading from '@/components/shared/Loading';
 import NotFound from './NotFound';
 import Modal from '@/components/InterviewTest/Modal';
+
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
   const dispatch = useDispatch();
@@ -29,6 +30,9 @@ const InterviewTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questionNum, setQuestionNum] = useState(0);
   const [view, setView] = useState(false);
+  const [finish, setFinish] = useState(false);
+  const [allData, setAllData] = useState([]);
+
   useEffect(() => {
     if (getQuestionsDone) {
       setCurrentQuestion(questions[0]); // 처음 문제
@@ -46,8 +50,16 @@ const InterviewTest = () => {
       setQuestionNum(questionNum - 1);
     }
   };
+  const dataHandler = data => {
+    if (data) {
+      setAllData([...allData, data]);
+    }
+  };
   const hintHandler = () => {
     setView(prev => !prev);
+  };
+  const finishHandler = () => {
+    setFinish(prev => !prev);
   };
   const countHandler = playing => {
     setIsPlay(playing);
@@ -136,10 +148,17 @@ const InterviewTest = () => {
           prevHandler={prevHandler}
           nextHandler={nextHandler}
           hintHandler={hintHandler}
+          finishHandler={finishHandler}
           countHandler={countHandler}
+          allData={allData}
+          setAllData={setAllData}
+          dataHandler={dataHandler}
         />
       </motion.div>
-      <Modal view={view} setView={setView} currentQuestion={currentQuestion} />
+      {view ? <Modal view={view} setView={setView} currentQuestion={currentQuestion} /> : null}
+      {finish ? (
+        <Modal finish={finish} setFinish={setFinish} allData={allData} setAllData={setAllData} questions={questions} />
+      ) : null}
     </motion.div>
   );
 };

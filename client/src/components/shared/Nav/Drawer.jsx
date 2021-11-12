@@ -21,7 +21,7 @@ const Container = styled.div`
   justify-content: center;
   top: 0;
   right: 0;
-  width: 100vw;
+  width: 70vw;
   height: 100vh;
   background: ${({ theme }) => theme.colors.background};
   padding-top: ${spacing[10]};

@@ -2,33 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Button from '../elements/Button';
 import { spacing, fontSizes, palette } from '@/styles';
 import media from '@/utils/media';
 import Loading from '../elements/Loading';
-import GetHint from './GetHint';
-
-const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHandler }) => {
+import { GiPreviousButton, GiNextButton } from 'react-icons/gi';
+const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHandler, finishHandler, dataHandler }) => {
   const [playing, setPlaying] = useState(null);
   const [data, setData] = useState([]);
   const [src, setSrc] = useState(null);
   const [recordState, setRecordState] = useState(null);
+  const [openHint, setOpenHint] = useState(false);
+  const [openFinish, setOpenFinish] = useState(false);
   const videoRef = useRef(null);
-  let constraints = {};
-
-  if (search === `?isVoice=true`) {
-    //음성조건
-    constraints = {
-      video: false,
-      audio: true,
-    };
-  } else if (search === `?isVideo=true`) {
-    //영상조건
-    constraints = {
-      video: true,
-      audio: true,
-    };
-  }
+  const constraints = {
+    video: true,
+    audio: true,
+  };
 
   const getWebcam = stream => {
     try {
@@ -45,6 +34,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
     } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
     countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
   }, [data, playing, countHandler]);
+
+  useEffect(() => {
+    let mount = true;
+    if (data && mount) {
+      dataHandler(data);
+    }
+    return () => (mount = false);
+  }, [data]);
 
   const startOrStop = () => {
     if (!playing) {
@@ -85,10 +82,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
   };
 
   const buttonVariants = {
-    visible: {
-      x: [0, -20, 20, -20, 20, 0],
-      transition: { delay: 2 },
-    },
     hover: {
       scale: 1.1,
     },
@@ -116,7 +109,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
               height: 42vh;
             `)}
             ${media.desktop(css`
-              width: 35vw;
+              width: 32vw;
               height: 40vh;
             `)}
           `}
@@ -124,76 +117,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
           <Loading />
         </div>
       ) : null}
-      {recordState === 'recording' && search === `?isVoice=true` && playing ? (
-        <div
-          css={css`
-            width: 90vw;
-            height: 25vh;
-            position: absolute;
-            transform: translateY(-55%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: ${fontSizes[700]};
-            ${media.tablet(css`
-              width: 50vw;
-              height: 42vh;
-            `)}
-            ${media.laptop(css`
-              width: 40vw;
-              height: 42vh;
-            `)}
-            ${media.desktop(css`
-              width: 35vw;
-              height: 40vh;
-              transform: translateY(-43%);
-              font-size: ${fontSizes[900]};
-            `)};
-          `}
-        >
-          <div
-            css={css`
-              position: relative;
-              bottom: ${spacing[4]};
-              ${media.desktop(css`
-                position: relative;
-                bottom: ${spacing[5]};
-              `)}
-            `}
-          >
-            Recording...
-          </div>
-          <div
-            css={css`
-              animation: pulse 2s infinite;
-              background-color: rgba(255, 82, 82, 1);
-              border-radius: 50%;
-              height: 50px;
-              width: 50px;
-              ${media.desktop(css`
-                margin-top: ${spacing[1]};
-                height: 100px;
-                width: 100px;
-              `)}
-              @keyframes pulse {
-                0% {
-                  transform: scale(0.9);
-                  box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
-                }
-                70% {
-                  transform: scale(1);
-                  box-shadow: 0 0 0 40px rgba(255, 82, 82, 0);
-                }
-                100% {
-                  transform: scale(0.9);
-                }
-              }
-            `}
-          ></div>
-        </div>
-      ) : null}
-      {playing && search === `?isVoice=true` ? <Video ref={videoRef} autoPlay muted playsInline /> : null}
       {playing && search === `?isVideo=true` ? (
         <Video ref={videoRef} autoPlay muted playsInline poster="/images/loading.gif" />
       ) : null}
@@ -202,6 +125,9 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         <div
           css={css`
             width: 90vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.tablet(css`
@@ -212,17 +138,86 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             `)}
             ${media.desktop(css`
               margin-top: ${spacing[5]};
-              width: 35vw;
+              width: 32vw;
             `)}
           `}
         >
-          <Button tertiary lg onClick={() => startOrStop()}>
-            그만하기
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              width: 19vw;
+              background: ${palette.light.gray[500]};
+              ${media.tablet(css`
+                width: 10vw;
+              `)}
+              ${media.laptop(css`
+                width: 7vw;
+              `)}
+              ${media.desktop(css`
+                width: 6vw;
+              `)}
+            `}
+            onClick={() => prevHandler()}
+          >
+            <GiPreviousButton />
+          </Button>
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              animation: pulse 2s infinite;
+              border-radius: 50%;
+              height: 50px;
+              width: 50px;
+              background: ${palette.light.tint.red[500]};
+              @keyframes pulse {
+                0% {
+                  transform: scale(0.9);
+                  box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+                }
+                70% {
+                  transform: scale(1);
+                  box-shadow: 0 0 0 20px rgba(255, 82, 82, 0);
+                }
+                100% {
+                  transform: scale(0.9);
+                }
+              }
+              ${media.laptop(css`
+                width: 60px;
+                height: 60px;
+              `)}
+            `}
+            onClick={() => startOrStop()}
+          />
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              width: 19vw;
+              background: ${palette.light.gray[500]};
+              ${media.tablet(css`
+                width: 10vw;
+              `)}
+              ${media.laptop(css`
+                width: 7vw;
+              `)}
+              ${media.desktop(css`
+                width: 6vw;
+              `)}
+            `}
+            onClick={() => nextHandler()}
+          >
+            <GiNextButton />
           </Button>
         </div>
       ) : (
         <div
           css={css`
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 90vw;
             margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
@@ -233,59 +228,120 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
               width: 40vw;
             `)}
             ${media.desktop(css`
-              width: 35vw;
+              width: 32vw;
               margin-top: ${spacing[5]};
             `)}
           `}
         >
-          <motion.button
+          <Button
             variants={buttonVariants}
-            animate="visible"
             whileHover="hover"
-            onClick={() => startOrStop()}
             css={css`
-              width: 100%;
-              font-size: ${fontSizes[400]};
-              font-weight: 600;
-              padding: ${spacing[4]} ${spacing[6]};
-              color: #fff;
-              border: thin;
-              border-radius: 3px;
-              cursor: pointer;
-              background: ${palette.light.tint.blue[500]};
-              &:hover {
-                background: ${palette.light.tint.blue[700]};
-              }
+              width: 19vw;
+              background: ${palette.light.gray[500]};
+              ${media.tablet(css`
+                width: 10vw;
+              `)}
+              ${media.laptop(css`
+                width: 7vw;
+              `)}
+              ${media.desktop(css`
+                width: 6vw;
+              `)}
             `}
+            onClick={() => prevHandler()}
           >
-            시작하기
-          </motion.button>
+            <GiPreviousButton />
+          </Button>
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              background: ${palette.light.tint.red[500]};
+              ${media.laptop(css`
+                width: 60px;
+                height: 60px;
+              `)}
+            `}
+            onClick={() => startOrStop()}
+          />
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              width: 19vw;
+              background: ${palette.light.gray[500]};
+              ${media.tablet(css`
+                width: 10vw;
+              `)}
+              ${media.laptop(css`
+                width: 7vw;
+              `)}
+              ${media.desktop(css`
+                width: 6vw;
+              `)}
+            `}
+            onClick={() => nextHandler()}
+          >
+            <GiNextButton />
+          </Button>
         </div>
       )}
-      <GetHint hintHandler={hintHandler} />
+
       <div
         css={css`
           display: flex;
-          justify-content: space-between;
-          width: 90vw;
-          margin-top: ${spacing[5]};
-          ${media.tablet(css`
-            width: 50vw;
-          `)}
-          ${media.laptop(css`
-            width: 40vw;
-          `)}
-          ${media.desktop(css`
-            width: 35vw;
-          `)}
+          justify-content: center;
+          align-items: center;
         `}
       >
-        <Button onClick={prevHandler} tertiary lg>
-          이전문제
-        </Button>
-        <Button onClick={nextHandler} tertiary lg>
-          다음문제
-        </Button>
+        <div
+          css={css`
+            width: 90vw;
+            ${media.tablet(css`
+              width: 50vw;
+            `)}
+            ${media.laptop(css`
+              width: 40vw;
+            `)}
+          ${media.desktop(css`
+              width: 32vw;
+            `)}
+          `}
+        >
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              font-size: ${fontSizes[500]};
+              background: ${palette.light.tint.blue[600]};
+            `}
+            onClick={e => {
+              setOpenHint(!openHint);
+              hintHandler(openHint);
+            }}
+          >
+            스크립트보기
+          </Button>
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            css={css`
+              font-size: ${fontSizes[500]};
+              margin-top: ${spacing[4]};
+              background: ${palette.light.gray[700]};
+            `}
+            onClick={e => {
+              setOpenFinish(!openFinish);
+              finishHandler(openFinish);
+            }}
+          >
+            테스트끝내기
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -302,6 +358,95 @@ export const Video = styled.video`
     width: 40vw;
   `)}
   ${media.desktop(css`
-    width: 35vw;
+    width: 32vw;
   `)}
 `;
+
+const Button = styled(motion.button)`
+  width: 100%;
+  font-size: ${fontSizes[600]};
+  font-weight: 600;
+  padding: ${spacing[4]} ${spacing[6]};
+  color: #fff;
+  border: thin;
+  border-radius: 3px;
+  cursor: pointer;
+`;
+
+// if (search === `?isVoice=true`) {
+//   //음성조건
+//   constraints = {
+//     video: false,
+//     audio: true,
+//   };
+// }
+// {recordState === 'recording' && search === `?isVoice=true` && playing ? (
+//   <div
+//     css={css`
+//       width: 90vw;
+//       height: 25vh;
+//       position: absolute;
+//       transform: translateY(-55%);
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       align-items: center;
+//       font-size: ${fontSizes[700]};
+//       ${media.tablet(css`
+//         width: 50vw;
+//         height: 42vh;
+//       `)}
+//       ${media.laptop(css`
+//         width: 40vw;
+//         height: 42vh;
+//       `)}
+//       ${media.desktop(css`
+//         width: 35vw;
+//         height: 40vh;
+//         transform: translateY(-43%);
+//         font-size: ${fontSizes[900]};
+//       `)};
+//     `}
+//   >
+//     <div
+//       css={css`
+//         position: relative;
+//         bottom: ${spacing[4]};
+//         ${media.desktop(css`
+//           position: relative;
+//           bottom: ${spacing[5]};
+//         `)}
+//       `}
+//     >
+//       Recording...
+//     </div>
+//     <div
+//       css={css`
+//         animation: pulse 2s infinite;
+//         background-color: rgba(255, 82, 82, 1);
+//         border-radius: 50%;
+//         height: 50px;
+//         width: 50px;
+//         ${media.desktop(css`
+//           margin-top: ${spacing[1]};
+//           height: 100px;
+//           width: 100px;
+//         `)}
+//         @keyframes pulse {
+//           0% {
+//             transform: scale(0.9);
+//             box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+//           }
+//           70% {
+//             transform: scale(1);
+//             box-shadow: 0 0 0 40px rgba(255, 82, 82, 0);
+//           }
+//           100% {
+//             transform: scale(0.9);
+//           }
+//         }
+//       `}
+//     ></div>
+//   </div>
+// ) : null}
+// {playing && search === `?isVoice=true` ? <Video ref={videoRef} autoPlay muted playsInline /> : null}

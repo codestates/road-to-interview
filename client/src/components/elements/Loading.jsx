@@ -7,7 +7,7 @@ const Loading = () => {
   return (
     <Loader>
       <br />
-      <h2>시작버튼을 눌러주세요</h2>
+      <h2>녹화버튼을 눌러주세요</h2>
       <br />
       <motion.div
         animate={{
@@ -24,9 +24,9 @@ const Loading = () => {
           ease: 'easeInOut',
         }}
         style={{
-          height: '50px',
+          height: '30px',
           background: '#FFF028',
-          width: '50px',
+          width: '30px',
           borderRadius: '2% 50%',
         }}
       ></motion.div>
