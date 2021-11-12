@@ -17,7 +17,7 @@ module.exports = (req, res) => {
       on a.interviews_id = c.interviews_id 
       where c.users_id = ` +
         id +
-        `);`,
+        `;`,
       { type: sequelize.QueryTypes.SELECT }
     )
     .then((collections) => {
