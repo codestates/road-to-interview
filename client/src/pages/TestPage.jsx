@@ -160,9 +160,9 @@ export default function TestPage() {
 
   return (
     <Container>
-      {authError && <Snackbar>{authError.message}</Snackbar>}
       <Title>{title}</Title>
       <RecordController
+        error={authError}
         isplay={isplay}
         pause={pause}
         complete={complete}
@@ -203,6 +203,7 @@ const Title = styled.h1`
   word-break: keep-all;
   letter-spacing: 0.1em;
   line-height: 1.5em;
+  margin-bottom: 1em;
 `;
 
 const cardFlip = ({ flip }) => css`
@@ -219,7 +220,7 @@ const cardFlip = ({ flip }) => css`
 const Card = styled.div`
   position: relative;
   width: 100%;
-  height: 50vh;
+  height: 65vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -242,27 +243,32 @@ const CardInner = styled.div`
   padding: 1em;
   backface-visibility: hidden;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.colors.background_elevated};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
+  }
 `;
 
 const Front = styled(CardInner)`
-  ${({ theme }) => theme.typography.subtitle[3]};
+  ${({ theme }) => theme.typography.subtitle[1]};
   left: 0;
 `;
 
 const Back = styled(CardInner)`
-  ${({ theme }) => theme.typography.body[2]};
+  ${({ theme }) => theme.typography.subtitle[3]};
   transform: rotateX(180deg);
-  & > * {
+  & p {
     width: 100%;
     height: 100%;
     transform: rotateX(360deg);
+    letter-spacing: 0.1em;
+    line-height: 2em;
+    word-break: keep-all;
   }
-`;
-
-const Snackbar = styled.p`
-  position: fixed;
-  width: 100%;
-  top: 0;
-  text-align: center;
-  background: ${({ theme }) => theme.colors.tint.red[500]};
 `;

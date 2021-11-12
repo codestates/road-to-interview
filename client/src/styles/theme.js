@@ -116,7 +116,7 @@ const typography = {
       font-size: ${fontSizes[400]};
     `,
     2: css`
-      font-size: ${fontSizes[400]};
+      font-size: ${fontSizes[300]};
     `,
   },
   caption: {

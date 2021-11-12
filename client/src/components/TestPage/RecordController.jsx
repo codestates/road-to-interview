@@ -11,8 +11,10 @@ import { ReactComponent as ExitIcon } from 'assets/x-circle.svg';
 import { ReactComponent as SaveIcon } from 'assets/archive.svg';
 import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
 import { ReactComponent as NextIcon } from 'assets/arrow-narrow-right.svg';
+import ErrorMessage from '../shared/ErrorMessage';
 
 export default function RecordController({
+  error,
   isplay,
   pause,
   complete,
@@ -26,6 +28,7 @@ export default function RecordController({
   onClick,
   clicked,
 }) {
+  if (error) return <ErrorMessage>{error.message}</ErrorMessage>;
   return (
     <Container>
       <Left>
@@ -50,7 +53,6 @@ export default function RecordController({
 const Container = styled.div`
   display: flex;
   width: 100%;
-  padding: ${spacing[6]} 0;
   border-radius: 5px;
 `;
 
@@ -76,7 +78,6 @@ function ButtonController({
   next,
 }) {
   if (!pause) return null;
-  console.log(complete);
   return (
     <Wrapper>
       {!complete && (
