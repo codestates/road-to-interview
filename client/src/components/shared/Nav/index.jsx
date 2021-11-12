@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
+import { motion } from 'framer-motion';
 import { logout } from '@/store/creator/usersCreator';
 import { useMode } from '@/contexts/ModeContext';
 import { fontSizes, spacing } from '@/styles';
@@ -51,6 +51,16 @@ export default function Nav() {
   const { pathname } = useLocation();
   const page = pathname.split('/')[1];
 
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
+
   switch (page) {
     case INTETVIEW_LIST:
     case INTETVIEW_RESULT:
@@ -72,9 +82,10 @@ export default function Nav() {
             >
               {userInfo ? (
                 <>
-                  <LinkItem to="/mypage">마이페이지</LinkItem>
                   <LinkItem to="/create">인터뷰 생성하기</LinkItem>
+                  <LinkItem to="/list">인터뷰 시작하기</LinkItem>
                   <LinkItem to="/recruit">개발자 구직공고</LinkItem>
+                  <LinkItem to="/mypage">마이페이지</LinkItem>
                   <Item onClick={onLogout}>로그아웃</Item>
                 </>
               ) : (
@@ -104,9 +115,10 @@ export default function Nav() {
                     <LinkItem to="/">홈</LinkItem>
                     {userInfo ? (
                       <>
-                        <LinkItem to="/mypage">마이페이지</LinkItem>
-                        <LinkItem to="/create">인터뷰 목록 생성하기</LinkItem>
+                        <LinkItem to="/create">인터뷰 생성하기</LinkItem>
+                        <LinkItem to="/list">인터뷰 시작하기</LinkItem>
                         <LinkItem to="/recruit">개발자 구직공고</LinkItem>
+                        <LinkItem to="/mypage">마이페이지</LinkItem>
                         <Item onClick={onLogout}>로그아웃</Item>
                       </>
                     ) : (
@@ -190,9 +202,11 @@ const List = styled.ul`
     padding: ${spacing[6]} 0;
   }
 `;
+
 const Item = styled.li`
   cursor: pointer;
 `;
+
 const LinkItem = styled(Link)`
   display: block;
 `;
