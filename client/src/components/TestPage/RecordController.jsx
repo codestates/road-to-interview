@@ -50,7 +50,7 @@ export default function RecordController({
 const Container = styled.div`
   display: flex;
   width: 100%;
-  padding: ${spacing[3]} ${spacing[6]};
+  padding: ${spacing[6]} 0;
   border-radius: 5px;
 `;
 
@@ -122,7 +122,7 @@ function ButtonController({
 const Wrapper = styled.div`
   display: flex;
   & > *:not(:last-of-type) {
-    margin-right: 0.8em;
+    margin-right: 1em;
   }
 `;
 

@@ -1,10 +1,6 @@
 import React from 'react';
-import Button from '@/components/elements/Button';
 import Loading from '@/components/shared/Loading';
 import TestController from '@/components/TestPage/TestController';
-import HintModal from '@/components/TestPage/HintModal';
-import Record from '@/components/TestPage/Record';
-import Timer from '@/components/TestPage/Timer';
 import { getQuestions } from '@/store/creator/questionsCreator';
 import { spacing } from '@/styles';
 import { recordAudio } from '@/utils/record';
@@ -15,12 +11,14 @@ import { useRouteMatch } from 'react-router-dom';
 import NotFound from './NotFound';
 import ResultModal from '@/components/TestPage/ResultModal';
 import RecordController from '@/components/TestPage/RecordController';
+import { css } from '@emotion/react';
 
 export default function TestPage() {
-  const [hintOpen, setHintOpen] = useState(false);
+  const [flip, setFlip] = useState(false);
   const [resultOpen, setResultOpen] = useState(false);
   const isNotFirstRendering = useRef(false);
 
+  const flipCard = () => setFlip(prev => !prev);
   const openResult = () => setResultOpen(true);
 
   // * 문제 데이터 fetch
@@ -177,14 +175,15 @@ export default function TestPage() {
         onClick={onTogglePlay}
         clicked={isplay.running}
       />
-      <Card>
-        <CardTitle>{questions[currentIndex].title}</CardTitle>
+      <Card onClick={flipCard} flip={flip}>
+        <Front>
+          <h3>{questions[currentIndex].title}</h3>
+        </Front>
+        <Back>
+          <p>{questions[currentIndex].description}</p>
+        </Back>
       </Card>
       <TestController {...{ prev, next, currentIndex }} totalIndex={questions.length} />
-      <HintButton onClick={() => setHintOpen(true)}>
-        <span>스크립트</span>
-      </HintButton>
-      <HintModal open={hintOpen} onClose={() => setHintOpen(false)} text={questions[currentIndex].description} />
       <ResultModal open={resultOpen} onClose={() => setResultOpen(false)} audioList={audioList.current} />
     </Container>
   );
@@ -197,13 +196,25 @@ const Container = styled.div`
   justify-content: center;
 `;
 const Title = styled.h1`
-  ${({ theme }) => theme.typography.subtitle[3]};
+  ${({ theme }) => theme.typography.subtitle[2]};
   text-align: center;
   word-break: keep-all;
   letter-spacing: 0.1em;
   line-height: 1.5em;
 `;
+
+const cardFlip = ({ flip }) => css`
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) translateY(0);
+  transition: 250ms;
+
+  ${flip &&
+  css`
+    transform: perspective(1000px) rotateX(180deg) translateY(0);
+  `}
+`;
 const Card = styled.div`
+  position: relative;
   width: 100%;
   height: 50vh;
   display: flex;
@@ -213,28 +224,25 @@ const Card = styled.div`
   margin: 1em 0;
   background-color: ${({ theme }) => theme.colors.background_elevated};
   border-radius: 0.4em;
-`;
-
-const CardTitle = styled.h3`
-  ${({ theme }) => theme.typography.subtitle[3]}
-`;
-
-const HintButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  right: 5%;
-  transform: translateX(-50%);
-  padding: ${spacing[2]} ${spacing[4]};
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  color: ${({ theme }) => theme.colors.background};
-  background: ${({ theme }) => theme.colors.text.primary};
-  writing-mode: vertical-rl;
   cursor: pointer;
-  ${({ theme }) => theme.typography.caption[1]};
+  ${cardFlip}
+`;
+
+const CardInner = styled.div`
+  position: absolute;
+  padding: 1rem;
+  backface-visibility: hidden;
+`;
+
+const Front = styled(CardInner)`
+  ${({ theme }) => theme.typography.subtitle[3]};
+  left: 0;
+`;
+
+const Back = styled(CardInner)`
+  overflow-y: auto;
+  ${({ theme }) => theme.typography.body[2]};
+  transform: rotateX(180deg);
 `;
 
 const Snackbar = styled.p`
