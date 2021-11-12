@@ -7,6 +7,7 @@ module.exports = (req, res) => {
   }
 
   const collections_id = req.params.id;
+
   const accessTokenData = isAuthorized(req);
   if (!accessTokenData) {
     res
@@ -15,6 +16,7 @@ module.exports = (req, res) => {
     return;
   }
   const { id } = accessTokenData;
+
   sequelize
     .query(
       `select users_id from collections where id = ` + collections_id + `;`,
@@ -26,7 +28,7 @@ module.exports = (req, res) => {
       if (result[0].users_id === id) {
         collections
           .destroy({
-            where: { users_id: id, interviews_id },
+            where: { id: collections_id },
           })
           .then((result_2) => {
             res.status(200).send({ message: "해당 평가가 삭제되었습니다." });
