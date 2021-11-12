@@ -54,7 +54,7 @@ export default function PostModal({ open, onClose, selected }) {
                     <Mic width="2.2rem" height="2.2rem" />
                   </i>
                 </RecordBtn>
-                <RecordBtn to={`/test/${selected?.interviews_id}?isVideo=true`} mode={mode}>
+                <RecordBtn to={`/testmedia/${selected?.interviews_id}?isVoice=true`} mode={mode}>
                   <i>
                     <Video width="2.2rem" height="2.2rem" />
                   </i>

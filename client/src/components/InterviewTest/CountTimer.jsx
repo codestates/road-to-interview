@@ -5,6 +5,7 @@ import Button from '../elements/Button';
 import media from '@/utils/media';
 import { Line } from 'rc-progress';
 const CountTimer = ({ currentQuestion, isPlay }) => {
+  // ! 시간 상태 -> Ref 객체 변수 활용하기 (렌더링 수 줄이기)
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [counts, setCounts] = useState(0);
@@ -23,6 +24,7 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
       }
     }
   };
+
   const secondsAdd = () => {
     // 30초추가
     if (counts < answerCount) {
@@ -37,7 +39,8 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
       }
     }
   };
-
+  // 새로운 문제가 시작될 떄, 시간 상태 값 초기화
+  // !
   useEffect(() => {
     if (currentQuestion !== undefined && currentQuestion !== null) {
       setMinutes(Number.parseInt(currentQuestion.limit_second / 60));
@@ -56,6 +59,7 @@ const CountTimer = ({ currentQuestion, isPlay }) => {
     if (isPlay) {
     }
   }, [isPlay]);
+
   useEffect(() => {
     if (isPlay) {
       //버튼 누르면

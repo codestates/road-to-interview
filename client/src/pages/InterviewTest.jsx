@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
-import { motion } from 'framer-motion';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { css } from '@emotion/react';
+import { motion } from 'framer-motion';
+
 import { getQuestions } from '@/store/creator/questionsCreator';
+import { spacing } from '@/styles';
+import media from '@/utils/media';
+
+import NotFound from './NotFound';
 import CountTimer from '../components/InterviewTest/CountTimer';
 import Question from '../components/InterviewTest/Question';
 import VideoRecorder from '../components/InterviewTest/VideoRecorder';
 import { spacing } from '@/styles';
 import media from '@/utils/media';
-import Loading from '@/components/shared/Loading';
 import NotFound from './NotFound';
 import Modal from '@/components/InterviewTest/Modal';
 
@@ -33,6 +37,7 @@ const InterviewTest = () => {
   const [finish, setFinish] = useState(false);
   const [allData, setAllData] = useState([]);
 
+
   useEffect(() => {
     if (getQuestionsDone) {
       setCurrentQuestion(questions[0]); // 처음 문제
@@ -45,6 +50,7 @@ const InterviewTest = () => {
       setQuestionNum(questionNum + 1);
     }
   };
+
   const prevHandler = () => {
     if (questionNum > 0) {
       setQuestionNum(questionNum - 1);
@@ -58,9 +64,11 @@ const InterviewTest = () => {
   const hintHandler = () => {
     setView(prev => !prev);
   };
+  
   const finishHandler = () => {
     setFinish(prev => !prev);
   };
+
   const countHandler = playing => {
     setIsPlay(playing);
   };
@@ -68,6 +76,7 @@ const InterviewTest = () => {
   if (getQuestionsLoading) return <Loading />;
   if (getQuestionsError) return <NotFound />;
 
+  // ! 애니메이션 정의 객체 함수 밖으로 분리하기
   const containerVariants = {
     hidden: {
       opacity: 0,
