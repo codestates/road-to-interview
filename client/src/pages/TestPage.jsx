@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@/components/elements/Button';
 import Loading from '@/components/shared/Loading';
-import Controller from '@/components/TestPage/Controller';
+import TestController from '@/components/TestPage/TestController';
 import HintModal from '@/components/TestPage/HintModal';
 import Record from '@/components/TestPage/Record';
 import Timer from '@/components/TestPage/Timer';
@@ -14,17 +14,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import NotFound from './NotFound';
 import ResultModal from '@/components/TestPage/ResultModal';
+import RecordController from '@/components/TestPage/RecordController';
 
 export default function TestPage() {
   const [hintOpen, setHintOpen] = useState(false);
   const [resultOpen, setResultOpen] = useState(false);
-  const isFirstRendering = useRef(false);
+  const isNotFirstRendering = useRef(false);
+
+  const openResult = () => setResultOpen(true);
+
   // * 문제 데이터 fetch
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
 
   const dispatch = useDispatch();
   const {
-    params: { id },
+    params: { id, title },
   } = useRouteMatch();
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export default function TestPage() {
 
   // * 녹음 시작, 중지, 완료 기능
   const [complete, setComplete] = useState(false);
+  const [authError, setAuthError] = useState(null);
   const startRecord = useRef(null);
   const stopRecord = useRef(null);
   const completeRecord = useRef(null);
@@ -86,11 +91,12 @@ export default function TestPage() {
       deleteRecord.current = deleteAudioData;
     } catch (e) {
       // {message: '마이크 권한 설정 작업 중 에러가 발생하였습니다.'}
-      console.log(e);
+      setAuthError(e);
     }
   };
 
   const onComplete = () => {
+    if (authError) return;
     currentAudio.current = completeRecord.current();
     const audioObj = {
       id: audioId.current++,
@@ -106,15 +112,18 @@ export default function TestPage() {
   };
 
   const onPlay = () => {
+    if (authError) return;
     currentAudio.current.play();
   };
 
   const onReset = () => {
+    if (authError) return;
     reset();
     deleteRecord.current();
   };
 
   const onDelete = () => {
+    if (authError) return;
     currentAudio.current = null;
     audioList.current.pop();
     onReset();
@@ -122,18 +131,22 @@ export default function TestPage() {
 
   const { initial, running, pause } = isplay;
 
+  useEffect(() => {});
+
   useEffect(() => {
     getRecordFunctions();
   }, []);
 
   useEffect(() => {
-    if (isFirstRendering.current) {
+    if (authError) return;
+    if (isNotFirstRendering.current) {
       onReset();
     }
-    isFirstRendering.current = true;
+    isNotFirstRendering.current = true;
   }, [currentIndex]);
 
   useEffect(() => {
+    if (authError) return;
     if (running && startRecord.current) {
       startRecord.current();
       setComplete(false);
@@ -148,40 +161,26 @@ export default function TestPage() {
 
   return (
     <Container>
-      <Controller {...{ prev, next, reset: onReset }} />
+      {authError && <Snackbar>{authError.message}</Snackbar>}
+      <Title>{title}</Title>
+      <RecordController
+        isplay={isplay}
+        pause={pause}
+        complete={complete}
+        onPlay={onPlay}
+        onReset={onReset}
+        onDelete={onDelete}
+        next={next}
+        onComplete={onComplete}
+        openResult={openResult}
+        isLastQuestion={isLastQuestion}
+        onClick={onTogglePlay}
+        clicked={isplay.running}
+      />
       <Card>
-        <Title>{questions[currentIndex].title}</Title>
-        <Record onClick={onTogglePlay} clicked={isplay.running} />
-        <audio />
-        <Timer {...isplay} />
-        {pause && (
-          <Buttons>
-            {complete ? (
-              <>
-                <Button text primary onClick={onPlay}>
-                  바로 듣기
-                </Button>
-                <Button text secondary onClick={onDelete}>
-                  삭제 하기
-                </Button>
-                {isLastQuestion ? (
-                  <Button text secondary onClick={() => setResultOpen(true)}>
-                    테스트 종료
-                  </Button>
-                ) : (
-                  <Button text tertiary onClick={next}>
-                    다음 문제 (나중에 듣기)
-                  </Button>
-                )}
-              </>
-            ) : (
-              <Button text primary onClick={onComplete}>
-                녹음 완료하기
-              </Button>
-            )}
-          </Buttons>
-        )}
+        <CardTitle>{questions[currentIndex].title}</CardTitle>
       </Card>
+      <TestController {...{ prev, next, currentIndex }} totalIndex={questions.length} />
       <HintButton onClick={() => setHintOpen(true)}>
         <span>스크립트</span>
       </HintButton>
@@ -197,15 +196,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const Card = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1em;
-`;
-
 const Title = styled.h1`
   ${({ theme }) => theme.typography.subtitle[3]};
   text-align: center;
@@ -213,16 +203,20 @@ const Title = styled.h1`
   letter-spacing: 0.1em;
   line-height: 1.5em;
 `;
-
-const Buttons = styled.div`
+const Card = styled.div`
+  width: 100%;
+  height: 50vh;
   display: flex;
   flex-direction: column;
-  padding: ${spacing[4]};
-  margin-top: 1.5em;
+  align-items: center;
+  justify-content: center;
+  margin: 1em 0;
+  background-color: ${({ theme }) => theme.colors.background_elevated};
+  border-radius: 0.4em;
+`;
 
-  & > *:not(:last-of-type) {
-    margin-bottom: 0.8em;
-  }
+const CardTitle = styled.h3`
+  ${({ theme }) => theme.typography.subtitle[3]}
 `;
 
 const HintButton = styled.div`
@@ -241,4 +235,12 @@ const HintButton = styled.div`
   writing-mode: vertical-rl;
   cursor: pointer;
   ${({ theme }) => theme.typography.caption[1]};
+`;
+
+const Snackbar = styled.p`
+  position: fixed;
+  width: 100%;
+  top: 0;
+  text-align: center;
+  background: ${({ theme }) => theme.colors.tint.red[500]};
 `;

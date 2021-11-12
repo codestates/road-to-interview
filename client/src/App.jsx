@@ -51,7 +51,7 @@ const App = () => {
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
-        <RouteWithLayout path="/test/:id" component={TestPage} layout={MainLayout} />
+        <RouteWithLayout path="/test/:id/:title" component={TestPage} layout={MainLayout} />
         <RouteWithLayout path="/testmedia/:id" component={InterviewTest} layout={MainLayout} />
         <RouteWithLayout path="/result/:id" component={InterviewResult} layout={MainLayout} />
         <RouteWithLayout path="/mypage" component={Auth(MyPage)} layout={MainLayout} />
