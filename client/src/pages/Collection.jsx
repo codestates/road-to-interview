@@ -5,43 +5,33 @@ import { getCollections } from '@/store/creator/collectionsCreator';
 
 import styled from '@emotion/styled';
 import NoCollections from '@/components/Collection/NoCollections';
-import PostModal from '@/components/InterviewList/PostModal';
 import Card from '@/components/Collection/Card';
+import Loading from '@/components/shared/Loading';
 
 export default function Collection() {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const { accessToken } = useSelector(state => state.users);
-  const { collections, getCollectionsLoading, getCollectionsDone } = useSelector(state => state.collections);
   const dispatch = useDispatch();
+  const { accessToken } = useSelector(state => state.users);
+  const { collections, getCollectionsLoading, getCollectionsDone, deleteCollectionsDone } = useSelector(
+    state => state.collections,
+  );
 
-  // TODOS: 컬렉션 상태에 따른 예외 처리 (로딩중, 로딩완료, 로딩 에러, 불러올 컬렉션이 없어요 등등)
+  // ! 리덕스가 실행되는 중에 collections 가 undefined가 될 수 있고 로딩창으로 기다리게 구현하거나 초기 값을 빈배열로 주는 작업을 해둬야 typeError: .map 에러를 피할 수 있다고 한다.
+  const theCollections = collections || [];
 
   useEffect(() => {
+    console.log(collections);
     dispatch(getCollections(accessToken));
-  }, []);
+  }, [deleteCollectionsDone]);
 
-  const onOpen = collection => {
-    setOpen(true);
-    setSelected(collection);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
+  if (getCollectionsLoading) return <Loading />;
   const isCollections = !getCollectionsLoading && getCollectionsDone;
 
   return (
     <Layout>
       <Main>
-        {isCollections ? (
-          collections?.map(collection => (
-            <Card key={collection?.interviews_id} collection={collection} onOpen={onOpen} />
-          ))
-        ) : (
-          <NoCollections />
-        )}
+        {!collections?.length && <NoCollections />}
+        {isCollections &&
+          collections?.map(collection => <Card key={collection?.interviews_id} collection={collection} />)}
       </Main>
       {/* <PostModal open={open} onClose={onClose} selected={selected} /> */}
     </Layout>
