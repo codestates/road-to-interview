@@ -15,6 +15,7 @@ import LandingLayout from '@/components/layouts/LandingLayout';
 import Portal from './hoc/Portal';
 import Auth from './hoc/Auth';
 
+import NewLanding from './pages/NewLanding';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -45,7 +46,7 @@ const App = () => {
     <ThemeProvider theme={THEME[mode]}>
       <Global theme={THEME[mode]} />
       <Switch>
-        <RouteWithLayout exact path="/" component={Landing} layout={LandingLayout} />
+        <RouteWithLayout exact path="/" component={NewLanding} />
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
