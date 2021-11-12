@@ -12,11 +12,13 @@ import { ReactComponent as SaveIcon } from 'assets/archive.svg';
 import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
 import { ReactComponent as NextIcon } from 'assets/arrow-narrow-right.svg';
 import ErrorMessage from '../shared/ErrorMessage';
+import { css } from '@emotion/react';
 
 export default function RecordController({
   error,
   isplay,
   pause,
+  initial,
   complete,
   onPlay,
   onReset,
@@ -36,6 +38,7 @@ export default function RecordController({
         <Timer {...isplay} />
       </Left>
       <ButtonController
+        initial={initial}
         pause={pause}
         complete={complete}
         isLastQuestion={isLastQuestion}
@@ -52,6 +55,7 @@ export default function RecordController({
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
   border-radius: 5px;
 `;
@@ -67,6 +71,7 @@ const Left = styled.div`
 `;
 
 function ButtonController({
+  initial,
   pause,
   complete,
   isLastQuestion,
@@ -77,7 +82,30 @@ function ButtonController({
   openResult,
   next,
 }) {
-  if (!pause) return null;
+  if (initial)
+    return (
+      <ErrorMessage
+        css={theme =>
+          css`
+            ${theme.typography.body[2]}
+          `
+        }
+      >
+        녹음 시작 전
+      </ErrorMessage>
+    );
+  if (!pause)
+    return (
+      <ErrorMessage
+        css={theme =>
+          css`
+            ${theme.typography.body[2]}
+          `
+        }
+      >
+        녹음 중...
+      </ErrorMessage>
+    );
   return (
     <Wrapper>
       {!complete && (
@@ -104,18 +132,19 @@ function ButtonController({
           </StyledButton>
         </>
       )}
-      {complete &&
-        (isLastQuestion ? (
-          <StyledButton text tertiary onClick={openResult}>
-            <ExitIcon width="2rem" height="2rem" />
-            <span>테스트 종료</span>
-          </StyledButton>
-        ) : (
-          <StyledButton text tertiary onClick={next}>
-            <NextIcon width="2rem" height="2rem" />
-            <span>다음 문제</span>
-          </StyledButton>
-        ))}
+      {complete && !isLastQuestion && (
+        <StyledButton text tertiary onClick={next}>
+          <NextIcon width="2rem" height="2rem" />
+          <span>다음 문제</span>
+        </StyledButton>
+      )}
+
+      {isLastQuestion && (
+        <StyledButton text tertiary onClick={openResult}>
+          <ExitIcon width="2rem" height="2rem" />
+          <span>테스트 종료</span>
+        </StyledButton>
+      )}
     </Wrapper>
   );
 }

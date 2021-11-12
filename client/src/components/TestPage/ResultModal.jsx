@@ -33,14 +33,11 @@ const dropIn = {
 };
 
 const appendAudio = (root, audio) => {
-  console.log('부모', root);
-  console.log('추가되는 오디오', audio);
   audio.setAttribute('controls', true);
   root.append(audio);
 };
 
-export default function ResultModal({ open, onClose, audioList }) {
-  const [mode] = useMode();
+export default function ResultModal({ open, onClose, audioList, questions }) {
   const containerRef = useRef(null);
   useEffect(() => {
     if (containerRef.current) {

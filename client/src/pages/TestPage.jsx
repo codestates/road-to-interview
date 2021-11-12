@@ -163,6 +163,7 @@ export default function TestPage() {
       <RecordController
         error={authError}
         isplay={isplay}
+        initial={initial}
         pause={pause}
         complete={complete}
         onPlay={onPlay}
@@ -184,7 +185,12 @@ export default function TestPage() {
         </Back>
       </Card>
       <TestController {...{ prev, next, currentIndex }} totalIndex={questions.length} />
-      <ResultModal open={resultOpen} onClose={() => setResultOpen(false)} audioList={audioList.current} />
+      <ResultModal
+        open={resultOpen}
+        onClose={() => setResultOpen(false)}
+        audioList={audioList.current}
+        questions={questions}
+      />
     </Container>
   );
 }
