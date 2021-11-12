@@ -2,7 +2,6 @@ import React from 'react';
 import Loading from '@/components/shared/Loading';
 import TestController from '@/components/TestPage/TestController';
 import { getQuestions } from '@/store/creator/questionsCreator';
-import { spacing } from '@/styles';
 import { recordAudio } from '@/utils/record';
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
@@ -63,10 +62,12 @@ export default function TestPage() {
   const prev = () => {
     if (currentIndex <= 0) return;
     setCurrentIndex(prev => prev - 1);
+    setFlip(false);
   };
   const next = () => {
     if (isLastQuestion) return;
     setCurrentIndex(prev => prev + 1);
+    setFlip(false);
   };
 
   // * 녹음 시작, 중지, 완료 기능
@@ -195,6 +196,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const Title = styled.h1`
   ${({ theme }) => theme.typography.subtitle[2]};
   text-align: center;
@@ -213,6 +215,7 @@ const cardFlip = ({ flip }) => css`
     transform: perspective(1000px) rotateX(180deg) translateY(0);
   `}
 `;
+
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -230,8 +233,15 @@ const Card = styled.div`
 
 const CardInner = styled.div`
   position: absolute;
-  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1em;
   backface-visibility: hidden;
+  overflow-y: auto;
 `;
 
 const Front = styled(CardInner)`
@@ -240,9 +250,13 @@ const Front = styled(CardInner)`
 `;
 
 const Back = styled(CardInner)`
-  overflow-y: auto;
   ${({ theme }) => theme.typography.body[2]};
   transform: rotateX(180deg);
+  & > * {
+    width: 100%;
+    height: 100%;
+    transform: rotateX(360deg);
+  }
 `;
 
 const Snackbar = styled.p`
