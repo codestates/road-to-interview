@@ -33,7 +33,7 @@ export default function Main() {
               display: flex;
               justify-content: center;
               align-items: center;
-              border-radius: 50px;
+              border-radius: 10px;
             `}
           >
             <p

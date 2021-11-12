@@ -79,7 +79,9 @@ export default function Nav() {
                 </>
               ) : (
                 <>
-                  <LinkItem to="/login">로그인</LinkItem>
+                  <Button sm primary onClick={() => push('login')}>
+                    로그인
+                  </Button>
                   <LinkItem to="/signup">회원가입</LinkItem>
                 </>
               )}
@@ -111,7 +113,9 @@ export default function Nav() {
                       </>
                     ) : (
                       <>
-                        <LinkItem to="/login">로그인</LinkItem>
+                        <Button sm primary onClick={() => push('login')}>
+                          로그인
+                        </Button>
                         <LinkItem to="/signup">회원가입</LinkItem>
                       </>
                     )}

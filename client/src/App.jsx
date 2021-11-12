@@ -48,7 +48,7 @@ const App = () => {
     <ThemeProvider theme={THEME[mode]}>
       <Global theme={THEME[mode]} />
       <Switch>
-        <RouteWithLayout exact path="/" component={NewLanding} />
+        <RouteWithLayout exact path="/" component={NewLanding} layout={LandingLayout} />
         <RouteWithLayout path="/login" component={Login} layout={MainLayout} />
         <RouteWithLayout path="/signup" component={Signup} layout={MainLayout} />
         <RouteWithLayout path="/list" component={InterviewList} layout={MainLayout} />
