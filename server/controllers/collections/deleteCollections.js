@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     return;
   }
 
-  const interviews_id = req.params.id;
+  const collections_id = req.params.id;
   const accessTokenData = isAuthorized(req);
   if (!accessTokenData) {
     res
@@ -17,9 +17,7 @@ module.exports = (req, res) => {
   const { id } = accessTokenData;
   sequelize
     .query(
-      `select users_id from collections where interviews_id = ` +
-        interviews_id +
-        `;`,
+      `select users_id from collections where id = ` + collections_id + `;`,
       {
         type: sequelize.QueryTypes.SELECT,
       }

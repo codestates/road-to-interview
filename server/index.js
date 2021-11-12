@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    // http://wiiiggle-test.s3-website.ap-northeast-2.amazonaws.com/
     origin: true,
     credentials: true,
   })
