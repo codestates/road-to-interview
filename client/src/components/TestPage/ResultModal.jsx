@@ -1,3 +1,4 @@
+import React from 'react';
 import { modalSettings } from '@/constants/InterviewList';
 import { useMode } from '@/contexts/ModeContext';
 import Portal from '@/hoc/Portal';
@@ -28,30 +29,30 @@ const dropIn = {
     },
   },
   exit: {
+    y: '-100vh',
     opacity: 0,
   },
 };
 
 export default function ResultModal({ open, onClose, audioList, questions }) {
-  const containerRef = useRef([]);
-  console.log('audioList', audioList);
-  // console.log('Ref List', containerRef.current);
-
-  useEffect(() => {}, [audioList]);
-
+  console.log(questions);
   return (
     <Portal selector="#modal">
       <AnimatePresence>
         {open && (
           <Modal onClose={onClose}>
             <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
-              <Modaltitle>테스트 결과</Modaltitle>
               <StyledSlick {...modalSettings}>
                 {audioList.map(({ id, audio: { preload, src } }) => {
+                  const question = questions?.find(q => q.questions_id === id);
                   return (
-                    <SliderInner key={id} ref={el => containerRef.current.push(el)}>
-                      <audio {...{ preload, src, controls: true }} />
-                    </SliderInner>
+                    <>
+                      <Modaltitle>Q. {question?.title}</Modaltitle>
+                      <SliderInner key={id}>
+                        <Audio {...{ preload, src, controls: true }} />
+                        <p>{question?.description}</p>
+                      </SliderInner>
+                    </>
                   );
                 })}
               </StyledSlick>
@@ -70,8 +71,8 @@ export default function ResultModal({ open, onClose, audioList, questions }) {
 const DrawerBody = styled(motion.div)`
   position: relative;
   width: 90vw;
-  max-width: 768px;
-  max-height: 80vh;
+  max-width: 986px;
+  height: 40rem;
   padding: ${spacing[5]};
   display: flex;
   flex-direction: column;
@@ -82,32 +83,44 @@ const DrawerBody = styled(motion.div)`
 `;
 
 const Modaltitle = styled.h3`
+  margin-top: 0.5em;
+  text-align: center;
   ${({ theme }) => theme.typography.subtitle[4]}
 `;
 
 const StyledSlick = styled(Slider)`
   width: 80%;
-  margin: 1rem auto;
+  height: 100%;
+  margin-bottom: 3em;
   position: relative;
   // slider
   .slick-list {
     overflow: hidden;
+    height: 100%;
   }
   .slick-track {
     display: flex;
-    align-items: center;
+    height: 100%;
+    align-items: flex-start;
   }
   .slick-slide {
+    margin: 0 0.5em;
+    overflow-y: auto;
   }
 
   // dot
   .slick-dots {
     display: flex;
     justify-content: center;
-    padding: ${spacing[5]} 0;
+
+    & > * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     & > *:not(:last-child) {
-      margin-right: 0.7em;
+      /* margin-right: 0.7em; */
     }
 
     .slick-active {
@@ -129,8 +142,29 @@ const StyledSlick = styled(Slider)`
 `;
 
 const SliderInner = styled.div`
-  height: 17rem;
   border-radius: 5px;
-  // test
-  background-color: ${({ theme }) => theme.colors.background};
+
+  & p {
+    height: 23rem;
+    ${({ theme }) => theme.typography.body[1]};
+    padding: ${spacing[4]};
+    letter-spacing: 0.1em;
+    line-height: 1.4em;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: ${({ theme }) => theme.colors.background_elevated};
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
+    }
+  }
+`;
+
+const Audio = styled.audio`
+  width: 100%;
+  margin: 1em 0;
 `;
