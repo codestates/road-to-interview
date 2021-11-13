@@ -1,8 +1,11 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import HintViewer from './HintViewer';
 import FinishViewer from './FinishViewer';
 import { MdClose } from 'react-icons/md';
+import { fontSizes } from '@/styles';
+import media from '@/utils/media';
 const Modal = ({ view, setView, currentQuestion, finish, setFinish, allData, setAllData, questions }) => {
   return (
     <>
@@ -61,15 +64,11 @@ const ModalWrapper = styled.div`
   position: relative;
   z-index: 10;
   border-radius: 10px;
-  overflow: auto;
+  overflow: hidden;
+  ${media.laptop(css`
+    width: 900px;
+  `)}
 `;
-
-// const ModalImg = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 10px 0 0 10px;
-//   background: #000;
-// `;
 
 const ModalContent = styled.div`
   display: flex;
@@ -85,7 +84,8 @@ const ModalContent = styled.div`
 
   button {
     padding: 10px 24px;
-    background: #141414;
+    font-size: ${fontSizes[300]};
+    font-weight: 600;
     color: #fff;
     border: none;
   }
