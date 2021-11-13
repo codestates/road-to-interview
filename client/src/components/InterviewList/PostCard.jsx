@@ -14,7 +14,7 @@ import UserInfo from '../shared/UserInfo';
 import { ReactComponent as TagIcon } from 'assets/tag.svg';
 import { ReactComponent as EmptyStar } from 'assets/empty-star.svg';
 import { ReactComponent as FilledStar } from 'assets/filled-star.svg';
-import { addCollections, deleteCollections } from '@/store/creator/collectionsCreator';
+import { addCollections, deleteCollections, getCollections } from '@/store/creator/collectionsCreator';
 import { showNotification } from '../../store/creator/notificationsCreator';
 
 import media from '@/utils/media';
@@ -23,34 +23,36 @@ export default function PostCard({ interview, onOpen }) {
   const [mode] = useMode();
   const dispatch = useDispatch();
   const { accessToken } = useSelector(state => state.users);
-  const { collections, addCollectionDone, deleteCollectionsDone } = useSelector(state => state.collections);
+  const { collections, addCollectionDone, deleteCollectionsDone, getCollectionsDone } = useSelector(
+    state => state.collections,
+  );
   const [isCollected, setIsCollected] = useState(false);
   const [collectedId, setIsCollectedId] = useState(null);
 
   const onAddDeleteCollection = interview => {
-    if (isCollected) {
-      console.log(collectedId);
-      dispatch(deleteCollections({ accessToken, interviews_id: collectedId }));
-      setIsCollected(false);
-      deleteCollectionsDone && console.log('컬렉션 삭제됨');
+    // 컬렉션에 추가되어있지 않으면 컬렉션 추가
+    if (collectedId === null) {
+      dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
+      addCollectionDone && setIsCollected(true);
+      return;
     }
-    dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
-    setIsCollected(true);
-    addCollectionDone && console.log('컬렉션 추가됨');
+    dispatch(deleteCollections({ accessToken, interviews_id: collectedId }));
+    deleteCollectionsDone && setIsCollected(false);
   };
 
   useEffect(() => {
-    const collected = collections?.filter(c => c.interviews_id === interview.interviews_id);
-    console.log(collected);
-    // 컬렉션에 안들어있는 경우
-    if (collected === undefined) {
-      setIsCollectedId(null);
-      setIsCollected(false);
-    } else {
-      setIsCollectedId(collected.collections_id);
-      setIsCollected(true);
+    dispatch(getCollections(accessToken));
+    if (getCollectionsDone) {
+      const col = collections?.find(c => c.interviews_id === interview.interviews_id);
+      if (col) {
+        setIsCollectedId(col.collections_id);
+        setIsCollected(true);
+      } else {
+        setIsCollectedId(null);
+        setIsCollected(false);
+      }
     }
-  }, [isCollected]);
+  }, [addCollectionDone, deleteCollectionsDone]);
 
   const buttonVariants = {
     hidden: {
