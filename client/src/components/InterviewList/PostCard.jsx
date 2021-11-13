@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -12,24 +12,45 @@ import Table from '../shared/Table';
 import UserInfo from '../shared/UserInfo';
 
 import { ReactComponent as TagIcon } from 'assets/tag.svg';
-import { addCollections } from '@/store/creator/collectionsCreator';
+import { ReactComponent as EmptyStar } from 'assets/empty-star.svg';
+import { ReactComponent as FilledStar } from 'assets/filled-star.svg';
+import { addCollections, deleteCollections } from '@/store/creator/collectionsCreator';
 import { showNotification } from '../../store/creator/notificationsCreator';
 
 import media from '@/utils/media';
 
 export default function PostCard({ interview, onOpen }) {
-  const [add, setAdd] = useState(false);
   const [mode] = useMode();
   const dispatch = useDispatch();
-
   const { accessToken } = useSelector(state => state.users);
+  const { collections, addCollectionDone, deleteCollectionsDone } = useSelector(state => state.collections);
+  const [isCollected, setIsCollected] = useState(false);
+  const [collectedId, setIsCollectedId] = useState(null);
 
-  const onAdd = interview => {
-    console.log(interview);
+  const onAddDeleteCollection = interview => {
+    if (isCollected) {
+      console.log(collectedId);
+      dispatch(deleteCollections({ accessToken, interviews_id: collectedId }));
+      setIsCollected(false);
+      deleteCollectionsDone && console.log('컬렉션 삭제됨');
+    }
     dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
-    setAdd(true); // !add로 상태 변경 (컬렉션 삭제 할 수 있게도 구현)
-    dispatch(showNotification(`내컬렉션에 ${interview.interviews_id}번 문제를 추가했습니다 🎖`)); // 내 컬렉션의 상태를 미리 불러와서 저장된 문제는 표시가 되어있어야 함.
+    setIsCollected(true);
+    addCollectionDone && console.log('컬렉션 추가됨');
   };
+
+  useEffect(() => {
+    const collected = collections?.filter(c => c.interviews_id === interview.interviews_id);
+    console.log(collected);
+    // 컬렉션에 안들어있는 경우
+    if (collected === undefined) {
+      setIsCollectedId(null);
+      setIsCollected(false);
+    } else {
+      setIsCollectedId(collected.collections_id);
+      setIsCollected(true);
+    }
+  }, [isCollected]);
 
   const buttonVariants = {
     hidden: {
@@ -79,26 +100,9 @@ export default function PostCard({ interview, onOpen }) {
             `)}
           `}
         >
-          <AddCollectionBtn
-            variants={buttonVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover="hover"
-            add={add}
-            onClick={() => onAdd(interview)}
-          >
-            <span
-              css={css`
-                position: relative;
-                left: 0.1em;
-                ${media.tablet(css`
-                  left: 0;
-                `)}
-              `}
-            >
-              ⭐
-            </span>
-          </AddCollectionBtn>
+          <StarWrapper onClick={() => onAddDeleteCollection(interview)}>
+            {isCollected ? <FilledStar width="1.5rem" height="1.5rem" /> : <EmptyStar width="1.5rem" height="1.5rem" />}
+          </StarWrapper>
         </Table.Header>
         <Table.Body>
           <InterviewContent>{interview.description}</InterviewContent>
@@ -134,25 +138,21 @@ export default function PostCard({ interview, onOpen }) {
             initial="hidden"
             animate="visible"
             whileHover="hover"
-            css={css`
-              width: 100%;
+            css={theme => css`
               font-size: ${fontSizes[300]};
               padding: ${spacing[3]} ${spacing[5]};
-              position: relative;
-              left: ${spacing[4]};
               color: #fff;
               border: thin;
               border-radius: 3px;
               font-weight: 600;
-              background: ${palette.light.tint.coral[700]};
+              background: ${theme.colors.tint.coral[700]};
               cursor: pointer;
               &:hover {
-                background: ${palette.light.tint.coral[500]};
+                background: ${theme.colors.tint.coral[500]};
               }
               ${media.tablet(css`
                 font-size: ${fontSizes[400]};
                 padding: ${spacing[4]} ${spacing[8]};
-                left: 0;
               `)}
             `}
             onClick={() => onOpen(interview)}
@@ -193,13 +193,18 @@ const InterviewContent = styled.p`
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
+const StarWrapper = styled.div`
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+`;
+
 const AddCollectionBtn = styled(motion.button)`
   width: 100%;
   font-size: ${fontSizes[300]};
   padding: ${spacing[1]} ${spacing[3]};
   border: thin;
   border-radius: 3px;
-  background: ${props => (props.add ? `${palette.light.tint.yellow[600]}` : `${palette.light.tint.yellow[500]}`)};
   cursor: pointer;
   ${media.tablet(css`
     font-size: ${fontSizes[400]};

@@ -11,7 +11,8 @@ import { deleteCollections } from '@/store/creator/collectionsCreator';
 export default function Card({ collection }) {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(state => state.users);
-  const onDelete = () => {
+
+  const onDelete = collection => {
     console.log(accessToken, collection);
     dispatch(deleteCollections({ accessToken, interviews_id: collection.collections_id }));
   };
@@ -36,7 +37,7 @@ export default function Card({ collection }) {
           css={css`
             cursor: pointer;
           `}
-          onClick={onDelete}
+          onClick={() => onDelete(collection)}
         />
       </Title>
       <Description>

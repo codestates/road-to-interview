@@ -19,7 +19,6 @@ export default function Collection() {
   const theCollections = collections || [];
 
   useEffect(() => {
-    console.log(collections);
     dispatch(getCollections(accessToken));
   }, [deleteCollectionsDone]);
 
