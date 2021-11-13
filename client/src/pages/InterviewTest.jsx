@@ -12,7 +12,6 @@ import { spacing } from '@/styles';
 import media from '@/utils/media';
 import NotFound from './NotFound';
 import Loading from '@/components/shared/Loading';
-import Modal from '@/components/InterviewTest/Modal';
 
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
