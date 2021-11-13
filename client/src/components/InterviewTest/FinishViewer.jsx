@@ -10,7 +10,7 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
   const [script, setScript] = useState(questions[0]);
   const [scriptNum, setScriptNum] = useState(0);
   const data = allData.slice(2);
-  console.log(script);
+
   let total = [];
   useEffect(() => {
     setScript(questions[scriptNum]);

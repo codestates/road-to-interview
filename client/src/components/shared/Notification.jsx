@@ -59,13 +59,13 @@ const colorVariants = props => {
 
 const Wrapper = styled(motion.li)`
   position: relative;
-  right: ${spacing[4]};
+  right: ${spacing[7]};
   top: ${spacing[6]};
   display: flex;
   justify-content: center;
   align-items: center;
   height: 2.5rem;
-  width: 75vw;
+  width: 85vw;
   ${colorVariants}
   color: ${palette.dark.gray[700]};
   border-radius: 0.3em;
