@@ -11,7 +11,7 @@ export default function Main() {
   return (
     <MainContainer>
       <MainBg>
-        <VideoBg autoPlay loop muted src={Video} type="video/mp4" />
+        <VideoBg autoPlay loop muted playsInline src={Video} type="video/mp4" />
       </MainBg>
       <MainContent>
         <MainH1>기술면접,</MainH1>
