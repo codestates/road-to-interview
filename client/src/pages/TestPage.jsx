@@ -11,6 +11,7 @@ import NotFound from './NotFound';
 import ResultModal from '@/components/TestPage/ResultModal';
 import RecordController from '@/components/TestPage/RecordController';
 import { css } from '@emotion/react';
+import { showNotification } from '@/store/creator/notificationsCreator';
 
 export default function TestPage() {
   const [flip, setFlip] = useState(false);
@@ -107,6 +108,7 @@ export default function TestPage() {
       running: false,
       pause: true,
     });
+    dispatch(showNotification(`녹음을 저장하였습니다.📦`));
   };
 
   const onPlay = () => {
@@ -125,6 +127,7 @@ export default function TestPage() {
     currentAudio.current = null;
     audioList.current = audioList.current.filter(audio => audio.id !== questions[currentIndex].questions_id);
     onReset();
+    dispatch(showNotification(`녹음을 삭제하였습니다.`, 'error'));
   };
 
   const { initial, running, pause } = isplay;

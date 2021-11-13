@@ -26,11 +26,11 @@ const globalStyles = theme => css`
 
   #notification {
     position: absolute;
-    width: 15rem;
     height: auto;
     top: 1em;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 100;
   }
 
   *,
