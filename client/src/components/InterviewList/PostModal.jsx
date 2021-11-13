@@ -49,12 +49,12 @@ export default function PostModal({ open, onClose, selected }) {
                 <SliderInner></SliderInner>
               </StyledSlick>
               <Flex rowGap="4em">
-                <RecordBtn to={`/test/${selected?.interviews_id}?isVoice=true`} mode={mode}>
+                <RecordBtn to={`/test/${selected?.interviews_id}/${selected.title}`} mode={mode}>
                   <i>
                     <Mic width="2.2rem" height="2.2rem" />
                   </i>
                 </RecordBtn>
-                <RecordBtn to={`/testmedia/${selected?.interviews_id}?isVoice=true`} mode={mode}>
+                <RecordBtn to={`/testmedia/${selected?.interviews_id}?isVideo=true`} mode={mode}>
                   <i>
                     <Video width="2.2rem" height="2.2rem" />
                   </i>

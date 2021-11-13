@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
+import { motion } from 'framer-motion';
 import { logout } from '@/store/creator/usersCreator';
 import { useMode } from '@/contexts/ModeContext';
 import { fontSizes, spacing } from '@/styles';
@@ -22,6 +22,7 @@ const LANDING = ''; // 로고(가운데)
 const LOGIN = 'login'; // 뒤로가기 버튼 - 로고(가운데)
 const SIGNUP = 'signup'; // 뒤로가기 버튼 - 로고(가운데)
 const INTETVIEW_TEST = 'test'; // 로고(왼쪽) - 나가기 버튼(오른쪽)
+const INTETVIEW_TESTMEDIA = 'testmedia'; // 로고(왼쪽) - 나가기 버튼(오른쪽)
 const INTETVIEW_LIST = 'list'; // 로고 - nav item
 const INTETVIEW_RESULT = 'result'; // 로고 - nav item
 const MYPAGE = 'mypage'; // 로고 - nav item
@@ -50,6 +51,16 @@ export default function Nav() {
 
   const { pathname } = useLocation();
   const page = pathname.split('/')[1];
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
 
   switch (page) {
     case INTETVIEW_LIST:
@@ -110,6 +121,7 @@ export default function Nav() {
                       <>
                         <LinkItem to="/list">문제집 보기</LinkItem>
                         <LinkItem to="/create">인터뷰 생성하기</LinkItem>
+
                         <LinkItem to="/recruit">개발자 구직공고</LinkItem>
                         <LinkItem to="/mypage">마이페이지</LinkItem>
                         <Item onClick={onLogout}>로그아웃</Item>
@@ -155,6 +167,7 @@ export default function Nav() {
         </Layout>
       );
     case INTETVIEW_TEST:
+    case INTETVIEW_TESTMEDIA:
       return (
         <Layout>
           <Logo onClick={() => push('/')}>
@@ -201,9 +214,11 @@ const List = styled.ul`
     padding: ${spacing[6]} 0;
   }
 `;
+
 const Item = styled.li`
   cursor: pointer;
 `;
+
 const LinkItem = styled(Link)`
   display: block;
 `;

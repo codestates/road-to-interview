@@ -13,6 +13,7 @@ function Drawer({ children, open, setOpen }) {
     </Container>
   );
 }
+
 const Container = styled.div`
   position: absolute;
   display: flex;
@@ -20,7 +21,7 @@ const Container = styled.div`
   justify-content: center;
   top: 0;
   right: 0;
-  width: 100vw;
+  width: 70vw;
   height: 100vh;
   background: ${({ theme }) => theme.colors.background};
   padding-top: ${spacing[10]};
@@ -28,13 +29,13 @@ const Container = styled.div`
   z-index: 50;
 
   opacity: 0;
-  transform: translateY(-100%);
+  transform: translateX(100%);
 
   ${props =>
     props.open &&
     css`
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     `}
   transition: all 0.3s ease-in;
 `;

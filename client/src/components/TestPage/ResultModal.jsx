@@ -1,3 +1,4 @@
+import React from 'react';
 import { modalSettings } from '@/constants/InterviewList';
 import { useMode } from '@/contexts/ModeContext';
 import Portal from '@/hoc/Portal';
@@ -11,6 +12,11 @@ import Slider from 'react-slick';
 import Button from '../elements/Button';
 import Flex from '../layouts/Flex';
 import Modal from '../shared/Modal';
+import { useHistory, useLocation } from 'react-router-dom';
+import ErrorMessage from '../shared/ErrorMessage';
+
+import { ReactComponent as HomeIcon } from 'assets/home.svg';
+import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
 
 const dropIn = {
   hidden: {
@@ -28,48 +34,43 @@ const dropIn = {
     },
   },
   exit: {
+    y: '-100vh',
     opacity: 0,
   },
 };
 
-const appendAudio = (root, audio) => {
-  console.log('부모', root);
-  console.log('추가되는 오디오', audio);
-  audio.setAttribute('controls', true);
-  root.append(audio);
-};
-
-export default function ResultModal({ open, onClose, audioList }) {
-  const [mode] = useMode();
-  const containerRef = useRef(null);
-  useEffect(() => {
-    if (containerRef.current) {
-      audioList.forEach(({ audio }) => {
-        appendAudio(containerRef.current, audio);
-      });
-    }
-  });
+export default function ResultModal({ open, onClose, audioList, questions }) {
+  const { push } = useHistory();
   return (
     <Portal selector="#modal">
       <AnimatePresence>
         {open && (
           <Modal onClose={onClose}>
             <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
-              <Modaltitle>테스트 결과</Modaltitle>
-              <div ref={containerRef}></div>
-              {/* <StyledSlick {...modalSettings}>
-                {audioList.map(({ id, audio }) => {
-                  console.log(audio);
+              <StyledSlick {...modalSettings}>
+                {audioList.length === 0 && <ErrorMessage>녹음된 내용이 없습니다.</ErrorMessage>}
+                {audioList.map(({ id, audio: { preload, src } }) => {
+                  const question = questions?.find(q => q.questions_id === id);
                   return (
-                    <SliderInner key={id}>
-                      <Video src={audio.getAttribute('src')} autoPlay muted playsInline />
-                    </SliderInner>
+                    <>
+                      <Modaltitle>Q. {question?.title}</Modaltitle>
+                      <SliderInner key={id}>
+                        <Audio {...{ preload, src, controls: true }} />
+                        <p>{question?.description}</p>
+                      </SliderInner>
+                    </>
                   );
                 })}
-              </StyledSlick> */}
-              <Flex rowGap="4em">
-                <Button>메인으로 가기</Button>
-                <Button>다시하기</Button>
+              </StyledSlick>
+              <Flex rowGap="2em">
+                <StyledButton text primary onClick={() => push('/list')}>
+                  <HomeIcon width="2rem" height="2rem" />
+                  <span>메인으로 가기</span>
+                </StyledButton>
+                <StyledButton text secondary onClick={() => window.location.reload()}>
+                  <ReplyIcon width="2rem" height="2rem" />
+                  <span>다시하기</span>
+                </StyledButton>
               </Flex>
             </DrawerBody>
           </Modal>
@@ -82,8 +83,8 @@ export default function ResultModal({ open, onClose, audioList }) {
 const DrawerBody = styled(motion.div)`
   position: relative;
   width: 90vw;
-  max-width: 768px;
-  max-height: 80vh;
+  max-width: 986px;
+  height: 40rem;
   padding: ${spacing[5]};
   display: flex;
   flex-direction: column;
@@ -94,61 +95,49 @@ const DrawerBody = styled(motion.div)`
 `;
 
 const Modaltitle = styled.h3`
+  margin-top: 0.5em;
+  text-align: center;
   ${({ theme }) => theme.typography.subtitle[4]}
 `;
 
 const StyledSlick = styled(Slider)`
   width: 80%;
-  margin: 1rem auto;
+  height: 100%;
+  margin-bottom: 3em;
   position: relative;
   // slider
   .slick-list {
     overflow: hidden;
+    height: 100%;
   }
   .slick-track {
     display: flex;
-    align-items: center;
+    height: 100%;
+    align-items: flex-start;
   }
   .slick-slide {
-  }
-
-  // arrow
-  .slick-arrow {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-100%);
-    z-index: 10;
-    border-radius: 50%;
-    color: ${({ theme }) => theme.colors.text.primary};
-    cursor: pointer;
-  }
-  .slick-arrow.slick-prev {
-    left: -3rem;
-  }
-  .slick-arrow.slick-next {
-    right: -3rem;
+    margin: 0 0.5em;
+    overflow-y: auto;
   }
 
   // dot
-
   .slick-dots {
     display: flex;
     justify-content: center;
-    padding: ${spacing[5]} 0;
+
+    & > * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     & > *:not(:last-child) {
-      margin-right: 0.7em;
+      /* margin-right: 0.7em; */
     }
 
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
-        width: 2.8em;
         border-radius: 10px;
       }
     }
@@ -165,12 +154,40 @@ const StyledSlick = styled(Slider)`
 `;
 
 const SliderInner = styled.div`
-  height: 17rem;
   border-radius: 5px;
-  // test
-  background-color: ${({ theme }) => theme.colors.background};
+
+  & p {
+    height: 23rem;
+    ${({ theme }) => theme.typography.body[1]};
+    padding: ${spacing[4]};
+    letter-spacing: 0.1em;
+    line-height: 1.4em;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: ${({ theme }) => theme.colors.background_elevated};
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
+    }
+  }
 `;
 
-const Video = styled.video`
+const Audio = styled.audio`
   width: 100%;
+  margin: 1em 0;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > span {
+    margin-top: 0.3em;
+    ${({ theme }) => theme.typography.caption[2]}
+  }
 `;

@@ -43,5 +43,6 @@ export default function Timer({ initial, running, pause }) {
 const Wrapper = styled(motion.div)`
   letter-spacing: 1px;
   & > span {
+    ${({ theme }) => theme.typography.caption[2]}
   }
 `;
