@@ -12,6 +12,11 @@ import Slider from 'react-slick';
 import Button from '../elements/Button';
 import Flex from '../layouts/Flex';
 import Modal from '../shared/Modal';
+import { useHistory, useLocation } from 'react-router-dom';
+import ErrorMessage from '../shared/ErrorMessage';
+
+import { ReactComponent as HomeIcon } from 'assets/home.svg';
+import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
 
 const dropIn = {
   hidden: {
@@ -35,7 +40,7 @@ const dropIn = {
 };
 
 export default function ResultModal({ open, onClose, audioList, questions }) {
-  console.log(questions);
+  const { push } = useHistory();
   return (
     <Portal selector="#modal">
       <AnimatePresence>
@@ -43,6 +48,7 @@ export default function ResultModal({ open, onClose, audioList, questions }) {
           <Modal onClose={onClose}>
             <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
               <StyledSlick {...modalSettings}>
+                {audioList.length === 0 && <ErrorMessage>녹음된 내용이 없습니다.</ErrorMessage>}
                 {audioList.map(({ id, audio: { preload, src } }) => {
                   const question = questions?.find(q => q.questions_id === id);
                   return (
@@ -56,9 +62,15 @@ export default function ResultModal({ open, onClose, audioList, questions }) {
                   );
                 })}
               </StyledSlick>
-              <Flex rowGap="4em">
-                <Button>메인으로 가기</Button>
-                <Button>다시하기</Button>
+              <Flex rowGap="2em">
+                <StyledButton text primary onClick={() => push('/list')}>
+                  <HomeIcon width="2rem" height="2rem" />
+                  <span>메인으로 가기</span>
+                </StyledButton>
+                <StyledButton text secondary onClick={() => window.location.reload()}>
+                  <ReplyIcon width="2rem" height="2rem" />
+                  <span>다시하기</span>
+                </StyledButton>
               </Flex>
             </DrawerBody>
           </Modal>
@@ -167,4 +179,15 @@ const SliderInner = styled.div`
 const Audio = styled.audio`
   width: 100%;
   margin: 1em 0;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > span {
+    margin-top: 0.3em;
+    ${({ theme }) => theme.typography.caption[2]}
+  }
 `;
