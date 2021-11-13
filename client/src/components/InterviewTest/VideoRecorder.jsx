@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -6,14 +7,15 @@ import { spacing, fontSizes, palette } from '@/styles';
 import media from '@/utils/media';
 import Loading from '../elements/Loading';
 import { GiPreviousButton, GiNextButton } from 'react-icons/gi';
+import { showNotification } from '@/store/creator/notificationsCreator';
 const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHandler, finishHandler, dataHandler }) => {
+  const dispatch = useDispatch();
+  const videoRef = useRef(null);
   const [playing, setPlaying] = useState(null);
   const [data, setData] = useState([]);
   const [src, setSrc] = useState(null);
-  const [recordState, setRecordState] = useState(null);
   const [openHint, setOpenHint] = useState(false);
   const [openFinish, setOpenFinish] = useState(false);
-  const videoRef = useRef(null);
   const constraints = {
     video: true,
     audio: true,
@@ -27,14 +29,6 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
       return undefined;
     }
   };
-
-  useEffect(() => {
-    if (!playing && data.length !== 0) {
-      setSrc(window.URL.createObjectURL(new Blob([data])), { type: 'video/webm;codecs=vp8' });
-    } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
-    countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
-  }, [data, playing, countHandler]);
-
   useEffect(() => {
     let mount = true;
     if (data && mount) {
@@ -43,24 +37,21 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
     return () => (mount = false);
   }, [data]);
 
+  useEffect(() => {
+    if (!playing && data.length !== 0) {
+      setSrc(window.URL.createObjectURL(new Blob([data])), { type: 'video/webm;codecs=vp8' });
+    } // 쌓인 blob형태의 data 스트림을 URL로 바꿔서 src에 전달
+    countHandler(playing); // 녹화와 카운트를 동시에 카운트 하기 위한 함수
+  }, [data, playing, countHandler]);
+
   const startOrStop = () => {
     if (!playing) {
+      dispatch(showNotification(`로딩중에 정지를 누르면 녹화가 되지 않습니다.`));
       getWebcam(stream => {
         const videoRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
-        // videoRecorder.state === 'inactive' 녹음,녹화 준비중일때, 화면에 로딩스피너 띄우기
-        if (videoRecorder.state === 'inactive') {
-          // 시작 전 상태 저장
-          setRecordState('inactive');
-        }
         videoRecorder.start(); // 시작
-        // videoRecorder.state==='recording' 녹음중일때 녹음중 UI띄우기, 녹화중일때 화면에 제거
-        if (videoRecorder.state === 'recording') {
-          // 시작 후 상태 저장
-          setRecordState('recording');
-        }
         setPlaying(true);
         videoRef.current.srcObject = stream;
-
         videoRecorder.ondataavailable = e => {
           // blob 데이터 저장
           console.log(JSON.stringify(e.data.size));
@@ -158,7 +149,13 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
                 width: 6vw;
               `)}
             `}
-            onClick={() => prevHandler()}
+            onClick={() => {
+              if (!playing) {
+                prevHandler();
+              } else {
+                dispatch(showNotification(`녹화 중 일때는 이동이 불가합니다.`));
+              }
+            }}
           >
             <GiPreviousButton />
           </Button>
@@ -207,7 +204,13 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
                 width: 6vw;
               `)}
             `}
-            onClick={() => nextHandler()}
+            onClick={() => {
+              if (!playing) {
+                nextHandler();
+              } else {
+                dispatch(showNotification(`녹화 중 일때는 이동이 불가합니다.`));
+              }
+            }}
           >
             <GiNextButton />
           </Button>
@@ -249,7 +252,13 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
                 width: 6vw;
               `)}
             `}
-            onClick={() => prevHandler()}
+            onClick={() => {
+              if (!playing) {
+                prevHandler();
+              } else {
+                dispatch(showNotification(`녹화 중 일때는 이동이 불가합니다.`));
+              }
+            }}
           >
             <GiPreviousButton />
           </Button>
@@ -284,7 +293,13 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
                 width: 6vw;
               `)}
             `}
-            onClick={() => nextHandler()}
+            onClick={() => {
+              if (!playing) {
+                nextHandler();
+              } else {
+                dispatch(showNotification(`녹화 중 일때는 이동이 불가합니다.`));
+              }
+            }}
           >
             <GiNextButton />
           </Button>

@@ -29,6 +29,7 @@ const Modal = ({ view, setView, currentQuestion, finish, setFinish, allData, set
                 questions={questions}
               />
             </ModalContent>
+            <CloseModalButton aria-label="Close Modal" onClick={() => setFinish(prev => !prev)} />
           </ModalWrapper>
         </Background>
       ) : null}

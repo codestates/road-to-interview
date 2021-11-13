@@ -22,6 +22,7 @@ const LANDING = ''; // 로고(가운데)
 const LOGIN = 'login'; // 뒤로가기 버튼 - 로고(가운데)
 const SIGNUP = 'signup'; // 뒤로가기 버튼 - 로고(가운데)
 const INTETVIEW_TEST = 'test'; // 로고(왼쪽) - 나가기 버튼(오른쪽)
+const INTETVIEW_TESTMEDIA = 'testmedia'; // 로고(왼쪽) - 나가기 버튼(오른쪽)
 const INTETVIEW_LIST = 'list'; // 로고 - nav item
 const INTETVIEW_RESULT = 'result'; // 로고 - nav item
 const MYPAGE = 'mypage'; // 로고 - nav item
@@ -160,6 +161,7 @@ export default function Nav() {
         </Layout>
       );
     case INTETVIEW_TEST:
+    case INTETVIEW_TESTMEDIA:
       return (
         <Layout>
           <Logo onClick={() => push('/')}>
