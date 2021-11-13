@@ -34,7 +34,6 @@ export default function Notification({ text, type }) {
       exit="exit" // Target to animate to when removed from the tree
       type={type}
     >
-      <IconWrapper></IconWrapper>
       <Text>{text}</Text>
     </Wrapper>
   );
@@ -67,6 +66,8 @@ const Wrapper = styled(motion.li)`
   ${colorVariants}
   color: ${palette.dark.gray[700]};
   border-radius: 0.3em;
+  margin-bottom: 1em;
 `;
-const IconWrapper = styled.i``;
-const Text = styled.span``;
+const Text = styled.span`
+  ${({ theme }) => theme.typography.caption[1]};
+`;

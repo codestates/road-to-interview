@@ -48,7 +48,7 @@ export default function ResultModal({ open, onClose, audioList, questions }) {
           <Modal onClose={onClose}>
             <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
               <StyledSlick {...modalSettings}>
-                {audioList.length === 0 && <ErrorMessage>녹음된 내용이 없습니다.</ErrorMessage>}
+                {audioList.length === 0 && <EmptyMessage>녹음된 내용이 없습니다.</EmptyMessage>}
                 {audioList.map(({ id, audio: { preload, src } }) => {
                   const question = questions?.find(q => q.questions_id === id);
                   return (
@@ -190,4 +190,9 @@ const StyledButton = styled(Button)`
     margin-top: 0.3em;
     ${({ theme }) => theme.typography.caption[2]}
   }
+`;
+
+const EmptyMessage = styled(ErrorMessage)`
+  text-align: center;
+  ${({ theme }) => theme.typography.subtitle[2]};
 `;
