@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { spacing } from '@/styles';
+import { palette, spacing } from '@/styles';
 import { showNotification } from '@/store/creator/notificationsCreator';
 import { GiPreviousButton, GiNextButton } from 'react-icons/gi';
+import media from '@/utils/media';
 const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
   const dispatch = useDispatch();
   const [script, setScript] = useState(questions[0]);
@@ -24,6 +27,35 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
   total = srcChangeFunc();
   const link = document.createElement('a');
 
+  const buttonVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        delay: 0.5,
+        when: 'beforeChildren',
+      },
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
+  const childVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        delay: 2,
+      },
+    },
+    hover: {
+      scale: 1.1,
+    },
+  };
   return (
     <div
       css={css`
@@ -33,10 +65,15 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
         justify-content: center;
         width: 100vw;
         height: 100%;
+
+        ${media.laptop(css`
+          width: 70vw;
+        `)}
       `}
     >
       <span
         css={css`
+          text-align: center;
           cursor: pointer;
         `}
         onClick={() => dispatch(showNotification(`크롬 브라우저에서만 시청 가능합니다.`))}
@@ -51,12 +88,20 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
           align-items: center;
           justify-content: space-evenly;
           margin-bottom: 1vh;
+          overflow: auto;
         `}
       >
         {total.length !== 0 ? (
           total.map((blob, index) => {
             return (
-              <button
+              <Button
+                variants={buttonVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover="hover"
+                css={css`
+                  background: ${palette.light.tint.navy[500]};
+                `}
                 onClick={() => {
                   link.href = blob;
                   link.setAttribute('download', `${index + 1}번영상.webm`);
@@ -64,7 +109,7 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
                 }}
               >
                 {index + 1} 번 영상
-              </button>
+              </Button>
             );
           })
         ) : (
@@ -91,8 +136,13 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
         </div>
         <div
           css={css`
+            width: 90vw;
+            height: 70vh;
             overflow: auto;
             margin-bottom: ${spacing[5]};
+            ${media.laptop(css`
+              width: 50vw;
+            `)}
           `}
         >
           {script.description}
@@ -102,10 +152,34 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
             display: flex;
             justify-content: space-evenly;
             width: 100vw;
+            ${media.tablet(css`
+              width: 60vw;
+            `)}
+            ${media.laptop(css`
+              width: 40vw;
+            `)}
           `}
         >
-          <button onClick={() => setFinish(prev => !prev)}>다시하기</button>
-          <button
+          <Button
+            variants={childVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+            css={css`
+              background: ${palette.light.tint.coral[500]};
+            `}
+            onClick={() => setFinish(prev => !prev)}
+          >
+            다시하기
+          </Button>
+          <Button
+            variants={buttonVariants}
+            whileHover="hover"
+            initial="hidden"
+            animate="visible"
+            css={css`
+              background: ${palette.light.gray[500]};
+            `}
             onClick={() => {
               if (scriptNum > 0) {
                 setScriptNum(scriptNum - 1);
@@ -113,8 +187,15 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
             }}
           >
             <GiPreviousButton />
-          </button>
-          <button
+          </Button>
+          <Button
+            variants={buttonVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+            css={css`
+              background: ${palette.light.gray[500]};
+            `}
             onClick={() => {
               if (scriptNum < questions.length - 1) {
                 setScriptNum(scriptNum + 1);
@@ -122,9 +203,20 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
             }}
           >
             <GiNextButton />
-          </button>
+          </Button>
           <Link to="/">
-            <button onClick={() => setAllData([])}>메인으로</button>
+            <Button
+              variants={childVariants}
+              initial="hidden"
+              animate="visible"
+              whileHover="hover"
+              css={css`
+                background: ${palette.light.tint.blue[500]};
+              `}
+              onClick={() => setAllData([])}
+            >
+              메인으로
+            </Button>
           </Link>
         </div>
       </div>
@@ -133,3 +225,8 @@ const FinishViewer = ({ allData, setAllData, setFinish, questions }) => {
 };
 
 export default FinishViewer;
+
+const Button = styled(motion.button)`
+  cursor: pointer;
+  border-radius: 3px;
+`;
