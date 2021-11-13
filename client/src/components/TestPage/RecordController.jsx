@@ -11,8 +11,10 @@ import { ReactComponent as ExitIcon } from 'assets/x-circle.svg';
 import { ReactComponent as SaveIcon } from 'assets/archive.svg';
 import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
 import { ReactComponent as NextIcon } from 'assets/arrow-narrow-right.svg';
+import { ReactComponent as MicIcon } from 'assets/mic.svg';
 import ErrorMessage from '../shared/ErrorMessage';
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
+import Loading from './Loading';
 
 export default function RecordController({
   error,
@@ -82,30 +84,8 @@ function ButtonController({
   openResult,
   next,
 }) {
-  if (initial)
-    return (
-      <ErrorMessage
-        css={theme =>
-          css`
-            ${theme.typography.body[2]}
-          `
-        }
-      >
-        녹음 시작 전
-      </ErrorMessage>
-    );
-  if (!pause)
-    return (
-      <ErrorMessage
-        css={theme =>
-          css`
-            ${theme.typography.body[2]}
-          `
-        }
-      >
-        녹음 중...
-      </ErrorMessage>
-    );
+  if (initial) return <Loading />;
+  if (!pause) return <Recording width="2rem" height="2rem" />;
   return (
     <Wrapper>
       {!complete && (
@@ -154,6 +134,23 @@ const Wrapper = styled.div`
   & > *:not(:last-of-type) {
     margin-right: 1em;
   }
+`;
+
+const fade = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const Recording = styled(MicIcon)`
+  color: ${({ theme }) => theme.colors.tint.red[800]};
+  animation: ${fade} 1s ease-in infinite;
 `;
 
 const StyledButton = styled(Button)`
