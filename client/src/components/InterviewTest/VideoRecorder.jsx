@@ -41,7 +41,7 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
       dataHandler(data);
     }
     return () => (mount = false);
-  }, [data]);
+  }, [data, dataHandler]);
 
   const startOrStop = () => {
     if (!playing) {
