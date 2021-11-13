@@ -35,7 +35,6 @@ export default function reducer(state = initialState, action) {
     case addCollectionSuccess:
       return {
         ...state,
-        collections: action.payload,
         addCollectionLoading: false,
         addCollectionDone: true,
         addCollectionError: null,
@@ -79,7 +78,6 @@ export default function reducer(state = initialState, action) {
     case deleteCollectionsSuccess:
       return {
         ...state,
-        collections: action.payload.collections,
         deleteCollectionsLoading: false,
         deleteCollectionsDone: true,
         deleteCollectionsError: null,

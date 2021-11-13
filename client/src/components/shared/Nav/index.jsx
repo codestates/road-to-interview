@@ -83,16 +83,19 @@ export default function Nav() {
             >
               {userInfo ? (
                 <>
+                  <LinkItem to="/list">문제집 보기</LinkItem>
                   <LinkItem to="/create">인터뷰 생성하기</LinkItem>
-                  <LinkItem to="/list">인터뷰 시작하기</LinkItem>
                   <LinkItem to="/recruit">개발자 구직공고</LinkItem>
                   <LinkItem to="/mypage">마이페이지</LinkItem>
                   <Item onClick={onLogout}>로그아웃</Item>
                 </>
               ) : (
                 <>
-                  <LinkItem to="/login">로그인</LinkItem>
+                  <LinkItem to="/list">문제집 보기</LinkItem>
                   <LinkItem to="/signup">회원가입</LinkItem>
+                  <Button sm primary onClick={() => push('login')}>
+                    로그인
+                  </Button>
                 </>
               )}
               <ToggleButton />
@@ -116,15 +119,18 @@ export default function Nav() {
                     <LinkItem to="/">홈</LinkItem>
                     {userInfo ? (
                       <>
+                        <LinkItem to="/list">문제집 보기</LinkItem>
                         <LinkItem to="/create">인터뷰 생성하기</LinkItem>
-                        <LinkItem to="/list">인터뷰 시작하기</LinkItem>
+
                         <LinkItem to="/recruit">개발자 구직공고</LinkItem>
                         <LinkItem to="/mypage">마이페이지</LinkItem>
                         <Item onClick={onLogout}>로그아웃</Item>
                       </>
                     ) : (
                       <>
-                        <LinkItem to="/login">로그인</LinkItem>
+                        <Button sm primary onClick={() => push('login')}>
+                          로그인
+                        </Button>
                         <LinkItem to="/signup">회원가입</LinkItem>
                       </>
                     )}

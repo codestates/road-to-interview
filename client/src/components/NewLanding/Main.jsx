@@ -22,7 +22,7 @@ export default function Main() {
             margin-top: 0;
           `}
         >
-          Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.
+          ROAD TO INTERVIEW 는 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.
         </MainP>
         <MainBtnWrapper>
           <Button
@@ -33,7 +33,7 @@ export default function Main() {
               display: flex;
               justify-content: center;
               align-items: center;
-              border-radius: 50px;
+              border-radius: 10px;
             `}
           >
             <p
