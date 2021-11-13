@@ -16,7 +16,6 @@ import { spacing } from '@/styles';
 import media from '@/utils/media';
 import NotFound from './NotFound';
 import Modal from '@/components/InterviewTest/Modal';
-import Loading from '@/components/shared/Loading';
 
 const InterviewTest = () => {
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
@@ -31,10 +30,13 @@ const InterviewTest = () => {
     dispatch(getQuestions(id));
   }, [id, dispatch]);
 
-  const [isPlay, setIsPlay] = useState(null); // 카운트다운 시작 상태 값
-  const [currentQuestion, setCurrentQuestion] = useState(null); // 현재 문제 객체
-  const [questionNum, setQuestionNum] = useState(0); // 문제 배열에 접근할 때 쓰임
-  const [view, setView] = useState(false); // 힌트보기 상태 값
+  const [isPlay, setIsPlay] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [questionNum, setQuestionNum] = useState(0);
+  const [view, setView] = useState(false);
+  const [finish, setFinish] = useState(false);
+  const [allData, setAllData] = useState([]);
+
 
   useEffect(() => {
     if (getQuestionsDone) {
@@ -54,8 +56,17 @@ const InterviewTest = () => {
       setQuestionNum(questionNum - 1);
     }
   };
+  const dataHandler = data => {
+    if (data) {
+      setAllData([...allData, data]);
+    }
+  };
   const hintHandler = () => {
     setView(prev => !prev);
+  };
+  
+  const finishHandler = () => {
+    setFinish(prev => !prev);
   };
 
   const countHandler = playing => {
@@ -146,10 +157,17 @@ const InterviewTest = () => {
           prevHandler={prevHandler}
           nextHandler={nextHandler}
           hintHandler={hintHandler}
+          finishHandler={finishHandler}
           countHandler={countHandler}
+          allData={allData}
+          setAllData={setAllData}
+          dataHandler={dataHandler}
         />
       </motion.div>
-      <Modal view={view} setView={setView} currentQuestion={currentQuestion} />
+      {view ? <Modal view={view} setView={setView} currentQuestion={currentQuestion} /> : null}
+      {finish ? (
+        <Modal finish={finish} setFinish={setFinish} allData={allData} setAllData={setAllData} questions={questions} />
+      ) : null}
     </motion.div>
   );
 };

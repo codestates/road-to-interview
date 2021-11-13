@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import HintViewer from './HintViewer';
+import FinishViewer from './FinishViewer';
 import { MdClose } from 'react-icons/md';
-const Modal = ({ view, setView, currentQuestion }) => {
+const Modal = ({ view, setView, currentQuestion, finish, setFinish, allData, setAllData, questions }) => {
   return (
     <>
       {view ? (
@@ -12,6 +13,22 @@ const Modal = ({ view, setView, currentQuestion }) => {
               <HintViewer currentQuestion={currentQuestion} />
             </ModalContent>
             <CloseModalButton aria-label="Close Modal" onClick={() => setView(prev => !prev)} />
+          </ModalWrapper>
+        </Background>
+      ) : null}
+
+      {finish ? (
+        <Background>
+          <ModalWrapper finish={finish}>
+            <ModalContent>
+              <FinishViewer
+                currentQuestion={currentQuestion}
+                allData={allData}
+                setAllData={setAllData}
+                setFinish={setFinish}
+                questions={questions}
+              />
+            </ModalContent>
           </ModalWrapper>
         </Background>
       ) : null}
@@ -26,6 +43,7 @@ const Background = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +51,7 @@ const Background = styled.div`
 
 const ModalWrapper = styled.div`
   width: 800px;
-  height: 500px;
+  height: 520px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
