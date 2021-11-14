@@ -17,6 +17,7 @@ import ErrorMessage from '../shared/ErrorMessage';
 
 import { ReactComponent as HomeIcon } from 'assets/home.svg';
 import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
+import { scrollStyle } from '@/styles/mixins';
 
 const dropIn = {
   hidden: {
@@ -48,7 +49,7 @@ export default function ResultModal({ open, onClose, audioList, questions }) {
           <Modal onClose={onClose}>
             <DrawerBody variants={dropIn} initial="hidden" animate="visible" exit="exit">
               <StyledSlick {...modalSettings}>
-                {audioList.length === 0 && <ErrorMessage>녹음된 내용이 없습니다.</ErrorMessage>}
+                {audioList.length === 0 && <EmptyMessage>녹음된 내용이 없습니다.</EmptyMessage>}
                 {audioList.map(({ id, audio: { preload, src } }) => {
                   const question = questions?.find(q => q.questions_id === id);
                   return (
@@ -119,38 +120,6 @@ const StyledSlick = styled(Slider)`
     margin: 0 0.5em;
     overflow-y: auto;
   }
-
-  // dot
-  .slick-dots {
-    display: flex;
-    justify-content: center;
-
-    & > * {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    & > *:not(:last-child) {
-      /* margin-right: 0.7em; */
-    }
-
-    .slick-active {
-      & span {
-        background: ${({ theme }) => theme.colors.text.primary};
-        border-radius: 10px;
-      }
-    }
-  }
-
-  .dots__dot {
-    display: inline-block;
-    width: 0.8em;
-    height: 0.8em;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.text.disable_placeholder};
-    transition: all 0.3s ease-in-out;
-  }
 `;
 
 const SliderInner = styled.div`
@@ -164,15 +133,7 @@ const SliderInner = styled.div`
     line-height: 1.4em;
     overflow-y: auto;
 
-    &::-webkit-scrollbar {
-      width: 7px;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: ${({ theme }) => theme.colors.background_elevated};
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-    }
+    ${scrollStyle()}
   }
 `;
 
@@ -190,4 +151,9 @@ const StyledButton = styled(Button)`
     margin-top: 0.3em;
     ${({ theme }) => theme.typography.caption[2]}
   }
+`;
+
+const EmptyMessage = styled(ErrorMessage)`
+  text-align: center;
+  ${({ theme }) => theme.typography.subtitle[2]};
 `;

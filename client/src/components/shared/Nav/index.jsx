@@ -178,14 +178,17 @@ export default function Nav() {
               height: 100%;
             `}
           >
-            <ToggleButton
+            <Button
+              secondary
+              sm
               css={css`
                 margin-right: 1em;
               `}
-            />
-            <Button tertiary sm onClick={() => goBack()}>
+              onClick={() => goBack()}
+            >
               나가기
             </Button>
+            <ToggleButton />
           </Flex>
         </Layout>
       );

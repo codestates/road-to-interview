@@ -14,11 +14,11 @@ export default function Loading() {
 const lightModeColor = props => {
   return props.mode === 'light'
     ? css`
-        border: 3px solid ${props.theme.colors.gray[300]};
+        border: 5px solid ${props.theme.colors.gray[300]};
         border-top-color: ${props.theme.colors.tint.coral[700]};
       `
     : css`
-        border: 3px solid ${props.theme.colors.gray[300]};
+        border: 5px solid ${props.theme.colors.gray[300]};
         border-top-color: ${props.theme.colors.tint.blue[300]};
       `;
 };
@@ -38,8 +38,8 @@ const Wrapper = styled.div`
 `;
 const LoadingComponent = styled.div`
   ${lightModeColor};
-  border-radius: 50%;
   width: 5em;
   height: 5em;
+  border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 `;

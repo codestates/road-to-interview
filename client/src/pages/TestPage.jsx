@@ -11,6 +11,9 @@ import NotFound from './NotFound';
 import ResultModal from '@/components/TestPage/ResultModal';
 import RecordController from '@/components/TestPage/RecordController';
 import { css } from '@emotion/react';
+import { showNotification } from '@/store/creator/notificationsCreator';
+import { fontSizes } from '@/styles';
+import { scrollStyle } from '@/styles/mixins';
 
 export default function TestPage() {
   const [flip, setFlip] = useState(false);
@@ -107,6 +110,7 @@ export default function TestPage() {
       running: false,
       pause: true,
     });
+    dispatch(showNotification(`녹음을 저장하였습니다.📦`));
   };
 
   const onPlay = () => {
@@ -125,6 +129,7 @@ export default function TestPage() {
     currentAudio.current = null;
     audioList.current = audioList.current.filter(audio => audio.id !== questions[currentIndex].questions_id);
     onReset();
+    dispatch(showNotification(`녹음을 삭제하였습니다.`, 'error'));
   };
 
   const { initial, running, pause } = isplay;
@@ -202,40 +207,37 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Title = styled.h1`
-  ${({ theme }) => theme.typography.subtitle[2]};
-  text-align: center;
-  word-break: keep-all;
-  letter-spacing: 0.1em;
-  line-height: 1.5em;
-  margin-bottom: 1em;
-`;
+const subtitle4 = css({
+  fontSize: fontSizes[700],
+  fontWeight: '400',
+});
 
-const cardFlip = ({ flip }) => css`
-  transform-style: preserve-3d;
-  transform: perspective(1000px) rotateX(0) translateY(0);
-  transition: 250ms;
+const Title = styled.h1({
+  textAlign: 'center',
+  wordBreak: 'keep-all',
+  letterSpacing: '0.1em',
+  lineHeight: '1.5em',
+  marginBottom: '1em',
+  ...subtitle4,
+});
 
-  ${flip &&
-  css`
-    transform: perspective(1000px) rotateX(180deg) translateY(0);
-  `}
-`;
+const Card = styled.div(props => ({
+  position: 'relative',
+  width: '100%',
+  height: '65vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'cetner',
+  justifyContent: 'center',
+  margin: '1em 0',
+  background: props.theme.colors.background_elevated,
+  borderRadius: '0.4em',
+  cursor: 'pointer',
 
-const Card = styled.div`
-  position: relative;
-  width: 100%;
-  height: 65vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1em 0;
-  background-color: ${({ theme }) => theme.colors.background_elevated};
-  border-radius: 0.4em;
-  cursor: pointer;
-  ${cardFlip}
-`;
+  transformStyle: 'preserve-3d',
+  transform: `perspective(1000px) rotateX(${props.flip ? '180deg' : '0'}) translateY(0)`,
+  transition: '250ms',
+}));
 
 const CardInner = styled.div`
   position: absolute;
@@ -248,16 +250,7 @@ const CardInner = styled.div`
   padding: 1em;
   backface-visibility: hidden;
   overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle()}
 `;
 
 const Front = styled(CardInner)`

@@ -1,5 +1,6 @@
 import { css, Global } from '@emotion/react';
 import media from '@/utils/media';
+import spacing from './spacing';
 
 const globalStyles = theme => css`
   html {
@@ -26,11 +27,11 @@ const globalStyles = theme => css`
 
   #notification {
     position: absolute;
-    width: 15rem;
     height: auto;
     top: 1em;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 100;
   }
 
   *,
@@ -48,6 +49,45 @@ const globalStyles = theme => css`
 
   li {
     list-style: none;
+  }
+
+  // Slick
+
+  .slick-list {
+    overflow: hidden;
+  }
+  .slick-track {
+    display: flex;
+    align-items: center;
+  }
+  .slick-slide {
+  }
+
+  .slick-dots {
+    display: flex;
+    justify-content: center;
+
+    & > *:not(:last-child) {
+      margin-right: 0.7em;
+    }
+
+    .slick-active {
+      & span {
+        background: ${theme.colors.text.primary};
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .dots__dot {
+    & > span {
+      display: inline-block;
+      width: 0.8em;
+      height: 0.8em;
+      border-radius: 50%;
+      background: ${theme.colors.text.disable_placeholder};
+      transition: all 0.3s ease-in-out;
+    }
   }
 `;
 
