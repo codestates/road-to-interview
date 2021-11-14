@@ -1,3 +1,4 @@
+import { scrollStyle } from '@/styles/mixins';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Tabs from '../shared/Tab';
@@ -54,13 +55,5 @@ const Inner = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   padding: 0 2em;
-  &::-webkit-scrollbar {
-    height: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle('horizental')}
 `;

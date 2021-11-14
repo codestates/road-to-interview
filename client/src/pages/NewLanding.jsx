@@ -78,7 +78,6 @@ const StyledSlider = styled(Slider)`
   .slick-dots {
     display: flex;
     justify-content: center;
-    padding: ${spacing[5]} 0;
 
     & > *:not(:last-child) {
       margin-right: 0.7em;
@@ -87,7 +86,6 @@ const StyledSlider = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
-        width: 2.8em;
         border-radius: 10px;
       }
     }

@@ -162,6 +162,7 @@ const SubTitle = styled.p`
   line-height: 1.4em;
   letter-spacing: 1px;
 `;
+
 // * Slider
 const StyledSlider = styled(Slider)`
   width: 80%;
@@ -189,8 +190,6 @@ const StyledSlider = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
-        width: 2.8em;
-        border-radius: 10px;
       }
     }
   }

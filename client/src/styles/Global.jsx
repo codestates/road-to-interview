@@ -1,5 +1,6 @@
 import { css, Global } from '@emotion/react';
 import media from '@/utils/media';
+import spacing from './spacing';
 
 const globalStyles = theme => css`
   html {

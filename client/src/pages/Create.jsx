@@ -18,6 +18,7 @@ import { spacing, fontSizes, palette } from '@/styles';
 import Loading from '@/components/shared/Loading';
 
 import mq from '@/utils/mq';
+import { scrollStyle } from '@/styles/mixins';
 
 const dropIn = {
   hidden: {
@@ -209,15 +210,7 @@ const ModalSide = styled.aside`
   padding: ${spacing[5]};
   overflow-y: auto;
 
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle()}
 `;
 
 const renderBtn = props => {

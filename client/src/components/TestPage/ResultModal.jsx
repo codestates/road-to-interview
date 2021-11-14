@@ -17,6 +17,7 @@ import ErrorMessage from '../shared/ErrorMessage';
 
 import { ReactComponent as HomeIcon } from 'assets/home.svg';
 import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
+import { scrollStyle } from '@/styles/mixins';
 
 const dropIn = {
   hidden: {
@@ -164,15 +165,7 @@ const SliderInner = styled.div`
     line-height: 1.4em;
     overflow-y: auto;
 
-    &::-webkit-scrollbar {
-      width: 7px;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: ${({ theme }) => theme.colors.background_elevated};
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-    }
+    ${scrollStyle()}
   }
 `;
 

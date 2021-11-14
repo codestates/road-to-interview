@@ -125,7 +125,7 @@ const RecordBtn = styled(Link)`
 
 const StyledSlick = styled(Slider)`
   width: 80%;
-  margin: 1rem auto;
+  margin: 1em auto 3em auto;
   position: relative;
   // slider
   .slick-list {
@@ -136,36 +136,13 @@ const StyledSlick = styled(Slider)`
     align-items: center;
   }
   .slick-slide {
-  }
-
-  // arrow
-  .slick-arrow {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-100%);
-    z-index: 10;
-    border-radius: 50%;
-    color: ${({ theme }) => theme.colors.text.primary};
-    cursor: pointer;
-  }
-  .slick-arrow.slick-prev {
-    left: -3rem;
-  }
-  .slick-arrow.slick-next {
-    right: -3rem;
+    margin: 0 1em;
   }
 
   // dot
-
   .slick-dots {
     display: flex;
     justify-content: center;
-    padding: ${spacing[5]} 0;
 
     & > *:not(:last-child) {
       margin-right: 0.7em;
@@ -174,8 +151,6 @@ const StyledSlick = styled(Slider)`
     .slick-active {
       & span {
         background: ${({ theme }) => theme.colors.text.primary};
-        width: 2.8em;
-        border-radius: 10px;
       }
     }
   }

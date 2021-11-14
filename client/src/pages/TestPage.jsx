@@ -13,6 +13,7 @@ import RecordController from '@/components/TestPage/RecordController';
 import { css } from '@emotion/react';
 import { showNotification } from '@/store/creator/notificationsCreator';
 import { fontSizes } from '@/styles';
+import { scrollStyle } from '@/styles/mixins';
 
 export default function TestPage() {
   const [flip, setFlip] = useState(false);
@@ -249,15 +250,7 @@ const CardInner = styled.div`
   padding: 1em;
   backface-visibility: hidden;
   overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle()}
 `;
 
 const Front = styled(CardInner)`

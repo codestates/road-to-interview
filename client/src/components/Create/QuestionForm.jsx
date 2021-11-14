@@ -15,6 +15,7 @@ import { ReactComponent as Trash } from 'assets/trash.svg';
 import { ReactComponent as Archive } from 'assets/archive.svg';
 import { ReactComponent as Pen } from 'assets/pencli-alt.svg';
 import media from '@/utils/media';
+import { scrollStyle } from '@/styles/mixins';
 
 export default function QuestionForm({ idRef, setQuestions }) {
   const {
@@ -202,15 +203,7 @@ const PreviewContent = styled.div`
     background-color: ${({ theme }) => theme.colors.text.primary};
   }
 
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle()}
 `;
 
 const Textarea = styled.textarea`
@@ -236,13 +229,5 @@ const Textarea = styled.textarea`
     color: ${({ theme }) => theme.colors.text.disable_placeholder};
   }
 
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle()}
 `;
