@@ -6,5 +6,9 @@ export const modalSettings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   appendDots: dots => <ul>{dots}</ul>,
-  customPaging: () => <span className="dots__dot"></span>,
+  customPaging: () => (
+    <div className="dots__dot">
+      <span></span>
+    </div>
+  ),
 };

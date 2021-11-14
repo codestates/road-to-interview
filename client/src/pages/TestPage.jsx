@@ -1,12 +1,7 @@
 import React from 'react';
-import Button from '@/components/elements/Button';
 import Loading from '@/components/shared/Loading';
-import Controller from '@/components/TestPage/Controller';
-import HintModal from '@/components/TestPage/HintModal';
-import Record from '@/components/TestPage/Record';
-import Timer from '@/components/TestPage/Timer';
+import TestController from '@/components/TestPage/TestController';
 import { getQuestions } from '@/store/creator/questionsCreator';
-import { spacing } from '@/styles';
 import { recordAudio } from '@/utils/record';
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
@@ -14,17 +9,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import NotFound from './NotFound';
 import ResultModal from '@/components/TestPage/ResultModal';
+import RecordController from '@/components/TestPage/RecordController';
+import { css } from '@emotion/react';
+import { showNotification } from '@/store/creator/notificationsCreator';
+import { fontSizes } from '@/styles';
+import { scrollStyle } from '@/styles/mixins';
 
 export default function TestPage() {
-  const [hintOpen, setHintOpen] = useState(false);
+  const [flip, setFlip] = useState(false);
   const [resultOpen, setResultOpen] = useState(false);
-  const isFirstRendering = useRef(false);
+  const isNotFirstRendering = useRef(false);
+
+  const flipCard = () => setFlip(prev => !prev);
+  const openResult = () => setResultOpen(true);
+
   // * 문제 데이터 fetch
   const { questions, getQuestionsLoading, getQuestionsDone, getQuestionsError } = useSelector(state => state.questions);
 
   const dispatch = useDispatch();
   const {
-    params: { id },
+    params: { id, title },
   } = useRouteMatch();
 
   useEffect(() => {
@@ -61,14 +65,17 @@ export default function TestPage() {
   const prev = () => {
     if (currentIndex <= 0) return;
     setCurrentIndex(prev => prev - 1);
+    setFlip(false);
   };
   const next = () => {
     if (isLastQuestion) return;
     setCurrentIndex(prev => prev + 1);
+    setFlip(false);
   };
 
   // * 녹음 시작, 중지, 완료 기능
   const [complete, setComplete] = useState(false);
+  const [authError, setAuthError] = useState(null);
   const startRecord = useRef(null);
   const stopRecord = useRef(null);
   const completeRecord = useRef(null);
@@ -86,14 +93,14 @@ export default function TestPage() {
       deleteRecord.current = deleteAudioData;
     } catch (e) {
       // {message: '마이크 권한 설정 작업 중 에러가 발생하였습니다.'}
-      console.log(e);
+      setAuthError(e);
     }
   };
-
   const onComplete = () => {
+    if (authError) return;
     currentAudio.current = completeRecord.current();
     const audioObj = {
-      id: audioId.current++,
+      id: questions[currentIndex].questions_id,
       audio: currentAudio.current,
     };
     audioList.current.push(audioObj);
@@ -103,37 +110,46 @@ export default function TestPage() {
       running: false,
       pause: true,
     });
+    dispatch(showNotification(`녹음을 저장하였습니다.📦`));
   };
 
   const onPlay = () => {
+    if (authError) return;
     currentAudio.current.play();
   };
 
   const onReset = () => {
+    if (authError) return;
     reset();
     deleteRecord.current();
   };
 
   const onDelete = () => {
+    if (authError) return;
     currentAudio.current = null;
-    audioList.current.pop();
+    audioList.current = audioList.current.filter(audio => audio.id !== questions[currentIndex].questions_id);
     onReset();
+    dispatch(showNotification(`녹음을 삭제하였습니다.`, 'error'));
   };
 
   const { initial, running, pause } = isplay;
+
+  useEffect(() => {});
 
   useEffect(() => {
     getRecordFunctions();
   }, []);
 
   useEffect(() => {
-    if (isFirstRendering.current) {
+    if (authError) return;
+    if (isNotFirstRendering.current) {
       onReset();
     }
-    isFirstRendering.current = true;
+    isNotFirstRendering.current = true;
   }, [currentIndex]);
 
   useEffect(() => {
+    if (authError) return;
     if (running && startRecord.current) {
       startRecord.current();
       setComplete(false);
@@ -148,45 +164,38 @@ export default function TestPage() {
 
   return (
     <Container>
-      <Controller {...{ prev, next, reset: onReset }} />
-      <Card>
-        <Title>{questions[currentIndex].title}</Title>
-        <Record onClick={onTogglePlay} clicked={isplay.running} />
-        <audio />
-        <Timer {...isplay} />
-        {pause && (
-          <Buttons>
-            {complete ? (
-              <>
-                <Button text primary onClick={onPlay}>
-                  바로 듣기
-                </Button>
-                <Button text secondary onClick={onDelete}>
-                  삭제 하기
-                </Button>
-                {isLastQuestion ? (
-                  <Button text secondary onClick={() => setResultOpen(true)}>
-                    테스트 종료
-                  </Button>
-                ) : (
-                  <Button text tertiary onClick={next}>
-                    다음 문제 (나중에 듣기)
-                  </Button>
-                )}
-              </>
-            ) : (
-              <Button text primary onClick={onComplete}>
-                녹음 완료하기
-              </Button>
-            )}
-          </Buttons>
-        )}
+      <Title>{title}</Title>
+      <RecordController
+        error={authError}
+        isplay={isplay}
+        initial={initial}
+        pause={pause}
+        complete={complete}
+        onPlay={onPlay}
+        onReset={onReset}
+        onDelete={onDelete}
+        next={next}
+        onComplete={onComplete}
+        openResult={openResult}
+        isLastQuestion={isLastQuestion}
+        onClick={onTogglePlay}
+        clicked={isplay.running}
+      />
+      <Card onClick={flipCard} flip={flip}>
+        <Front>
+          <h3>{questions[currentIndex].title}</h3>
+        </Front>
+        <Back>
+          <p>{questions[currentIndex].description}</p>
+        </Back>
       </Card>
-      <HintButton onClick={() => setHintOpen(true)}>
-        <span>스크립트</span>
-      </HintButton>
-      <HintModal open={hintOpen} onClose={() => setHintOpen(false)} text={questions[currentIndex].description} />
-      <ResultModal open={resultOpen} onClose={() => setResultOpen(false)} audioList={audioList.current} />
+      <TestController {...{ prev, next, currentIndex }} totalIndex={questions.length} />
+      <ResultModal
+        open={resultOpen}
+        onClose={() => setResultOpen(false)}
+        audioList={audioList.current}
+        questions={questions}
+      />
     </Container>
   );
 }
@@ -197,48 +206,67 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const Card = styled.div`
+
+const subtitle4 = css({
+  fontSize: fontSizes[700],
+  fontWeight: '400',
+});
+
+const Title = styled.h1({
+  textAlign: 'center',
+  wordBreak: 'keep-all',
+  letterSpacing: '0.1em',
+  lineHeight: '1.5em',
+  marginBottom: '1em',
+  ...subtitle4,
+});
+
+const Card = styled.div(props => ({
+  position: 'relative',
+  width: '100%',
+  height: '65vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'cetner',
+  justifyContent: 'center',
+  margin: '1em 0',
+  background: props.theme.colors.background_elevated,
+  borderRadius: '0.4em',
+  cursor: 'pointer',
+
+  transformStyle: 'preserve-3d',
+  transform: `perspective(1000px) rotateX(${props.flip ? '180deg' : '0'}) translateY(0)`,
+  transition: '250ms',
+}));
+
+const CardInner = styled.div`
+  position: absolute;
   width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 1em;
+  align-items: center;
+
+  padding: 1em;
+  backface-visibility: hidden;
+  overflow-y: auto;
+  ${scrollStyle()}
 `;
 
-const Title = styled.h1`
+const Front = styled(CardInner)`
+  ${({ theme }) => theme.typography.subtitle[1]};
+  left: 0;
+`;
+
+const Back = styled(CardInner)`
   ${({ theme }) => theme.typography.subtitle[3]};
-  text-align: center;
-  word-break: keep-all;
-  letter-spacing: 0.1em;
-  line-height: 1.5em;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: ${spacing[4]};
-  margin-top: 1.5em;
-
-  & > *:not(:last-of-type) {
-    margin-bottom: 0.8em;
+  transform: rotateX(180deg);
+  & p {
+    width: 100%;
+    height: 100%;
+    transform: rotateX(0);
+    letter-spacing: 0.1em;
+    line-height: 2em;
+    word-break: keep-all;
   }
-`;
-
-const HintButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  right: 5%;
-  transform: translateX(-50%);
-  padding: ${spacing[2]} ${spacing[4]};
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  color: ${({ theme }) => theme.colors.background};
-  background: ${({ theme }) => theme.colors.text.primary};
-  writing-mode: vertical-rl;
-  cursor: pointer;
-  ${({ theme }) => theme.typography.caption[1]};
 `;

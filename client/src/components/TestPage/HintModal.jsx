@@ -1,6 +1,4 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import Portal from '@/hoc/Portal';
-import Modal from '@/components/shared/Modal';
 import styled from '@emotion/styled';
 import { useMode } from '@/contexts/ModeContext';
 import { palette, spacing } from '@/styles';

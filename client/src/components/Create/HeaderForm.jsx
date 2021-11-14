@@ -83,13 +83,20 @@ export default function HeaderForm({ uploadInterview, categorys, setSelectedItem
       <Button
         round
         primary
-        icon={Upload}
+        withIcon
         css={css`
           position: absolute;
           top: 0;
           right: 0;
         `}
       >
+        <Upload
+          width="1.1em"
+          height="1.1em"
+          css={css`
+            margin-right: 0.1em;
+          `}
+        />
         Upload
       </Button>
     </Form>

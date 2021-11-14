@@ -15,8 +15,10 @@ import List from '@/components/Create/List';
 import Button from '@/components/elements/Button';
 import { css } from '@emotion/react';
 import { spacing, fontSizes, palette } from '@/styles';
-import media from '@/utils/media';
 import Loading from '@/components/shared/Loading';
+
+import mq from '@/utils/mq';
+import { scrollStyle } from '@/styles/mixins';
 
 const dropIn = {
   hidden: {
@@ -186,36 +188,29 @@ const ModalBody = styled.div`
   background: ${({ theme }) => theme.colors.background};
   height: 100%;
 `;
-const ModalInner = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  padding: ${spacing[5]};
-  height: 100%;
 
-  ${media.tablet(css`
-    flex-direction: row;
-    & > *:first-child {
-      flex-basis: 70%;
-      border-right: 1px solid ${({ theme }) => theme.colors.borderColor.inner};
-    }
-    & > *:last-child {
-      flex-basis: 30%;
-    }
-  `)}
-`;
+const ModalInner = styled(motion.div)(props => ({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: spacing[5],
+  height: '100%',
+  [mq.tablet]: {
+    flexDirection: 'row',
+    '& > *:first-child': {
+      flexBasis: '70%',
+      borderRight: `1px solid ${props.theme.colors.borderColor.inner}`,
+    },
+    '& > *:last-child': {
+      flexBasis: '30%',
+    },
+  },
+}));
+
 const ModalSide = styled.aside`
   padding: ${spacing[5]};
   overflow-y: auto;
 
-  &::-webkit-scrollbar {
-    width: 7px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.colors.background_elevated};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.text.disable_placeholder};
-  }
+  ${scrollStyle()}
 `;
 
 const renderBtn = props => {

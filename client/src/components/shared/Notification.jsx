@@ -34,7 +34,6 @@ export default function Notification({ text, type }) {
       exit="exit" // Target to animate to when removed from the tree
       type={type}
     >
-      <IconWrapper></IconWrapper>
       <Text>{text}</Text>
     </Wrapper>
   );
@@ -48,7 +47,7 @@ const colorVariants = props => {
       `;
     case 'warning':
       return css`
-        background: ${props.theme.colors.tint.coral[600]};
+        background: ${props.theme.colors.tint.coral[500]};
       `;
     default:
       return css`
@@ -59,29 +58,16 @@ const colorVariants = props => {
 
 const Wrapper = styled(motion.li)`
   position: relative;
-  right: ${spacing[4]};
-  top: ${spacing[6]};
+  padding: ${spacing[2]} ${spacing[4]};
   display: flex;
   justify-content: center;
   align-items: center;
   height: 2.5rem;
-  width: 75vw;
   ${colorVariants}
   color: ${palette.dark.gray[700]};
   border-radius: 0.3em;
-  ${media.tablet(css`
-    right: ${spacing[8]};
-    top: ${spacing[7]};
-    width: 45vw;
-  `)}
-  ${media.laptop(css`
-    right: ${spacing[10]};
-    width: 35vw;
-  `)}
-  ${media.desktop(css`
-    right: ${spacing[10]};
-    width: 35vw;
-  `)}
+  margin-bottom: 1em;
 `;
-const IconWrapper = styled.i``;
-const Text = styled.span``;
+const Text = styled.span`
+  ${({ theme }) => theme.typography.caption[1]};
+`;

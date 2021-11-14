@@ -1,15 +1,20 @@
 import styled from '@emotion/styled';
 import Button from '../elements/Button';
 import { css } from '@emotion/react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { spacing } from '@/styles';
 import { useHistory } from 'react-router-dom';
 import UserInfo from '../shared/UserInfo';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
+import { deleteCollections } from '@/store/creator/collectionsCreator';
 
-export default function Card({ collection, onOpen }) {
-  const onDelete = () => {
-    // 컬렉션 삭제
+export default function Card({ collection }) {
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector(state => state.users);
+
+  const onDelete = collection => {
+    console.log(accessToken, collection);
+    dispatch(deleteCollections({ accessToken, interviews_id: collection.collections_id }));
   };
 
   const { push } = useHistory();
@@ -32,7 +37,7 @@ export default function Card({ collection, onOpen }) {
           css={css`
             cursor: pointer;
           `}
-          onClick={onDelete}
+          onClick={() => onDelete(collection)}
         />
       </Title>
       <Description>
@@ -60,7 +65,7 @@ export default function Card({ collection, onOpen }) {
         </Content>
       </Author>
       <ButtonBox>
-        <Button sm secondary onClick={onOpen(collection)}>
+        <Button sm secondary>
           도전하기
         </Button>
       </ButtonBox>
