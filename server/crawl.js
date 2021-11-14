@@ -31,58 +31,78 @@ module.exports = {
       browser.close();
       return content;
     };
-
-    getHtml().then((content) => {
-      let ulList = [];
-      let url = "https://www.wanted.co.kr";
-      const $ = cheerio.load(content);
-
-      const list = $("ul.clearfix > li");
-
-      list.each(function (i, elem) {
-        if ($(this).find("div.job-card-position").text() !== "") {
-          ulList[i] = {
-            img: $(this)
-              .find("header")
-              .attr("style")
-              .split('url("')[1]
-              .split('");')[0],
-            position: $(this).find("div.job-card-position").text(),
-            company: $(this).find("div.job-card-company-name").text(),
-            url:
-              url + $(this).find("div._3D4OeuZHyGXN7wwibRM5BJ a").attr("href"),
-          };
-        }
-      });
-      // console.log(ulList);
-      let nowList = ulList.map((el) => {
-        return [
-          "null",
-          el.position,
-          el.company,
-          el.url,
-          el.img,
-          new Date(),
-          new Date(),
-        ];
-      });
-
-      console.log(nowList);
-      if (nowList.length < 1) {
-        return true;
-      }
-      const sql =
-        "insert into news(id,position,company,url,img,createdAt,updatedAt) values ?";
-
-      con.connect(function (err) {
-        if (err) throw err;
-        con.query(sql, [nowList], function (err, result, fields) {
+    const select_sql = `select a.position, a.company,a.url,a.img
+        from (select position, company, url,img, date(createdAt) created from news) a
+        where created = ?`;
+    con.connect(function (err) {
+      if (err) throw err;
+      //한번에 데이터 안들어갈 경우를 대비하여
+      con.query(
+        select_sql,
+        [new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]],
+        function (err, result, fields) {
           if (err) throw err;
           console.log(result);
+          if (result.length < 1) {
+            getHtml().then((content) => {
+              let ulList = [];
+              let url = "https://www.wanted.co.kr";
+              const $ = cheerio.load(content);
+
+              const list = $("ul.clearfix > li");
+
+              list.each(function (i, elem) {
+                if ($(this).find("div.job-card-position").text() !== "") {
+                  ulList[i] = {
+                    img: $(this)
+                      .find("header")
+                      .attr("style")
+                      .split('url("')[1]
+                      .split('");')[0],
+                    position: $(this).find("div.job-card-position").text(),
+                    company: $(this).find("div.job-card-company-name").text(),
+                    url:
+                      url +
+                      $(this)
+                        .find("div._3D4OeuZHyGXN7wwibRM5BJ a")
+                        .attr("href"),
+                  };
+                }
+              });
+              // console.log(ulList);
+              let nowList = ulList.map((el) => {
+                return [
+                  "null",
+                  el.position,
+                  el.company,
+                  el.url,
+                  el.img,
+                  new Date(),
+                  new Date(),
+                ];
+              });
+
+              console.log(nowList);
+
+              const sql =
+                "insert into news(id,position,company,url,img,createdAt,updatedAt) values ?";
+
+              con.connect(function (err) {
+                if (err) throw err;
+                con.query(sql, [nowList], function (err, result, fields) {
+                  if (err) throw err;
+                  console.log(result);
+                  con.end();
+                  return;
+                });
+              });
+            });
+          }
+
           con.end();
-          return false;
-        });
-      });
+          return;
+        }
+      );
     });
   },
 };

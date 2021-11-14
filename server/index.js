@@ -12,6 +12,7 @@ let server;
 const { Server } = require("socket.io");
 const cron = require("node-cron");
 const { insertNews } = require(__dirname + "/crawl");
+
 const { insertRankings } = require("./controllers/functions/rangkingFunctions");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -80,16 +81,19 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
   server.listen(HTTPS_PORT, () => console.log("server runnning"));
 } else {
   server = app.listen(HTTPS_PORT);
-  //node cron 서비스 예약 실행
-  // insertRankings();
 
+  //node cron 서비스 예약 실행
   cron.schedule("00 00 * * *", () => {
-    // insertRankings();
-    console.log("들어옴");
-    let check = insertNews();
-    if (check) {
-      insertNews();
-    }
+    console.log("00 들어옴");
+    insertNews();
+  });
+  cron.schedule("30 00 00 * * *", () => {
+    console.log("30 00 들어옴");
+    insertNews();
+  });
+  cron.schedule("01 00 * * *", () => {
+    console.log("01 들어옴");
+    insertNews();
   });
 
   //socket io
