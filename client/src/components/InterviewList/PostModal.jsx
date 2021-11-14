@@ -127,41 +127,9 @@ const StyledSlick = styled(Slider)`
   width: 80%;
   margin: 1em auto 3em auto;
   position: relative;
-  // slider
-  .slick-list {
-    overflow: hidden;
-  }
-  .slick-track {
-    display: flex;
-    align-items: center;
-  }
+
   .slick-slide {
     margin: 0 1em;
-  }
-
-  // dot
-  .slick-dots {
-    display: flex;
-    justify-content: center;
-
-    & > *:not(:last-child) {
-      margin-right: 0.7em;
-    }
-
-    .slick-active {
-      & span {
-        background: ${({ theme }) => theme.colors.text.primary};
-      }
-    }
-  }
-
-  .dots__dot {
-    display: inline-block;
-    width: 0.8em;
-    height: 0.8em;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.text.disable_placeholder};
-    transition: all 0.3s ease-in-out;
   }
 `;
 

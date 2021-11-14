@@ -1,74 +1,21 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import Slider from 'react-slick';
-
-import Flex from '@/components/layouts/Flex';
-import Button from '@/components/elements/Button';
-import media from '@/utils/media';
-import { fontSizes, spacing } from '@/styles';
-import { ReactComponent as Chv } from 'assets/chv-right.svg';
-import { ReactComponent as Job } from 'assets/job-ill.svg';
-import { settings, sectionData, QnAData } from '@/constants/Landing';
+import Main from '@/components/NewLanding/Main';
+import Info from '@/components/NewLanding/Info';
+import { infoObjs } from '@/constants/NewLanding/InfoData';
+import { settings, sectionData } from '@/constants/Landing';
 import Divider from '@/components/Landing/Divider';
-import Tabs from '@/components/Landing/Tab2';
-import ScrollBtn from '@/components/Landing/ScrollBtn';
+import Flex from '@/components/layouts/Flex';
+import Slider from 'react-slick';
+import { spacing } from '@/styles';
 
-export default function Landing() {
-  const history = useHistory();
-
-  const scrollTo = id => {
-    const element = document.getElementById(id);
-    if (!element) return;
-    element.scrollIntoView({
-      behavior: 'smooth',
-    });
-  };
-
+export default function NewLanding() {
   return (
-    <Layout>
-      <Header>
-        <Box>
-          <Title>
-            Road To <HighLight>Interview</HighLight>
-          </Title>
-          <Caption>Rehearsal for Practicing for a Job Interview</Caption>
-          <SubTitle>Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.</SubTitle>
-          <Links>
-            <Button
-              css={css`
-                ${media.tablet(css`
-                  width: 20vw;
-                  height: 8vh;
-                  font-size: ${fontSizes[500]};
-                `)}
-                ${media.laptop(css`
-                  width: 17vw;
-                  height: 9vh;
-                  font-size: ${fontSizes[600]};
-                `)}
-                ${media.desktop(css`
-                  width: 16vw;
-                `)}
-              `}
-              round
-              primary
-              onClick={() => history.push('/list')}
-            >
-              시작하기
-            </Button>
-            <Button text tertiary icon={Chv} onClick={() => scrollTo('section')}>
-              더 알아보기
-            </Button>
-          </Links>
-        </Box>
-        <Box>
-          <Illustration>
-            <Job width="100%" height="100%" />
-          </Illustration>
-        </Box>
-      </Header>
+    <LandingContainer>
+      <Main />
+      {infoObjs.map(info => (
+        <Info {...info} />
+      ))}
       <Section id="section">
         <Divider title="소개" />
         <StyledSlider {...settings}>
@@ -87,148 +34,10 @@ export default function Landing() {
           ))}
         </StyledSlider>
       </Section>
-      <Section>
-        <Divider title="이용가이드" />
-        <Grid>
-          <Step>step1</Step>
-          <Step>step2</Step>
-          <Step>step3</Step>
-          <Step>step4</Step>
-        </Grid>
-      </Section>
-      <Section>
-        <Divider title="q&a" />
-        <Tabs>
-          {QnAData.map(data => (
-            <Tabs.Tab {...data} />
-          ))}
-        </Tabs>
-      </Section>
-      <ScrollBtn
-        css={css`
-          position: fixed;
-          bottom: 1.5em;
-          right: 1.5em;
-          ${media.tablet()}
-        `}
-      />
-    </Layout>
+    </LandingContainer>
   );
 }
-
-const Layout = styled.div`
-  position: relative;
-  overflow-y: auto;
-`;
-
-// * Header
-const Header = styled.header`
-  height: auto;
-  text-align: center;
-  padding: ${spacing[5]};
-  margin-top: 3rem;
-  ${media.desktop(css`
-    display: flex;
-    align-items: center;
-    height: 100vh;
-    margin-top: -3rem;
-    & > *:first-of-type {
-      text-align: start;
-    }
-    & > * {
-      flex-basis: 50%;
-    }
-  `)}
-`;
-const Box = styled.div``;
-const Title = styled.h1`
-  font-family: 'Consolas';
-  ${({ theme }) => theme.typography.header[1]};
-  line-height: 1em;
-  margin-bottom: ${spacing[3]};
-`;
-const HighLight = styled.b`
-  color: ${({ theme }) => theme.colors.tint.coral[500]};
-`;
-const Caption = styled.h5`
-  font-family: 'Consolas';
-  ${({ theme }) => theme.typography.caption[1]}
-  margin-bottom: ${spacing[6]};
-`;
-const SubTitle = styled.p`
-  ${({ theme }) => theme.typography.body[2]}
-  word-break: keep-all;
-  font-weight: 400;
-  line-height: 1.4em;
-  letter-spacing: 1px;
-`;
-
-// * Slider
-const StyledSlider = styled(Slider)`
-  width: 80%;
-  margin: 0 auto;
-
-  .slick-list {
-    overflow: hidden;
-  }
-  .slick-track {
-    display: flex;
-    align-items: center;
-  }
-  .slick-slide {
-  }
-
-  .slick-dots {
-    display: flex;
-    justify-content: center;
-    padding: ${spacing[5]} 0;
-
-    & > *:not(:last-child) {
-      margin-right: 0.7em;
-    }
-
-    .slick-active {
-      & span {
-        background: ${({ theme }) => theme.colors.text.primary};
-      }
-    }
-  }
-
-  .dots__dot {
-    & > span {
-      display: inline-block;
-      width: 0.8em;
-      height: 0.8em;
-      border-radius: 50%;
-      background: ${({ theme }) => theme.colors.text.disable_placeholder};
-      transition: all 0.3s ease-in-out;
-    }
-  }
-`;
-
-// * Links
-const Links = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: ${spacing[7]} 0;
-
-  & > *:first-of-type {
-    margin-right: 2rem;
-  }
-
-  ${media.desktop(css`
-    justify-content: start;
-  `)}
-`;
-
-// * Illustration
-
-const Illustration = styled.div`
-  margin: 0 auto;
-  max-width: 650px;
-`;
-
+const LandingContainer = styled.div``;
 // * Sections
 
 const Section = styled.section`
@@ -251,20 +60,14 @@ const Text = styled.p`
   word-spacing: 2px;
   ${({ theme }) => theme.typography.body[1]}
 `;
-
-// * Grid
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(auto-fill, 1fr);
-  gap: 1em;
-
-  ${media.tablet(css`
-    grid-template-columns: repeat(2, 1fr);
-  `)}
+// * Slider
+const StyledSlider = styled(Slider)`
+  width: 80%;
+  margin: 0 auto;
 `;
-const Step = styled.div`
-  height: 350px;
-  background: ${({ theme }) => theme.colors.background_elevated};
+// * Illustration
+
+const Illustration = styled.div`
+  margin: 0 auto;
+  max-width: 650px;
 `;

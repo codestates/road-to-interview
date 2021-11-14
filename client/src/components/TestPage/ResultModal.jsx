@@ -120,38 +120,6 @@ const StyledSlick = styled(Slider)`
     margin: 0 0.5em;
     overflow-y: auto;
   }
-
-  // dot
-  .slick-dots {
-    display: flex;
-    justify-content: center;
-
-    & > * {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    & > *:not(:last-child) {
-      /* margin-right: 0.7em; */
-    }
-
-    .slick-active {
-      & span {
-        background: ${({ theme }) => theme.colors.text.primary};
-        border-radius: 10px;
-      }
-    }
-  }
-
-  .dots__dot {
-    display: inline-block;
-    width: 0.8em;
-    height: 0.8em;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.text.disable_placeholder};
-    transition: all 0.3s ease-in-out;
-  }
 `;
 
 const SliderInner = styled.div`
