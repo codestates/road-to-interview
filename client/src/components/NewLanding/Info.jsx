@@ -1,10 +1,12 @@
 import React from 'react';
-import media from '@/utils/media';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import Button from '../elements/Button';
+import { useHistory } from 'react-router-dom';
+import { ReactComponent as ChevRight } from 'assets/chevron-right.svg';
 
-export default function Info({ imgStart, topLine, headline, description, buttonLabel, svgComponent }) {
+export default function Info({ imgStart, headline, description, buttonLabel, svgComponent, to }) {
+  const { push } = useHistory();
   return (
     <>
       <InfoContainer>
@@ -12,12 +14,22 @@ export default function Info({ imgStart, topLine, headline, description, buttonL
           <InfoRow imgStart={imgStart}>
             <Column1>
               <TextWrapper>
-                <TopLine>{topLine}</TopLine>
                 <Heading>{headline}</Heading>
                 <Subtitle>{description}</Subtitle>
                 <BtnWrap>
-                  <Button primary md>
+                  <Button
+                    secondary
+                    md
+                    onClick={() => push(`${to}`)}
+                    css={css`
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      border-radius: 10px;
+                    `}
+                  >
                     {buttonLabel}
+                    <ChevRight width="1.5rem" height="1.5rem" />
                   </Button>
                 </BtnWrap>
               </TextWrapper>
@@ -76,28 +88,20 @@ const TextWrapper = styled.div`
   padding-top: 0;
   padding-bottom: 60px;
 `;
-const TopLine = styled.p`
-  color: ${({ theme }) => theme.colors.tint.green[600]};
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-`;
+
 const Heading = styled.h1`
   margin-bottom: 24px;
   font-size: 48px;
   line-height: 1.1;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.tint.blue[300]};
+  color: ${({ theme }) => theme.colors.gray[600]};
 `;
 const Subtitle = styled.p`
   max-width: 440px;
   margin-bottom: 35px;
   font-size: 18px;
   line-height: 24px;
-  color: ${({ theme }) => theme.colors.tint.coral[300]};
+  color: ${({ theme }) => theme.colors.gray[500]};
 `;
 const BtnWrap = styled.div`
   display: flex;

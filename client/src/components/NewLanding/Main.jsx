@@ -11,7 +11,7 @@ export default function Main() {
   return (
     <MainContainer>
       <MainBg>
-        <VideoBg autoPlay loop muted src={Video} type="video/mp4" />
+        <VideoBg autoPlay loop muted playsInline src={Video} type="video/mp4" />
       </MainBg>
       <MainContent>
         <MainH1>기술면접,</MainH1>
@@ -22,7 +22,7 @@ export default function Main() {
             margin-top: 0;
           `}
         >
-          Road To Interview는 개발자 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.
+          ROAD TO INTERVIEW 는 기술면접 인터뷰를 연습할 수 있는 웹 서비스입니다.
         </MainP>
         <MainBtnWrapper>
           <Button primary round onClick={() => push('/list')} withIcon>
