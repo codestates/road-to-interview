@@ -98,16 +98,44 @@ export default function QuestionForm({ idRef, setQuestions }) {
       </div>
       <ErrorMessage>{errors.questions__title?.message}</ErrorMessage>
       <Bar>
-        <Button type="button" sm text tertiary icon={Pen} onClick={previewOff}>
+        <Button type="button" sm text tertiary withIcon onClick={previewOff}>
+          <Pen
+            width="1.1em"
+            height="1.1em"
+            css={css`
+              margin-right: 0.1em;
+            `}
+          />
           Write
         </Button>
-        <Button type="button" sm text tertiary icon={Eye} onClick={onTogglePreview}>
+        <Button type="button" sm text tertiary withIcon={Eye} onClick={onTogglePreview}>
+          <Eye
+            width="1.1em"
+            height="1.1em"
+            css={css`
+              margin-right: 0.1em;
+            `}
+          />
           Preview
         </Button>
-        <Button type="submit" sm text primary icon={Archive}>
+        <Button type="submit" sm text primary withIcon={Archive}>
+          <Archive
+            width="1.1em"
+            height="1.1em"
+            css={css`
+              margin-right: 0.1em;
+            `}
+          />
           Save
         </Button>
-        <Button type="button" sm text secondary icon={Trash} onClick={() => reset()}>
+        <Button type="button" sm text secondary withIcon={Trash} onClick={() => reset()}>
+          <Trash
+            width="1.1em"
+            height="1.1em"
+            css={css`
+              margin-right: 0.1em;
+            `}
+          />
           Delete
         </Button>
       </Bar>

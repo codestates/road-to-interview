@@ -41,10 +41,24 @@ export default function List({ className, questions, setQuestions }) {
           <Item key={q.id} variants={LeftInOut} initial="hidden" animate="visible" exit="exit">
             <span>{q.title}</span>
             <Controller>
-              <Button sm text tertiary icon={Pen}>
+              <Button sm text tertiary withIcon>
+                <Pen
+                  width="1.1em"
+                  height="1.1em"
+                  css={css`
+                    margin-right: 0.1em;
+                  `}
+                />
                 수정
               </Button>
-              <Button sm onClick={() => removeQuestion(q.id)} text secondary icon={Minus}>
+              <Button sm onClick={() => removeQuestion(q.id)} text secondary withIcon>
+                <Minus
+                  width="1.1em"
+                  height="1.1em"
+                  css={css`
+                    margin-right: 0.1em;
+                  `}
+                />
                 삭제
               </Button>
             </Controller>
