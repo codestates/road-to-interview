@@ -14,19 +14,14 @@ const Question = ({ currentQuestion }) => {
         align-items: center;
         width: 90vw;
         height: 12vh;
-        margin-top: ${spacing[4]};
-        margin-bottom: ${spacing[4]};
         ${media.tablet(css`
           font-size: ${fontSizes[600]};
+          margin-top: 0;
+          margin-bottom: 0;
         `)}
         ${media.laptop(css`
           font-size: ${fontSizes[700]};
-        `)}
-        ${media.desktop(css`
-          margin-top: ${spacing[5]};
-          margin-bottom: ${spacing[2]};
-          font-size: ${fontSizes[800]};
-          text-align: center;
+          margin-top: ${spacing[3]};
         `)}
       `}
     >
