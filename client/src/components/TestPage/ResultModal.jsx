@@ -17,7 +17,7 @@ import ErrorMessage from '../shared/ErrorMessage';
 
 import { ReactComponent as HomeIcon } from 'assets/home.svg';
 import { ReactComponent as ReplyIcon } from 'assets/reply.svg';
-import { scrollStyle } from '@/styles/mixins';
+import { scrollStyle, scrollObjStyle } from '@/styles/mixins';
 
 const dropIn = {
   hidden: {
@@ -122,20 +122,34 @@ const StyledSlick = styled(Slider)`
   }
 `;
 
-const SliderInner = styled.div`
-  border-radius: 5px;
+const SliderInner = styled.div(
+  props => ({
+    borderRadius: '5px',
+    '& p': {
+      height: '20rem',
+      padding: spacing[4],
+      letterSpacing: '0.1em',
+      lineHeight: '1.5em',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      ...scrollObjStyle(props),
+    },
+  }),
+  props => props.theme.typography.subtitle[4],
+);
 
-  & p {
-    height: 23rem;
-    ${({ theme }) => theme.typography.body[1]};
-    padding: ${spacing[4]};
-    letter-spacing: 0.1em;
-    line-height: 1.4em;
-    overflow-y: auto;
+// border-radius: 5px;
 
-    ${scrollStyle()}
-  }
-`;
+// & p {
+//   height: 23rem;
+//   ${({ theme }) => theme.typography.body[1]};
+//   padding: ${spacing[4]};
+//   letter-spacing: 0.1em;
+//   line-height: 1.4em;
+//   overflow-y: auto;
+
+//   ${scrollStyle()}
+// }
 
 const Audio = styled.audio`
   width: 100%;

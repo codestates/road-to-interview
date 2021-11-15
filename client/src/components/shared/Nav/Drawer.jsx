@@ -16,7 +16,7 @@ function Drawer({ children, open, setOpen }) {
 
 const Container = styled.div`
   position: absolute;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   top: 0;
@@ -34,6 +34,7 @@ const Container = styled.div`
   ${props =>
     props.open &&
     css`
+      display: flex;
       opacity: 1;
       transform: translateX(0);
     `}
