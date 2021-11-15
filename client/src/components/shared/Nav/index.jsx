@@ -204,9 +204,9 @@ export default function Nav() {
     case LANDING:
       return (
         <LandingLayout background={background}>
-          <LandingInner>
+          <LandingInner background={background}>
             <Logo onClick={() => push('/')}>
-              {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+              {background ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
             </Logo>
             {tabletMetches ? (
               <Flex
@@ -288,13 +288,6 @@ const Layout = styled.nav`
   box-shadow: 0px 2px 3px ${({ theme }) => theme.colors.shadow.basic};
 `;
 
-// position: sticky;
-// top: 0;
-// height: 5rem;
-// margin-bottom: -5rem;
-// max-width: 1024px;
-// z-index: 999;
-
 const LandingLayout = styled.nav(props => ({
   position: 'fixed',
   top: 0,
@@ -307,10 +300,12 @@ const LandingLayout = styled.nav(props => ({
   transition: 'background-color 300ms ease-in',
 }));
 
-const LandingInner = styled(Layout)({
+const LandingInner = styled(Layout)(props => ({
   width: '100%',
   maxWidth: '1368px',
-});
+  boxShadow: 'unset',
+  color: props.background ? props.theme.colors.text.primary : props.theme.colors.gray[100],
+}));
 
 const List = styled.ul`
   display: flex;

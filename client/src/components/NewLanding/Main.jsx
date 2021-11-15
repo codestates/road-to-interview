@@ -5,6 +5,7 @@ import media from '@/utils/media';
 import { css } from '@emotion/react';
 import { ReactComponent as ChevRight } from 'assets/chevron-right.svg';
 import Button from '../elements/Button';
+import { useAnimation } from 'framer-motion';
 
 export default function Main() {
   const { push } = useHistory();
