@@ -3,7 +3,6 @@ const { css } = require('@emotion/react');
 export const scrollStyle =
   (direction = 'vertical') =>
   props => {
-    console.log('scrollStyle', props);
     return css({
       '&::-webkit-scrollbar':
         direction === 'vertical'

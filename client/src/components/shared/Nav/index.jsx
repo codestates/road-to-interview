@@ -69,8 +69,6 @@ export default function Nav() {
     };
   }, []);
 
-  console.log(background);
-
   switch (page) {
     case INTETVIEW_LIST:
     case INTETVIEW_RESULT:
@@ -136,9 +134,7 @@ export default function Nav() {
                       </>
                     ) : (
                       <>
-                        <Button sm primary onClick={() => push('login')}>
-                          로그인
-                        </Button>
+                        <Item onClick={() => push('login')}>로그인</Item>
                         <LinkItem to="/signup">회원가입</LinkItem>
                       </>
                     )}
