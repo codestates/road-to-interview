@@ -43,7 +43,7 @@ module.exports = {
         function (err, result, fields) {
           if (err) throw err;
           console.log(result);
-          if (result.length < 1) {
+          if (result.length > 1) {
             getHtml().then((content) => {
               let ulList = [];
               let url = "https://www.wanted.co.kr";
@@ -87,20 +87,14 @@ module.exports = {
               const sql =
                 "insert into news(id,position,company,url,img,createdAt,updatedAt) values ?";
 
-              con.connect(function (err) {
+              con.query(sql, [nowList], function (err, result, fields) {
                 if (err) throw err;
-                con.query(sql, [nowList], function (err, result, fields) {
-                  if (err) throw err;
-                  console.log(result);
-                  con.end();
-                  return;
-                });
+                console.log(result);
+                con.end();
+                return;
               });
             });
           }
-
-          con.end();
-          return;
         }
       );
     });
