@@ -56,7 +56,6 @@ export default function Nav() {
 
   useEffect(() => {
     const handleScroll = () => {
-      console.log(window.scrollY);
       if (window.scrollY >= 80) {
         setBackground(true);
         return;
