@@ -90,14 +90,15 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         <div
           css={css`
             width: 90vw;
-            height: 38vh;
+            height: 40vh;
+            margin-bottom: ${spacing[5]};
             ${media.tablet(css`
               width: 50vw;
               height: 42vh;
             `)}
             ${media.laptop(css`
-              width: 40vw;
-              height: 42vh;
+              width: 35vw;
+              height: 40vh;
             `)}
             ${media.desktop(css`
               width: 32vw;
@@ -109,9 +110,9 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
         </div>
       ) : null}
       {playing && search === `?isVideo=true` ? (
-        <Video ref={videoRef} autoPlay muted playsInline poster="/images/loading.gif" />
+        <Video ref={videoRef} height="300" autoPlay muted playsInline poster="/images/loading.gif" />
       ) : null}
-      {!playing && src ? <Video src={src} controls playsInline /> : null}
+      {!playing && src ? <Video src={src} height="300" controls playsInline /> : null}
       {playing ? (
         <div
           css={css`
@@ -119,13 +120,16 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.tablet(css`
               width: 50vw;
+              margin-top: ${spacing[4]};
+              margin-bottom: ${spacing[4]};
             `)}
             ${media.laptop(css`
-              width: 40vw;
+              width: 35vw;
+              margin-top: ${spacing[3]};
+              margin-bottom: ${spacing[3]};
             `)}
             ${media.desktop(css`
               margin-top: ${spacing[5]};
@@ -222,17 +226,17 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
             justify-content: space-between;
             align-items: center;
             width: 90vw;
-            margin-top: ${spacing[5]};
             margin-bottom: ${spacing[5]};
             ${media.tablet(css`
               width: 50vw;
+              margin-bottom: ${spacing[4]};
             `)}
             ${media.laptop(css`
-              width: 40vw;
+              width: 35vw;
+              margin-bottom: ${spacing[3]};
             `)}
             ${media.desktop(css`
               width: 32vw;
-              margin-top: ${spacing[5]};
             `)}
           `}
         >
@@ -320,7 +324,8 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
               width: 50vw;
             `)}
             ${media.laptop(css`
-              width: 40vw;
+              width: 35vw;
+              margin-top: ${spacing[3]};
             `)}
           ${media.desktop(css`
               width: 32vw;
@@ -365,12 +370,14 @@ const VideoRecorder = ({ search, countHandler, prevHandler, nextHandler, hintHan
 export default VideoRecorder;
 
 export const Video = styled.video`
+  position: relative;
+  bottom: ${spacing[4]};
   width: 90vw;
   ${media.tablet(css`
     width: 50vw;
   `)}
   ${media.laptop(css`
-    width: 40vw;
+    width: 35vw;
   `)}
   ${media.desktop(css`
     width: 32vw;
