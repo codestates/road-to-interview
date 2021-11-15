@@ -22,24 +22,6 @@ export default function NewLanding() {
       {infoObjs.map(info => (
         <Info {...info} />
       ))}
-      <Section id="section">
-        <Divider title="소개" />
-        <StyledSlider {...settings}>
-          {sectionData.map(({ Vector, title, text }) => (
-            <Flex direction="column">
-              <Illustration
-                css={css`
-                  max-width: 500px;
-                `}
-              >
-                <Vector width="100%" height="100%" />
-              </Illustration>
-              <SectionTitle>{title}</SectionTitle>
-              <Text>{text}</Text>
-            </Flex>
-          ))}
-        </StyledSlider>
-      </Section>
     </LandingContainer>
   );
 }

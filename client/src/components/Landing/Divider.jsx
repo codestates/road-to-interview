@@ -25,7 +25,7 @@ const Title = styled.h3`
 `;
 
 const LineDynamic = props => css`
-  background: ${`linear-gradient(${props.direction}, ${props.theme.colors.tint.blue[500]}, ${props.theme.colors.tint.coral[500]}, transparent 100%)`};
+  background: ${`linear-gradient(${props.direction}, ${props.theme.colors.gray[500]}, ${props.theme.colors.gray[300]}, transparent 100%)`};
 `;
 
 const Line = styled.div`
