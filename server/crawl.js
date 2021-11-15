@@ -42,8 +42,8 @@ module.exports = {
         [new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]],
         function (err, result, fields) {
           if (err) throw err;
-          console.log(result);
-          if (result.length > 1) {
+          // console.log(result);
+          if (result.length < 1) {
             getHtml().then((content) => {
               let ulList = [];
               let url = "https://www.wanted.co.kr";
