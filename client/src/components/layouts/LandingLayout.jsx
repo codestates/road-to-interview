@@ -15,7 +15,6 @@ export default function LandingLayout({ children }) {
 
 const Container = styled.div`
   position: relative;
-  overflow-x: hidden;
   height: 100%;
 `;
 

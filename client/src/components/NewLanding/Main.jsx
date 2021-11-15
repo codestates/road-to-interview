@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Video from '@/assets/videos/pexels-mikhail-nilov-7989448.mp4';
 import media from '@/utils/media';
@@ -8,6 +8,7 @@ import Button from '../elements/Button';
 
 export default function Main() {
   const { push } = useHistory();
+
   return (
     <MainContainer>
       <MainBg>
@@ -41,7 +42,7 @@ const MainContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 30px;
-  height: 800px;
+  height: 100vh;
   position: relative;
   z-index: 1;
 

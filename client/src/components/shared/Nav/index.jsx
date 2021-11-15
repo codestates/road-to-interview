@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -29,9 +29,11 @@ const MYPAGE = 'mypage'; // 로고 - nav item
 const CREATE = 'create'; // 로고 - nav item
 const COLLECTION = 'collection'; // 로고 - nav item
 const RECRUIT = 'recruit';
+
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [mode] = useMode();
+  const [background, setBackground] = useState(false);
   const tabletMetches = useMediaQuery(query.tablet); // 768px ~
   const desktopMetches = useMediaQuery(query.desktop); // 1368px ~
 
@@ -52,22 +54,29 @@ export default function Nav() {
   const { pathname } = useLocation();
   const page = pathname.split('/')[1];
 
-  const listVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-    },
-    hover: {
-      scale: 1.1,
-    },
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      console.log(window.scrollY);
+      if (window.scrollY >= 80) {
+        setBackground(true);
+        return;
+      }
+      setBackground(false);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  console.log(background);
 
   switch (page) {
     case INTETVIEW_LIST:
     case INTETVIEW_RESULT:
     case MYPAGE:
     case CREATE:
-    case LANDING:
     case RECRUIT:
       return (
         <Layout>
@@ -192,6 +201,77 @@ export default function Nav() {
           </Flex>
         </Layout>
       );
+    case LANDING:
+      return (
+        <LandingLayout background={background}>
+          <LandingInner>
+            <Logo onClick={() => push('/')}>
+              {mode === 'light' ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+            </Logo>
+            {tabletMetches ? (
+              <Flex
+                rowGap="2rem"
+                css={css`
+                  font-size: ${fontSizes[100]};
+                `}
+              >
+                {userInfo ? (
+                  <>
+                    <LinkItem to="/list">문제집 보기</LinkItem>
+                    <LinkItem to="/create">인터뷰 생성하기</LinkItem>
+                    <LinkItem to="/recruit">개발자 구직공고</LinkItem>
+                    <LinkItem to="/mypage">마이페이지</LinkItem>
+                    <Item onClick={onLogout}>로그아웃</Item>
+                  </>
+                ) : (
+                  <>
+                    <LinkItem to="/list">문제집 보기</LinkItem>
+                    <LinkItem to="/signup">회원가입</LinkItem>
+                    <Item onClick={() => push('login')}>로그인</Item>
+                  </>
+                )}
+                <ToggleButton />
+              </Flex>
+            ) : (
+              <>
+                <Flex rowGap="1em">
+                  <Menu
+                    onClick={toggleOpen}
+                    css={css`
+                      cursor: pointer;
+                    `}
+                    width="1.7rem"
+                    height="1.7rem"
+                  />
+                  <ToggleButton />
+                </Flex>
+                <Drawer open={open} setOpen={setOpen}>
+                  <Drawer.Body>
+                    <List>
+                      <LinkItem to="/">홈</LinkItem>
+                      {userInfo ? (
+                        <>
+                          <LinkItem to="/list">문제집 보기</LinkItem>
+                          <LinkItem to="/create">인터뷰 생성하기</LinkItem>
+
+                          <LinkItem to="/recruit">개발자 구직공고</LinkItem>
+                          <LinkItem to="/mypage">마이페이지</LinkItem>
+                          <Item onClick={onLogout}>로그아웃</Item>
+                        </>
+                      ) : (
+                        <>
+                          <Item onClick={() => push('login')}>로그인</Item>
+                          <LinkItem to="/signup">회원가입</LinkItem>
+                        </>
+                      )}
+                    </List>
+                  </Drawer.Body>
+                </Drawer>
+              </>
+            )}
+          </LandingInner>
+        </LandingLayout>
+      );
     default:
       return null;
   }
@@ -207,6 +287,30 @@ const Layout = styled.nav`
   color: ${({ theme }) => theme.colors.text.primary};
   box-shadow: 0px 2px 3px ${({ theme }) => theme.colors.shadow.basic};
 `;
+
+// position: sticky;
+// top: 0;
+// height: 5rem;
+// margin-bottom: -5rem;
+// max-width: 1024px;
+// z-index: 999;
+
+const LandingLayout = styled.nav(props => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  height: '3rem',
+  marginBottom: '-3rem',
+  width: '100vw',
+  zIndex: '999',
+  backgroundColor: props.background ? props.theme.colors.background : 'transparent',
+  transition: 'background-color 300ms ease-in',
+}));
+
+const LandingInner = styled(Layout)({
+  width: '100%',
+  maxWidth: '1368px',
+});
 
 const List = styled.ul`
   display: flex;

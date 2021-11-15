@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+
 import Main from '@/components/NewLanding/Main';
 import Info from '@/components/NewLanding/Info';
 import { infoObjs } from '@/constants/NewLanding/InfoData';
@@ -8,6 +9,11 @@ import Divider from '@/components/Landing/Divider';
 import Flex from '@/components/layouts/Flex';
 import Slider from 'react-slick';
 import { spacing } from '@/styles';
+import Button from '@/components/elements/Button';
+
+import { ReactComponent as Trash } from 'assets/trash.svg';
+import { ReactComponent as Archive } from 'assets/archive.svg';
+import { ReactComponent as Pen } from 'assets/pencli-alt.svg';
 
 export default function NewLanding() {
   return (

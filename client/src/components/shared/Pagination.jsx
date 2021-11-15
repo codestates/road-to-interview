@@ -164,3 +164,12 @@ const Item = styled.li`
 
   ${ItemDynamicStyles}
 `;
+
+// const Item = styled.li(props => ({
+//   fontSize: fontSizes[100],
+//   flexGrow: 1,
+//   padding: `${spacing[3]} ${spacing[1]}`,
+//   background: props.theme.colors.gray[300],
+//   color: props.theme.colors.text.primary,
+//   textAlign: 'center',
+// }));
