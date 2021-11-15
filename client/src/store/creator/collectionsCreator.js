@@ -18,6 +18,7 @@ export const addCollections = data => async dispatch => {
   try {
     dispatch({ type: addCollectionRequest });
     const data = COLLECTIONS_API.addCollections(accessToken, interviews_id);
+    console.log(data);
     dispatch({ type: addCollectionSuccess, payload: data });
   } catch (e) {
     dispatch({ type: addCollectionFailure, payload: e.message });

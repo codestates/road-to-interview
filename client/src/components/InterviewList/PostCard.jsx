@@ -11,48 +11,31 @@ import Tag from '../elements/Tag';
 import Table from '../shared/Table';
 import UserInfo from '../shared/UserInfo';
 
+import { addCollections, deleteCollections } from '@/store/creator/collectionsCreator';
+
 import { ReactComponent as TagIcon } from 'assets/tag.svg';
 import { ReactComponent as EmptyStar } from 'assets/empty-star.svg';
 import { ReactComponent as FilledStar } from 'assets/filled-star.svg';
-import { addCollections, deleteCollections, getCollections } from '@/store/creator/collectionsCreator';
-import { showNotification } from '../../store/creator/notificationsCreator';
 
 import media from '@/utils/media';
+import { showNotification } from '@/store/creator/notificationsCreator';
 
-export default function PostCard({ interview, onOpen }) {
+export default function PostCard({ interview, onOpen, collection, setRefresh }) {
   const [mode] = useMode();
   const dispatch = useDispatch();
   const { accessToken } = useSelector(state => state.users);
-  const { collections, addCollectionDone, deleteCollectionsDone, getCollectionsDone } = useSelector(
-    state => state.collections,
-  );
-  const [isCollected, setIsCollected] = useState(false);
-  const [collectedId, setIsCollectedId] = useState(null);
 
-  const onAddDeleteCollection = interview => {
-    // 컬렉션에 추가되어있지 않으면 컬렉션 추가
-    if (collectedId === null) {
+  const addAndRemoveCollection = () => {
+    if (collection) {
+      dispatch(deleteCollections({ accessToken, interviews_id: collection?.collections_id }));
+      dispatch(showNotification(`컬렉션이 삭제되었습니다!`, 'error'));
+      setTimeout(() => setRefresh(prev => !prev), 500);
+    } else {
       dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
-      addCollectionDone && setIsCollected(true);
-      return;
+      dispatch(showNotification(`컬렉션이 추가되었습니다!`));
+      setTimeout(() => setRefresh(prev => !prev), 500);
     }
-    dispatch(deleteCollections({ accessToken, interviews_id: collectedId }));
-    deleteCollectionsDone && setIsCollected(false);
   };
-
-  useEffect(() => {
-    dispatch(getCollections(accessToken));
-    if (getCollectionsDone) {
-      const col = collections?.find(c => c.interviews_id === interview.interviews_id);
-      if (col) {
-        setIsCollectedId(col.collections_id);
-        setIsCollected(true);
-      } else {
-        setIsCollectedId(null);
-        setIsCollected(false);
-      }
-    }
-  }, [addCollectionDone, deleteCollectionsDone]);
 
   const buttonVariants = {
     hidden: {
@@ -102,8 +85,12 @@ export default function PostCard({ interview, onOpen }) {
             `)}
           `}
         >
-          <StarWrapper onClick={() => onAddDeleteCollection(interview)}>
-            {isCollected ? <FilledStar width="1.5rem" height="1.5rem" /> : <EmptyStar width="1.5rem" height="1.5rem" />}
+          <StarWrapper onClick={() => addAndRemoveCollection()}>
+            {collection ? (
+              <FilledStar width="1.5rem" height="1.5rem" fill={`${mode === 'dark' ? 'yellow' : 'dark'}`} />
+            ) : (
+              <EmptyStar width="1.5rem" height="1.5rem" fill="transparent" />
+            )}
           </StarWrapper>
         </Table.Header>
         <Table.Body>

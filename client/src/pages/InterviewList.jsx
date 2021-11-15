@@ -13,16 +13,23 @@ import PostModal from '@/components/InterviewList/PostModal';
 import SkeletonPostCard from '@/components/InterviewList/Skeleton/SkeletonPostCard';
 import SkeletonCategoryMenu from '@/components/InterviewList/Skeleton/SkeletonCategoryMenu';
 import NotFound from './NotFound';
+import { getCollections } from '@/store/creator/collectionsCreator';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
+  const { accessToken } = useSelector(state => state.users);
   const { interviews, totalPage, getInterviewsLoading, getInterviewsDone, getInterviewsError } = useSelector(
     state => state.interviews,
   );
   const { categorys, getCategoryLoading, getCategoryDone, getCategoryError } = useSelector(state => state.categorys);
+
+  const { collections, getCollectionsLoading, getCollectionsDone, getCollectionsError } = useSelector(
+    state => state.collections,
+  );
 
   const dispatch = useDispatch();
 
@@ -33,6 +40,11 @@ export default function InterviewList() {
   useEffect(() => {
     dispatch(getCategory);
   }, []);
+
+  useEffect(() => {
+    console.log('컬렉션 새로 요청하기');
+    dispatch(getCollections(accessToken));
+  }, [refresh, accessToken]);
 
   const onOpen = interview => {
     setOpen(true);
@@ -55,7 +67,13 @@ export default function InterviewList() {
       <Main>
         {isInterviews
           ? interviews?.map(interview => (
-              <PostCard key={interview.interviews_id} interview={interview} onOpen={onOpen} />
+              <PostCard
+                key={interview.interviews_id}
+                interview={interview}
+                onOpen={onOpen}
+                collection={collections.find(c => c.interviews_id === interview.interviews_id)}
+                setRefresh={setRefresh}
+              />
             ))
           : new Array(4).fill(0).map((_, index) => <SkeletonPostCard key={index} />)}
         <Pagination totalPage={parseInt(totalPage, 10)} page={page} setPage={setPage} />

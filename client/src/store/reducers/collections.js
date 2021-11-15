@@ -12,6 +12,7 @@ import {
 
 const initialState = {
   collections: [],
+  collection: null,
   addCollectionLoading: false,
   addCollectionDone: false,
   addCollectionError: null,
@@ -35,6 +36,7 @@ export default function reducer(state = initialState, action) {
     case addCollectionSuccess:
       return {
         ...state,
+        collection: action.payload.collections,
         addCollectionLoading: false,
         addCollectionDone: true,
         addCollectionError: null,
