@@ -6,14 +6,15 @@ import { spacing } from '@/styles';
 import UserInfo from '../shared/UserInfo';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 import { deleteCollections } from '@/store/creator/collectionsCreator';
+import { showNotification } from '@/store/creator/notificationsCreator';
 
 export default function Card({ collection, onOpen }) {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(state => state.users);
 
   const onDelete = collection => {
-    console.log(accessToken, collection);
     dispatch(deleteCollections({ accessToken, interviews_id: collection.collections_id }));
+    dispatch(showNotification(`컬렉션이 삭제되었습니다!`, 'error'));
   };
 
   return (
