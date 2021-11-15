@@ -206,7 +206,7 @@ export default function Nav() {
         <LandingLayout background={background}>
           <LandingInner background={background}>
             <Logo onClick={() => push('/')}>
-              {background ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
+              {mode === 'light' && background ? <LogoLight width="100%" /> : <LogoDark width="100%" height="100%" />}
             </Logo>
             {tabletMetches ? (
               <Flex
@@ -304,7 +304,7 @@ const LandingInner = styled(Layout)(props => ({
   width: '100%',
   maxWidth: '1368px',
   boxShadow: 'unset',
-  color: props.background ? props.theme.colors.text.primary : props.theme.colors.gray[100],
+  color: props.background ? props.theme.colors.text.primary : 'white',
 }));
 
 const List = styled.ul`
