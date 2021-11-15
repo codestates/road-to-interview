@@ -13,12 +13,14 @@ import PostModal from '@/components/InterviewList/PostModal';
 import SkeletonPostCard from '@/components/InterviewList/Skeleton/SkeletonPostCard';
 import SkeletonCategoryMenu from '@/components/InterviewList/Skeleton/SkeletonCategoryMenu';
 import NotFound from './NotFound';
+import { getCollections } from '@/store/creator/collectionsCreator';
 
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null);
 
+  const { accessToken } = useSelector(state => state.users);
   const { interviews, totalPage, getInterviewsLoading, getInterviewsDone, getInterviewsError } = useSelector(
     state => state.interviews,
   );
