@@ -15,9 +15,6 @@ export default function Collection() {
     state => state.collections,
   );
 
-  // ! 리덕스가 실행되는 중에 collections 가 undefined가 될 수 있고 로딩창으로 기다리게 구현하거나 초기 값을 빈배열로 주는 작업을 해둬야 typeError: .map 에러를 피할 수 있다고 한다.
-  const theCollections = collections || [];
-
   useEffect(() => {
     dispatch(getCollections(accessToken));
   }, [deleteCollectionsDone]);

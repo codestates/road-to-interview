@@ -23,7 +23,7 @@ export default function PostCard({ interview, onOpen }) {
   const [mode] = useMode();
   const dispatch = useDispatch();
   const { accessToken } = useSelector(state => state.users);
-  const { collections, addCollectionDone, deleteCollectionsDone, getCollectionsDone } = useSelector(
+  const { collection, collections, addCollectionDone, deleteCollectionsDone, getCollectionsDone } = useSelector(
     state => state.collections,
   );
   const [isCollected, setIsCollected] = useState(false);
@@ -33,26 +33,36 @@ export default function PostCard({ interview, onOpen }) {
     // 컬렉션에 추가되어있지 않으면 컬렉션 추가
     if (collectedId === null) {
       dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
-      addCollectionDone && setIsCollected(true);
+
+      setIsCollected(true);
+      setIsCollectedId(collection?.id);
       return;
     }
     dispatch(deleteCollections({ accessToken, interviews_id: collectedId }));
-    deleteCollectionsDone && setIsCollected(false);
+
+    setIsCollected(false);
+    setIsCollectedId(null);
   };
 
   useEffect(() => {
-    dispatch(getCollections(accessToken));
-    if (getCollectionsDone) {
-      const col = collections?.find(c => c.interviews_id === interview.interviews_id);
-      if (col) {
-        setIsCollectedId(col.collections_id);
-        setIsCollected(true);
-      } else {
-        setIsCollectedId(null);
-        setIsCollected(false);
-      }
+    dispatch(getCollections({ accessToken }));
+  }, [isCollected]);
+
+  const a = () => {
+    const col = collections?.find(c => c.interviews_id === interview.interviews_id);
+    if (col) {
+      setIsCollectedId(col.collections_id);
+      setIsCollected(true);
+    } else {
+      setIsCollectedId(null);
+      setIsCollected(false);
     }
-  }, [addCollectionDone, deleteCollectionsDone]);
+  };
+
+  useEffect(() => {
+    getCollectionsDone && a();
+    console.log(collections);
+  }, [getCollectionsDone]);
 
   const buttonVariants = {
     hidden: {
