@@ -3,12 +3,11 @@ import Button from '../elements/Button';
 import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { spacing } from '@/styles';
-import { useHistory } from 'react-router-dom';
 import UserInfo from '../shared/UserInfo';
 import { ReactComponent as CloseIcon } from 'assets/close.svg';
 import { deleteCollections } from '@/store/creator/collectionsCreator';
 
-export default function Card({ collection }) {
+export default function Card({ collection, onOpen }) {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(state => state.users);
 
@@ -16,8 +15,6 @@ export default function Card({ collection }) {
     console.log(accessToken, collection);
     dispatch(deleteCollections({ accessToken, interviews_id: collection.collections_id }));
   };
-
-  const { push } = useHistory();
 
   return (
     <Layout>
@@ -61,11 +58,11 @@ export default function Card({ collection }) {
             `
           }
         >
-          <UserInfo nickname={collection.author} />
+          <UserInfo nickname={collection.nickname} />
         </Content>
       </Author>
       <ButtonBox>
-        <Button sm secondary>
+        <Button sm secondary onClick={() => onOpen(collection)}>
           도전하기
         </Button>
       </ButtonBox>
