@@ -42,7 +42,6 @@ export default function InterviewList() {
   }, []);
 
   useEffect(() => {
-    console.log('컬렉션 새로 요청하기');
     dispatch(getCollections(accessToken));
   }, [refresh, accessToken]);
 

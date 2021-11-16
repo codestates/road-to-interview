@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import media from '@/utils/media';
 import { useInView } from 'react-intersection-observer';
 import { motion, useAnimation } from 'framer-motion';
 import { css } from '@emotion/react';

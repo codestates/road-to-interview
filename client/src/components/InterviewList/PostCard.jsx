@@ -29,11 +29,11 @@ export default function PostCard({ interview, onOpen, collection, setRefresh }) 
     if (collection) {
       dispatch(deleteCollections({ accessToken, interviews_id: collection?.collections_id }));
       dispatch(showNotification(`컬렉션이 삭제되었습니다!`, 'error'));
-      setTimeout(() => setRefresh(prev => !prev), 500);
+      setTimeout(() => setRefresh(prev => !prev), 300);
     } else {
       dispatch(addCollections({ accessToken, interviews_id: interview.interviews_id }));
       dispatch(showNotification(`컬렉션이 추가되었습니다!`));
-      setTimeout(() => setRefresh(prev => !prev), 500);
+      setTimeout(() => setRefresh(prev => !prev), 300);
     }
   };
 
@@ -87,7 +87,11 @@ export default function PostCard({ interview, onOpen, collection, setRefresh }) 
         >
           <StarWrapper onClick={() => addAndRemoveCollection()}>
             {collection ? (
-              <FilledStar width="1.5rem" height="1.5rem" fill={`${mode === 'dark' ? 'yellow' : 'dark'}`} />
+              <FilledStar
+                width="1.5rem"
+                height="1.5rem"
+                fill={`${mode === 'dark' ? 'yellow' : `${palette.light.tint.yellow[600]}`}`}
+              />
             ) : (
               <EmptyStar width="1.5rem" height="1.5rem" fill="transparent" />
             )}
@@ -134,7 +138,7 @@ export default function PostCard({ interview, onOpen, collection, setRefresh }) 
               border: thin;
               border-radius: 3px;
               font-weight: 600;
-              background: ${theme.colors.tint.coral[700]};
+              background: ${theme.colors.tint.coral[500]};
               cursor: pointer;
               &:hover {
                 background: ${theme.colors.tint.coral[500]};
