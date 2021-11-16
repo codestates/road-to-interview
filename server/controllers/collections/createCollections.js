@@ -25,7 +25,7 @@ module.exports = (req, res) => {
         interviews_id,
       },
     })
-    .then(([result, created]) => {
+    .then(([collections, created]) => {
       const id = "";
       if (!created) {
         res
@@ -33,7 +33,7 @@ module.exports = (req, res) => {
           .send({ message: "컬렉션 추가하기 : 이미 등록되어 있습니다." }); // Server error
         return;
       } else {
-        res.status(201).send({ result });
+        res.status(201).send({ collections });
       }
     })
     .catch((error) => {

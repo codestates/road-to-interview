@@ -2,9 +2,9 @@ const { sequelize } = require("../../models");
 module.exports = (req, res) => {
   sequelize
     .query(
-      `select a.position, a.company,a.url
-      from (select position, company, url, date(createdAt) created from news) a
-      where created = ?;`,
+      `select a.position, a.company,a.url,a.img
+      from (select position, company, url,img, date(createdAt) created from news) a
+      where created = ?`,
       {
         replacements: [
           new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0],
