@@ -42,7 +42,7 @@ limit ` +
     .then((result_inter) => {
       console.log(result_inter);
       if (result_inter.length < 1) {
-        res.status(400).send({
+        res.status(200).send({
           interviews: result_inter,
           message: "인터뷰 리스트 데이터 : 데이터를 찾을 수 없습니다.",
         });
