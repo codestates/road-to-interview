@@ -118,7 +118,7 @@ const MainH1 = styled(motion.h1)`
   text-align: center;
 
   /* ${media.desktop(css`
-    font-size: 60px;
+    font-size: 48px;
   `)}
 
   ${media.laptop(css`

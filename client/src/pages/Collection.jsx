@@ -7,9 +7,12 @@ import styled from '@emotion/styled';
 import NoCollections from '@/components/Collection/NoCollections';
 import Card from '@/components/Collection/Card';
 import Loading from '@/components/shared/Loading';
+import PostModal from '@/components/InterviewList/PostModal';
 
 export default function Collection() {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const { accessToken } = useSelector(state => state.users);
   const { collections, getCollectionsLoading, getCollectionsDone, deleteCollectionsDone } = useSelector(
     state => state.collections,
@@ -19,6 +22,15 @@ export default function Collection() {
     dispatch(getCollections(accessToken));
   }, [deleteCollectionsDone]);
 
+  const onOpen = interview => {
+    setOpen(true);
+    setSelected(interview);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   if (getCollectionsLoading) return <Loading />;
   const isCollections = !getCollectionsLoading && getCollectionsDone;
 
@@ -27,9 +39,11 @@ export default function Collection() {
       <Main>
         {!collections?.length && <NoCollections />}
         {isCollections &&
-          collections?.map(collection => <Card key={collection?.interviews_id} collection={collection} />)}
+          collections?.map(collection => (
+            <Card key={collection?.interviews_id} collection={collection} onOpen={onOpen} />
+          ))}
       </Main>
-      {/* <PostModal open={open} onClose={onClose} selected={selected} /> */}
+      <PostModal open={open} onClose={onClose} selected={selected} />
     </Layout>
   );
 }
