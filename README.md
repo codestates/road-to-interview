@@ -1,4 +1,5 @@
-![Logo](https://user-images.githubusercontent.com/54833991/141892154-59e59839-a42d-4a71-ac36-b83a413d5741.png)
+![Logo2](https://user-images.githubusercontent.com/73890790/141965204-48c24372-354a-4dee-a45c-40bc1224f52a.png)
+
 ## _면접 가기전, 도전해보세요!_
 
 
