@@ -1,19 +1,24 @@
 import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ThemeProvider } from '@emotion/react';
+import { Provider } from 'react-redux';
 
 import App from './App';
-import Global from '@/styles/Global';
-import { theme as THEME } from '@/styles';
-
-const theme = 'dark';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import ModeContext from './contexts/ModeContext';
+import store from '@/store';
 
 render(
-  <ThemeProvider theme={THEME[theme]}>
-    <Global theme={THEME[theme]} />
-    <Router>
-      <App />
-    </Router>
-  </ThemeProvider>,
+  <Router>
+    <ModeContext>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ModeContext>
+  </Router>,
   document.getElementById('root'),
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorkerRegistration.register();

@@ -10,9 +10,9 @@ const fontSizes = {
   900: '2.25rem',
   1000: '2.625rem',
   1100: '3rem',
-  1200: '3.75rem',
-  1300: '4.25rem',
-  1400: '4.75rem',
+  1200: '3.25rem',
+  1300: '3.5rem',
+  1400: '4rem',
 };
 
 export default fontSizes;

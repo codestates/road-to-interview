@@ -9,7 +9,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 
 const s3 = new AWS.S3();
-console.log(s3);
+// console.log(s3);
 const filename = Math.random();
 const storage = multerS3({
   s3: s3,

@@ -8,9 +8,18 @@ module.exports = {
   generateRefreshToken: (data) => {
     return sign(data, process.env.REFRESH_SECRET, { expiresIn: "30d" });
   },
+
   sendRefreshToken: (res, refreshToken) => {
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+    });
+  },
+  sendZeroRefreshToken: (res, refreshToken) => {
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 0,
+      secure: true,
+      sameSite: "none",
     });
   },
   sendAccessToken: (res, accessToken, userdata) => {
@@ -25,7 +34,7 @@ module.exports = {
       return null;
     }
     const token = authorization;
-    console.log(token);
+
     try {
       return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {

@@ -7,7 +7,11 @@ const colors = {
     gray: {
       ...palette.light.gray,
     },
+    tint: {
+      ...palette.light.tint,
+    },
     background: palette.light.gray[200],
+    background_reverse: 'black',
     background_base: 'white',
     background_elevated: 'white',
     background_grouped: {
@@ -20,8 +24,8 @@ const colors = {
       thin: 'rgba(22, 29, 36 0.15)',
     },
     borderColor: {
-      outer: palette.light.gray[300],
-      inner: palette.light.gray[300],
+      outer: palette.light.gray[400],
+      inner: palette.light.gray[400],
     },
     shadow: {
       basic: 'rgba(40, 50, 60, 0.25)',
@@ -31,6 +35,10 @@ const colors = {
       primary: palette.light.gray[600],
       secondary: palette.light.gray[500],
       disable_placeholder: palette.light.gray[400],
+      reverse: palette.dark.gray[700],
+    },
+    skeleton: {
+      gradientColor: `linear-gradient(to right, ${palette.dark.gray[600]}, ${palette.dark.gray[800]}, transparent)`,
     },
   },
   // dark theme
@@ -38,7 +46,11 @@ const colors = {
     gray: {
       ...palette.dark.gray,
     },
+    tint: {
+      ...palette.dark.tint,
+    },
     background: 'black',
+    background_reverse: palette.light.gray[200],
     background_base: palette.dark.gray[50],
     background_elevated: palette.dark.gray[100],
     background_grouped: {
@@ -55,7 +67,6 @@ const colors = {
       inner: palette.light.gray[200],
     },
     shadow: {
-      thick: 'none',
       basic: 'none',
       thin: 'none',
     },
@@ -63,6 +74,10 @@ const colors = {
       primary: palette.dark.gray[700],
       secondary: palette.dark.gray[600],
       disable_placeholder: palette.dark.gray[400],
+      reverse: palette.light.gray[600],
+    },
+    skeleton: {
+      gradientColor: `linear-gradient(to right, ${palette.dark.gray[400]}, ${palette.dark.gray[600]}, transparent)`,
     },
   },
 };
@@ -70,30 +85,30 @@ const colors = {
 const typography = {
   header: {
     1: css`
-      font-size: ${fontSizes[1200]};
-      font-weight: 600;
+      font-size: ${fontSizes[1300]};
+      font-weight: 400;
     `,
     2: css`
-      font-size: ${fontSizes[1000]};
-      font-weight: 600;
+      font-size: ${fontSizes[1100]};
+      font-weight: 400;
     `,
   },
   subtitle: {
     1: css`
       font-size: ${fontSizes[800]};
-      font-weight: 600;
+      font-weight: 400;
     `,
     2: css`
       font-size: ${fontSizes[700]};
-      font-weight: 600;
+      font-weight: 400;
     `,
     3: css`
       font-size: ${fontSizes[600]};
-      font-weight: 600;
+      font-weight: 400;
     `,
     4: css`
       font-size: ${fontSizes[500]};
-      font-weight: 600;
+      font-weight: 400;
     `,
   },
   body: {
@@ -107,10 +122,11 @@ const typography = {
   caption: {
     1: css`
       font-size: ${fontSizes[200]};
+      font-weight: 500;
     `,
     2: css`
       font-size: ${fontSizes[100]};
-      font-weight: 600;
+      font-weight: 700;
     `,
   },
 };
