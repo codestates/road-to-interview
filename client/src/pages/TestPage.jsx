@@ -14,6 +14,7 @@ import { css } from '@emotion/react';
 import { showNotification } from '@/store/creator/notificationsCreator';
 import { fontSizes } from '@/styles';
 import { scrollStyle } from '@/styles/mixins';
+import ReactMarkdown from 'react-markdown';
 
 export default function TestPage() {
   const [flip, setFlip] = useState(false);
@@ -186,7 +187,9 @@ export default function TestPage() {
           <h3>{questions[currentIndex].title}</h3>
         </Front>
         <Back>
-          <p>{questions[currentIndex].description}</p>
+          <p>
+            <ReactMarkdown>{questions[currentIndex].description}</ReactMarkdown>
+          </p>
         </Back>
       </Card>
       <TestController {...{ prev, next, currentIndex }} totalIndex={questions.length} />
