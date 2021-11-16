@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Tabs from '../shared/Tab';
 
-export default function CategoryMenu({ categorys }) {
+export default function CategoryMenu({ categorys, filterCategory }) {
   return (
     <Header>
       <Inner>
@@ -13,11 +13,16 @@ export default function CategoryMenu({ categorys }) {
             padding-bottom: 0.5em;
           `}
         >
-          <Tabs.Tab key="all" id="0" noneLine={true}>
+          <Tabs.Tab key="all" id="0" noneLine={true} onClick={() => filterCategory('')}>
             All
           </Tabs.Tab>
           {categorys.map((cta, index) => (
-            <Tabs.Tab key={cta.id} id={String(index + 1)} noneLine={true}>
+            <Tabs.Tab
+              key={cta.id}
+              id={String(index + 1)}
+              noneLine={true}
+              onClick={() => filterCategory(cta.categorys_id)}
+            >
               {cta.category}
             </Tabs.Tab>
           ))}

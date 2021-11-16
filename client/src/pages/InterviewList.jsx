@@ -18,6 +18,7 @@ import { getCollections } from '@/store/creator/collectionsCreator';
 export default function InterviewList() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [selected, setSelected] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
@@ -34,8 +35,8 @@ export default function InterviewList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getInterviews({ page, size: 10, category: '' }));
-  }, [page, dispatch]);
+    dispatch(getInterviews({ page, size: 10, category: selectedCategory }));
+  }, [page, selectedCategory, dispatch]);
 
   useEffect(() => {
     dispatch(getCategory);
@@ -54,6 +55,11 @@ export default function InterviewList() {
     setOpen(false);
   };
 
+  const filterCategory = categoryId => {
+    setSelectedCategory(categoryId);
+    setPage(1);
+  };
+
   const isInterviews = !getInterviewsLoading && getInterviewsDone;
   const isCategories = !getCategoryLoading && getCategoryDone;
 
@@ -62,7 +68,11 @@ export default function InterviewList() {
 
   return (
     <Layout>
-      {isCategories ? <CategoryMenu categorys={categorys} /> : <SkeletonCategoryMenu categorys={categorys} />}
+      {isCategories ? (
+        <CategoryMenu categorys={categorys} filterCategory={filterCategory} />
+      ) : (
+        <SkeletonCategoryMenu categorys={categorys} />
+      )}
       <Main>
         {isInterviews
           ? interviews?.map(interview => (
