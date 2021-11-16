@@ -3,8 +3,11 @@
 
 
 팀 명 : KKAN-BU
+
 프로젝트 명 : ROAD TO INTERVIEW
+
 팀원 : 김인태(팀장), 정성준, 임훈, 김용건
+
 배포 링크 : [Road To Interviw](https://roadtointerview.site/)
 
 # Ⅰ. 프로젝트 소개
