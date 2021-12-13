@@ -11,17 +11,13 @@ module.exports = (req, res) => {
   const { id } = accessTokenData;
   sequelize
     .query(
-      `select i.id as interviews_id, i.title, i.description, a.categorys_id, a.category
-      from interviews i
-      join (select c.category, c.categorys_id, ci.interviews_id from categorys c join cate_inters ci on c.categorys_id = ci.categorys_id ) a
-      on a.interviews_id = i.id
-      where i.id in (select interviews_id 
-              from collections c
-              join users u
-              on c.users_id = u.id
-              where u.id = ` +
+      `select c.id as collections_id ,a.interviews_id, a.title, a.description, a.users_id, a.nickname
+      from (select i.id as interviews_id, i.title, i.description, i.users_id as users_id,u.nickname from interviews i join users u on i.users_id = u.id) a
+      join collections c
+      on a.interviews_id = c.interviews_id 
+      where c.users_id = ` +
         id +
-        `);`,
+        `;`,
       { type: sequelize.QueryTypes.SELECT }
     )
     .then((collections) => {

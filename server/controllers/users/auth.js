@@ -23,9 +23,7 @@ module.exports = (req, res) => {
               }
             )
             .then((result) => {
-              res.redirect(
-                "http://road-to-interview.s3-website.ap-northeast-2.amazonaws.com/"
-              ); //메인페이지로
+              res.redirect("https://roadtointerview.site/"); //메인페이지로
             })
             .catch((error) => {
               console.log(error);

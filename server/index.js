@@ -11,13 +11,13 @@ const models = require("./models/index");
 let server;
 const { Server } = require("socket.io");
 const cron = require("node-cron");
-const { insertNews } = require("./controllers/functions/crawlingFunctions");
+const { insertNews } = require(__dirname + "/crawl");
+
 const { insertRankings } = require("./controllers/functions/rangkingFunctions");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    // http://wiiiggle-test.s3-website.ap-northeast-2.amazonaws.com/
     origin: true,
     credentials: true,
   })
@@ -82,10 +82,16 @@ if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
 } else {
   server = app.listen(HTTPS_PORT);
   //node cron 서비스 예약 실행
-  // insertRankings();
-
-  cron.schedule("1 0 * * *", () => {
-    // insertRankings();
+  cron.schedule("00 00 * * *", () => {
+    console.log("00 들어옴");
+    insertNews();
+  });
+  cron.schedule("30 00 00 * * *", () => {
+    console.log("30 00 들어옴");
+    insertNews();
+  });
+  cron.schedule("01 00 * * *", () => {
+    console.log("01 들어옴");
     insertNews();
   });
 

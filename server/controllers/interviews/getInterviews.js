@@ -10,6 +10,7 @@ module.exports = (req, res) => {
 from interviews i
 join users u
 on i.users_id = u.id
+order by i.createdAt desc
 limit ` +
     page +
     `,` +
@@ -19,7 +20,7 @@ limit ` +
   if (categorys_id !== "") {
     sql =
       `select a.id as interviews_id, a.title, a.description , u.nickname,u.src
-      from (select i.id,i.title, i.description, i.users_id
+      from (select i.id,i.title, i.description, i.users_id,i.createdAt
       from interviews i
       join cate_inters ci
       on ci.interviews_id = i.id
@@ -28,6 +29,7 @@ limit ` +
       `) a
       join users u
       on a.users_id = u.id
+      order by a.createdAt desc
       limit ` +
       page +
       `,` +
@@ -38,8 +40,10 @@ limit ` +
   sequelize
     .query(sql, { type: sequelize.QueryTypes.SELECT })
     .then((result_inter) => {
-      if (!result_inter) {
-        res.status(400).send({
+      console.log(result_inter);
+      if (result_inter.length < 1) {
+        res.status(200).send({
+          interviews: result_inter,
           message: "인터뷰 리스트 데이터 : 데이터를 찾을 수 없습니다.",
         });
       } else {
@@ -72,7 +76,7 @@ limit ` +
             { type: sequelize.QueryTypes.SELECT }
           )
           .then((result_cate) => {
-            if (!result_cate) {
+            if (result_cate.length < 1) {
               res.status(400).send({
                 message: "인터뷰 리스트 카테고리 : 데이터를 찾을 수 없습니다.",
               });
