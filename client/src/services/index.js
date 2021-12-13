@@ -12,7 +12,7 @@ import Recruit from './Recruit';
 const dispatch = store.dispatch;
 
 const instance = axios.create({
-  baseURL: 'https://sjitygfree.ga',
+  baseURL: 'https://roadtointerview.shop',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
